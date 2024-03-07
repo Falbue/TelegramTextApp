@@ -62,6 +62,11 @@ def create_keyboard(buttons, back):
     row_buttons = []
     num_buttons = 0
     for i in range(len(buttons)):
+        if buttons[i].endswith(':'):
+            button_text = (buttons[i]).replace(':', '')
+            num_buttons = 1
+        else:
+            button_text = (buttons[i])
         button_callback_data = f"{button_text}_data"
         button = InlineKeyboardButton(text = button_text, callback_data = button_callback_data)
         row_buttons.append(button)
@@ -84,6 +89,16 @@ def create_menu(name, text, buttons, back, call):
 
 
 
+def menu_main(call):
+    text = "Главное меню"
+    buttons = ["Первая:", "Вторая:", "Третья", "sdfsdf"]
+    create_menu("main", text, buttons, 'none', call)
+
+def menu_one(call):
+    text = "Проверка"
+    buttons = ['Проверочная']
+    create_menu("test", text, buttons, 'return_main', call)
+
 
 
 @bot.message_handler(commands=['start'])
@@ -105,9 +120,11 @@ def start(message):
         conn.commit()
         pass
     conn.close()
-    text = "Главное меню"
-    buttons = ["Первая", "Вторая"]
-    create_menu("main", text, buttons, message)
+
+    keyboard = InlineKeyboardMarkup()
+    btn = InlineKeyboardButton(text = "Запустить", callback_data = 'start')
+    keyboard.add(btn)
+    bot.send_message(message.chat.id, "Добро пожаловать!", reply_markup = keyboard)
 
 
 @bot.callback_query_handler(func=lambda call: True)
@@ -119,6 +136,7 @@ def callback_query(call):
         menu = (call.data).split('_')[1]
         menu_callback = f"menu_{menu}"
         globals()[menu_callback](call)
+
 
 
 main_check()
