@@ -2,6 +2,8 @@
 bot_api = '' # бот для тестов
 folder = 'data'
 # folder = '/data'
+
+
 import os
 import sqlite3
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
@@ -14,6 +16,8 @@ import sys
 sys.path.append(folder)
 import threading
 bot = telebot.TeleBot(bot_api)
+
+
 # переменные
 folder_path = f"{folder}"
 texts_path = f"{folder}/texts"
