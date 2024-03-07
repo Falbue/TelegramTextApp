@@ -104,6 +104,12 @@ def start(message):
     buttons = ["Первая", "Вторая"]
     create_menu("main", text, buttons, message)
 
+
 @bot.callback_query_handler(func=lambda call: True)
 def callback_query(call):
     pass
+
+
+main_check()
+print("Бот запущен...")
+bot.polling()
