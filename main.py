@@ -13,3 +13,4 @@ from flask import Flask
 import sys
 sys.path.append(folder)
 import threading
+bot = telebot.TeleBot(bot_api)
