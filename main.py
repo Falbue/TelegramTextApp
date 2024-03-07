@@ -103,3 +103,7 @@ def start(message):
     text = "Главное меню"
     buttons = ["Первая", "Вторая"]
     create_menu("main", text, buttons, message)
+
+@bot.callback_query_handler(func=lambda call: True)
+def callback_query(call):
+    pass
