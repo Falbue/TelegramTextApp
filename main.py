@@ -76,3 +76,30 @@ def create_keyboard(buttons):
 def create_menu(name, text, buttons, message):
     keyboard = create_keyboard(buttons)
     bot.send_message(message.chat.id, text, reply_markup = keyboard)
+
+
+
+
+
+@bot.message_handler(commands=['start'])
+def start(message):
+    message_id = message.id
+    conn = sqlite3.connect(db_path)
+    c = conn.cursor()
+    c.execute("SELECT * FROM users WHERE user_id=?", (message.chat.id,))
+    result = c.fetchone()
+    if result is None:
+        registration = now_time()
+        c.execute("INSERT INTO users (user_id, course, groupe, time_registration, id_message) VALUES (?, ?, ?, ?, ?)",
+                  (message.chat.id, 0, 0, registration, message_id+1))
+        conn.commit()
+        print('Зарегистрирован новый пользователь', message.chat.id)
+    else:
+        c.execute(f"UPDATE users SET id_message = {(message_id+1)} WHERE user_id = {message.chat.id}")
+        print('Пользователь' ,message.chat.id,'уже существует в базе')
+        conn.commit()
+        pass
+    conn.close()
+    text = "Главное меню"
+    buttons = ["Первая", "Вторая"]
+    create_menu("main", text, buttons, message)
