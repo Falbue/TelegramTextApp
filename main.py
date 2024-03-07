@@ -72,3 +72,7 @@ def create_keyboard(buttons):
         keyboard.add(*row_buttons)
     keyboard.add(btn_return)
     return keyboard
+
+def create_menu(name, text, buttons, message):
+    keyboard = create_keyboard(buttons)
+    bot.send_message(message.chat.id, text, reply_markup = keyboard)
