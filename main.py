@@ -42,3 +42,13 @@ def main_check():
                 id_message INTEGER);
             ''')
         conn.close()
+
+def now_time():
+    now = datetime.now()
+    tz = pytz.timezone('Europe/Moscow')
+    now_moscow = now.astimezone(tz)
+    current_time = now_moscow.strftime("%H:%M")
+    current_date = now_moscow.strftime("%m.%d.%Y")
+    date = f"{current_date} {current_time}"
+    return date
+
