@@ -57,13 +57,11 @@ def now_time():
     return date
 
 
-def create_keyboard(buttons):
+def create_keyboard(buttons, back):
     keyboard = InlineKeyboardMarkup(row_width = 2)
-    btn_return = InlineKeyboardButton(text = 'Назад', callback_data = 'return')
     row_buttons = []
     num_buttons = 0
     for i in range(len(buttons)):
-        button_text = (buttons[i]).split('.')[0]
         button_callback_data = f"{button_text}_data"
         button = InlineKeyboardButton(text = button_text, callback_data = button_callback_data)
         row_buttons.append(button)
@@ -74,12 +72,15 @@ def create_keyboard(buttons):
             num_buttons = 0
     if num_buttons > 0:
         keyboard.add(*row_buttons)
-    keyboard.add(btn_return)
+    x = back.split('_')[0]
+    if x == 'return':
+        btn_return = InlineKeyboardButton(text = 'Назад', callback_data = back)
+        keyboard.add(btn_return)
     return keyboard
 
-def create_menu(name, text, buttons, message):
-    keyboard = create_keyboard(buttons)
-    bot.send_message(message.chat.id, text, reply_markup = keyboard)
+def create_menu(name, text, buttons, back, call):
+    keyboard = create_keyboard(buttons, back)
+    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text = text, reply_markup = keyboard)
 
 
 
@@ -111,7 +112,13 @@ def start(message):
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_query(call):
-    pass
+    if call.data == 'start': menu_main(call)
+    if call.data == 'Первая_data': menu_one(call)
+
+    if (call.data).split('_')[0] == 'return':
+        menu = (call.data).split('_')[1]
+        menu_callback = f"menu_{menu}"
+        globals()[menu_callback](call)
 
 
 main_check()
