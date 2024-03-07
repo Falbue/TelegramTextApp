@@ -14,3 +14,8 @@ import sys
 sys.path.append(folder)
 import threading
 bot = telebot.TeleBot(bot_api)
+# переменные
+folder_path = f"{folder}"
+texts_path = f"{folder}/texts"
+db_name = "database.db"
+db_path = os.path.join(folder_path, db_name)
