@@ -123,6 +123,7 @@ def menu_main(call):
 
 
 
+
 @bot.message_handler(commands=['start'])
 def start(message):
     message_id = message.id
@@ -156,14 +157,14 @@ def callback_query(call):
     if call.data == 'Запустить_data': menu_main(call)
 
 
-
-
     if (call.data).split('_')[0] == 'return':
         menu = (call.data).split('_')[1]
         menu_callback = f"menu_{menu}"
         globals()[menu_callback](call)
 
+
     if call.data == 'del_message': bot.delete_message(chat_id=call.message.chat.id, message_id=call.message.message_id)
+
 
     else: 
         x = call.data
