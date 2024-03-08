@@ -111,16 +111,15 @@ def create_menu(name, text, buttons, back, call):
         bot.edit_message_text(chat_id=user, message_id=id_message, text = text, reply_markup = keyboard)
 
 
+# создание менюшек
+def menu_insertion(call, text, buttons):
+    create_menu("insertion", text, buttons, 'none', call)
+
 
 def menu_main(call):
     text = "Главное меню"
-    buttons = ["Первая:", "Вторая:", "Третья", "sdfsdf"]
+    buttons = ["Первая", "Вторая"]
     create_menu("main", text, buttons, 'none', call)
-
-def menu_one(call):
-    text = "Проверка"
-    buttons = ['Проверочная']
-    create_menu("test", text, buttons, 'return_main', call)
 
 
 
@@ -154,7 +153,11 @@ def start(message):
 @bot.callback_query_handler(func=lambda call: True)
 def callback_query(call):
     if call.data == 'start': menu_main(call)
+    if call.data == 'Запустить_data': menu_main(call)
+
     if call.data == 'Первая_data': menu_one(call)
+
+
 
     if (call.data).split('_')[0] == 'return':
         menu = (call.data).split('_')[1]
@@ -166,6 +169,9 @@ def callback_query(call):
     else: 
         x = call.data
         print(f"call: {call.data}")
+
+
+
 
 def send_start_message():
     keyboard_start_message = InlineKeyboardMarkup()
