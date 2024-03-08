@@ -162,6 +162,25 @@ def callback_query(call):
         globals()[menu_callback](call)
 
 
+def send_start_message():
+    keyboard_start_message = InlineKeyboardMarkup()
+    keyboard_start_message.add(InlineKeyboardButton(text='Прочитано', callback_data='del_message'))
+
+    insertion('Обновление...', "none")
+    buttons = ['Запустить']
+    insertion('Бот был перезапущен. Для проолжения, нажмите на кнопку', buttons)
+    
+    try:
+        with open(f'{folder}/log.txt', 'r+', encoding='utf-8') as f:
+            text_error = f.read()
+    except Exception as e:
+        text_error = f'Ошибка в поиске лога: {e}'
+    else:
+        with open(f'{folder}/log.txt', 'w+', encoding='utf-8') as f:
+            print("Файл с логом, очищен")
+
+    bot.send_message(chat_id=id_admin, text=f"Бот перезапущен\n{now_time()}\nОшибка: {text_error}", reply_markup=keyboard_start_message)
+
 
 main_check()
 print("Бот запущен...")
