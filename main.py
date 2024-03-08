@@ -155,7 +155,6 @@ def callback_query(call):
     if call.data == 'start': menu_main(call)
     if call.data == 'Запустить_data': menu_main(call)
 
-    if call.data == 'Первая_data': menu_one(call)
 
 
 
