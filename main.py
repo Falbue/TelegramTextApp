@@ -2,6 +2,7 @@
 bot_api = '' # бот для тестов
 folder = 'data'
 # folder = '/data'
+id_admin = 1210146115
 
 
 import os
