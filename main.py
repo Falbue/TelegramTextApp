@@ -183,5 +183,12 @@ def send_start_message():
 
 
 main_check()
+send_start_message()
 print("Бот запущен...")
-bot.polling()
+try:
+    bot.polling()
+except Exception as e:
+    with open(f'{folder}/log.txt', 'w+', encoding='utf-8') as f:
+        f.write(str(e) + "\n")
+        insertion("Возникла ошибка. Перезапуск...", 'none')
+        goodbuy
