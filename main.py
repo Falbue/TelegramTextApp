@@ -161,6 +161,11 @@ def callback_query(call):
         menu_callback = f"menu_{menu}"
         globals()[menu_callback](call)
 
+    if call.data == 'del_message': bot.delete_message(chat_id=call.message.chat.id, message_id=call.message.message_id)
+
+    else: 
+        x = call.data
+        print(f"call: {call.data}")
 
 def send_start_message():
     keyboard_start_message = InlineKeyboardMarkup()
