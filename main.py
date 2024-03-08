@@ -25,6 +25,7 @@ texts_path = f"{folder}/texts"
 db_name = "database.db"
 db_path = os.path.join(folder_path, db_name)
 
+
 # основные функции
 def main_check():
     if not os.path.exists(f"{folder}"):
@@ -57,6 +58,19 @@ def now_time():
     date = f"{current_date} {current_time}"
     return date
 
+def insertion(text, buttons):
+    with sqlite3.connect(f'{folder}/database.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM users")
+        for row in cursor.fetchall():
+            user, id_message = row[0], row[4]
+            try:
+                bot.edit_message_text(chat_id=user, message_id=id_message, text=text, reply_markup='')
+                menu_insertion([user, id_message], text, buttons)
+            except Exception as e:
+                print(f'Ошибка во вставке: {e}')
+                bot.edit_message_text(chat_id=user, message_id=id_message, text='Возникла ошибка. Перезапуск...', reply_markup='')
+
 
 def create_keyboard(buttons, back):
     keyboard = InlineKeyboardMarkup(row_width = 2)
@@ -85,8 +99,16 @@ def create_keyboard(buttons, back):
     return keyboard
 
 def create_menu(name, text, buttons, back, call):
-    keyboard = create_keyboard(buttons, back)
-    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text = text, reply_markup = keyboard)
+    if buttons == 'none':
+        keyboard = ''    
+    else: keyboard = create_keyboard(buttons, back)
+    try:
+        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text = text, reply_markup = keyboard)
+    except Exception as e:
+        print(f"Ошибка в создании меню: {e}")
+        user = call[0]
+        id_message = call[1]
+        bot.edit_message_text(chat_id=user, message_id=id_message, text = text, reply_markup = keyboard)
 
 
 
@@ -125,6 +147,7 @@ def start(message):
     keyboard = InlineKeyboardMarkup()
     btn = InlineKeyboardButton(text = "Запустить", callback_data = 'start')
     keyboard.add(btn)
+    bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
     bot.send_message(message.chat.id, "Добро пожаловать!", reply_markup = keyboard)
 
 
