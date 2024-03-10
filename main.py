@@ -1,8 +1,7 @@
-# bot_api = ""
-bot_api = '' # бот для тестов
+bot_api = '6373877428:AAHJ3oFfoeXY6pK82PLHwA_DtdwjBN44JQ8'
 folder = 'data'
 # folder = '/data'
-id_admin = 
+id_admin = 1210146115
 
 
 import os
