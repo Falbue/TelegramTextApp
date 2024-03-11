@@ -57,7 +57,8 @@ def now_time():
     date = f"{current_date} {current_time}"
     return date
 
-def insertion(text, buttons):
+
+def insertion(text = None, buttons = None, menu = None):
     with sqlite3.connect(f'{folder}/database.db') as conn:
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM users")
@@ -91,13 +92,12 @@ def create_keyboard(buttons, back):
             num_buttons = 0
     if num_buttons > 0:
         keyboard.add(*row_buttons)
-    x = back.split('_')[0]
-    if x == 'return':
-        btn_return = InlineKeyboardButton(text = 'Назад', callback_data = back)
+    if back != None:
+        btn_return = InlineKeyboardButton(text = 'Назад', callback_data = f'return_{back}')
         keyboard.add(btn_return)
     return keyboard
 
-def create_menu(name, text, buttons, back, call):
+def create_menu(name = None, text = None, call = None, buttons = None, back = None):
     if buttons == 'none':
         keyboard = ''    
     else: keyboard = create_keyboard(buttons, back)
@@ -112,13 +112,23 @@ def create_menu(name, text, buttons, back, call):
 
 # создание менюшек
 def menu_insertion(call, text, buttons):
-    create_menu("insertion", text, buttons, 'none', call)
+    create_menu(
+        name = 'insertion',
+        text = text,
+        call = call,
+        buttons = buttons
+        )
 
 
 def menu_main(call):
     text = "Главное меню"
     buttons = ["Первая", "Вторая"]
-    create_menu("main", text, buttons, 'none', call)
+    create_menu(
+        name = 'main',
+        text = text,
+        call = call,
+        buttons = buttons
+        )
 
 
 
