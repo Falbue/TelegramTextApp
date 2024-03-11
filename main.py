@@ -2,6 +2,7 @@ bot_api = ''
 folder = 'data'
 # folder = '/data'
 id_admin =
+# -----------------------------------------------------------
 
 
 import os
