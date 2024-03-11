@@ -106,8 +106,10 @@ def create_keyboard(buttons, back):
     return keyboard
 
 def create_menu(name = None, text = None, call = None, buttons = None, back = None):
-    if buttons == 'none':
-        keyboard = ''    
+    if buttons == None and back == None:
+        keyboard = ''
+    elif buttons == None or back != None:
+       keyboard = create_keyboard('', back) 
     else: keyboard = create_keyboard(buttons, back)
     try:
         bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text = text, reply_markup = keyboard)
