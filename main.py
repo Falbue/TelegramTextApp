@@ -21,6 +21,7 @@ bot = telebot.TeleBot(bot_api)
 # переменные
 folder_path = f"{folder}"
 texts_path = f"{folder}/texts"
+error_path = f'{texts_path}/error_log.txt'
 db_name = "database.db"
 db_path = os.path.join(folder_path, db_name)
 
@@ -33,6 +34,10 @@ def main_check():
     if not os.path.exists(texts_path):
         os.makedirs(texts_path)
         print("Папка текстов создана")    
+    if not os.path.exists(error_path):
+        with open(error_path, 'w'): 
+            pass
+        print("Файл с логами ошибок создан")
     if os.path.exists(db_path):
         print("База данных существует")
     else:
@@ -103,8 +108,7 @@ def create_menu(name = None, text = None, call = None, buttons = None, back = No
     else: keyboard = create_keyboard(buttons, back)
     try:
         bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text = text, reply_markup = keyboard)
-    except Exception as e:
-        print(f"Ошибка в создании меню: {e}")
+    except AttributeError:
         user = call[0]
         id_message = call[1]
         bot.edit_message_text(chat_id=user, message_id=id_message, text = text, reply_markup = keyboard)
@@ -191,13 +195,17 @@ def send_start_message():
     insertion('Бот был перезапущен. Для проолжения, нажмите на кнопку', buttons)
     
     try:
-        with open(f'{folder}/log.txt', 'r+', encoding='utf-8') as f:
+        with open(error_path, 'r+', encoding='utf-8') as f:
             text_error = f.read()
+            if not text_error.strip():
+                print("Файл с логом пустой")
+                return 
     except Exception as e:
         text_error = f'Ошибка в поиске лога: {e}'
+        print(text_error)
     else:
-        with open(f'{folder}/log.txt', 'w+', encoding='utf-8') as f:
-            print("Файл с логом, очищен")
+        with open(error_path, 'w+', encoding='utf-8') as f:
+            print("Файл с логом очищен")
 
     bot.send_message(chat_id=id_admin, text=f"Бот перезапущен\n{now_time()}\nОшибка: {text_error}", reply_markup=keyboard_start_message)
 
@@ -208,7 +216,7 @@ print("Бот запущен...")
 try:
     bot.polling()
 except Exception as e:
-    with open(f'{folder}/log.txt', 'w+', encoding='utf-8') as f:
+    with open(error_path, 'w+', encoding='utf-8') as f:
         f.write(str(e) + "\n")
         insertion("Возникла ошибка. Перезапуск...", 'none')
         goodbuy
