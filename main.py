@@ -70,8 +70,10 @@ def insertion(text = None, buttons = None, menu = None):
         for row in cursor.fetchall():
             user, id_message = row[0], row[4]
             try:
-                bot.edit_message_text(chat_id=user, message_id=id_message, text=text, reply_markup='')
-                menu_insertion([user, id_message], text, buttons)
+                if menu != None:
+                    globals()[menu]([user, id_message])
+                else:
+                    menu_insertion([user, id_message], text, buttons)
             except Exception as e:
                 print(f'Ошибка во вставке: {e}')
                 bot.edit_message_text(chat_id=user, message_id=id_message, text='Возникла ошибка. Перезапуск...', reply_markup='')
@@ -192,7 +194,7 @@ def send_start_message():
 
     insertion('Обновление...', "none")
     buttons = ['Запустить']
-    insertion('Бот был перезапущен. Для проолжения, нажмите на кнопку', buttons)
+    insertion(menu = 'menu_main')
     
     try:
         with open(error_path, 'r+', encoding='utf-8') as f:
@@ -218,5 +220,5 @@ try:
 except Exception as e:
     with open(error_path, 'w+', encoding='utf-8') as f:
         f.write(str(e) + "\n")
-        insertion("Возникла ошибка. Перезапуск...", 'none')
+        insertion("Возникли технические проблемы. В скором времени всё заработает...", 'none')
         goodbuy
