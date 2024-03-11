@@ -1,7 +1,7 @@
-bot_api = '6373877428:AAHJ3oFfoeXY6pK82PLHwA_DtdwjBN44JQ8'
+bot_api = ''
 folder = 'data'
 # folder = '/data'
-id_admin = 1210146115
+id_admin =
 
 
 import os
