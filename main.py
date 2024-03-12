@@ -22,6 +22,8 @@ bot = telebot.TeleBot(bot_api)
 # переменные
 folder_path = f"{folder}"
 texts_path = f"{folder}/texts"
+menu_user_path = f'{folder}/user_menu'
+menu_dev_path = f'{folder}/telegram_text_apps_menu'
 error_path = f'{texts_path}/error_log.txt'
 db_name = "database.db"
 db_path = os.path.join(folder_path, db_name)
@@ -34,7 +36,13 @@ def main_check():
         print("Папка библиотеки создана")
     if not os.path.exists(texts_path):
         os.makedirs(texts_path)
-        print("Папка текстов создана")    
+        print("Папка текстов создана")
+    if not os.path.exists(menu_user_path):
+        os.makedirs(menu_user_path)
+        print("Папка с пользовательскими меню создана")
+    if not os.path.exists(menu_dev_path):
+        os.makedirs(menu_dev_path)
+        print("Папка c меню администратора создана")     
     if not os.path.exists(error_path):
         with open(error_path, 'w'): 
             pass
@@ -52,6 +60,10 @@ def main_check():
             ''')
         conn.close()
         print("База данных создана")
+
+    text = 'Панель администратора/nЗдесь вы можете изменить:'
+    buttons = 'Текста'
+    create_menu(name = 'Администратор', text = text, buttons = buttons, buttons_call = 'admin', back = 'main', call = None)
 
 def now_time():
     now = datetime.now()
@@ -108,8 +120,14 @@ def create_keyboard(buttons, back, call_data = None):
     return keyboard
 
 def open_menu(name = None, text = None, call = None, buttons = None, buttons_call = None, back = None, create = False):
-    if os.path.exists(f'{texts_path}/{name}.txt'):
-        with open(f'{texts_path}/{name}.txt', encoding='utf-8') as file:
+    path = f'{menu_user_path}/{name}.txt'
+
+    dev_menu = ['main','Администратор']
+    if name in dev_menu:
+        path = f'{menu_dev_path}/{name}.txt'
+    
+    if os.path.exists(path):
+        with open(path, encoding='utf-8') as file:
             file_data = file.read()
             data = {}
             for line in file_data.splitlines():
@@ -122,17 +140,25 @@ def open_menu(name = None, text = None, call = None, buttons = None, buttons_cal
             back = None if isinstance(data['back'], str) and data['back'] == 'None' else data['back']
     else:
         if create == True:
+            if text == None:
+                text = 'Отредактируйте текст в панели администратора!'
+            if name == 'main':
+                buttons = ['Администратор']
             create_menu(name = name, text = text, buttons = buttons, back = back, call = call)
-
+    try:
+        if buttons[0].split('-')[0] == 's_buttons_file':
+            files = os.listdir(texts_path)
+            buttons = files
+    except: pass
 
     if buttons is None and back is None:
         keyboard = ''
     elif buttons is not None and back is not None:
-        keyboard = create_keyboard(buttons, back)
+        keyboard = create_keyboard(buttons, back, buttons_call)
     elif buttons is not None and back is None:
-        keyboard = create_keyboard(buttons, back)
+        keyboard = create_keyboard(buttons, back, buttons_call)
     else:
-        keyboard = create_keyboard(buttons, back)
+        keyboard = create_keyboard('', back, buttons_call)
 
 
     try:
@@ -141,11 +167,17 @@ def open_menu(name = None, text = None, call = None, buttons = None, buttons_cal
         bot.edit_message_text(chat_id = call[0], message_id = call[1], text = text, reply_markup = keyboard)
 
 def create_menu(name = None, text = None, buttons = None, buttons_call = None, back = None, call = None):
-    if text == None:
-        text = 'Отредактируйте текст в панели администратора!'
-    with open(f'{texts_path}/{name}.txt', 'w+', encoding='utf-8') as file:
-        file.write(f'text: {text}\nbuttons: {buttons}\nbuttons_call: {buttons_call}\nback: {back}')
+    if buttons == ['Администратор']:
+        buttons = 'Администратор'
 
+    path = f'{menu_user_path}/{name}.txt'
+
+    if name == 'main': path = f'{menu_dev_path}/{name}.txt'
+    if name == 'Администратор': path = f'{menu_dev_path}/{name}.txt'
+
+
+    with open(path, 'w+', encoding='utf-8') as file:
+        file.write(f'text: {text}\nbuttons: {buttons}\nbuttons_call: {buttons_call}\nback: {back}')
 
 
 @bot.message_handler(commands=['start'])
@@ -180,21 +212,29 @@ def callback_query(call):
     if call.data == 'start': menu_main(call)
     if call.data == 'Запустить_data': menu_main(call)
 
+    try:
+        if (call.data).split('_')[1] == 'data' and (call.data).split('_')[2] == 'admin':
+            open_menu(name = 'admin', call = call)
+    except: pass
+
 
     if (call.data).split('_')[0] == 'return':
         menu = (call.data).split('_')[1]
-        menu_callback = f"menu_{menu}"
-        globals()[menu_callback](call)
+        open_menu(name = menu, back = 'main', create = True, call = call)
 
 
-    if call.data == 'del_message': bot.delete_message(chat_id=call.message.chat.id, message_id=call.message.message_id)
+    if call.data == 'del_message':
+        bot.delete_message(chat_id=call.message.chat.id, message_id=call.message.message_id)
 
 
-    else: 
+    if (call.data).split('_')[1] == 'data':
+        print(call.data)
+        menu = (call.data).split('_')[0]
+        open_menu(name = menu, back = 'main', create = True, call = call)
+
+    else:
         x = call.data
         print(f"call: {call.data}")
-        menu = x.split('_')[0]
-        open_menu(name = menu, create = True, call = call)
 
 
 
