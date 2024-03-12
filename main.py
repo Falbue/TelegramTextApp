@@ -39,9 +39,7 @@ def main_check():
         with open(error_path, 'w'): 
             pass
         print("Файл с логами ошибок создан")
-    if os.path.exists(db_path):
-        print("База данных существует")
-    else:
+    if not os.path.exists(db_path):
         conn = sqlite3.connect(f"{folder}/database.db")
         cursor = conn.cursor()
         cursor.execute('''
@@ -53,6 +51,7 @@ def main_check():
                 id_message INTEGER);
             ''')
         conn.close()
+        print("База данных создана")
 
 def now_time():
     now = datetime.now()
