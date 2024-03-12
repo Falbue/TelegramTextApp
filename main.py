@@ -108,37 +108,38 @@ def create_menu(name = None, text = None, call = None, buttons = None, back = No
     if buttons == None and back == None:
         keyboard = ''
     elif buttons == None or back != None:
-       keyboard = create_keyboard('', back) 
-    else: keyboard = create_keyboard(buttons, back)
+       keyboard = create_keyboard('', back)
+    else: 
+        keyboard = create_keyboard(buttons, back)
+        for i in range(len(buttons)):
+            create_menu(
+                name = buttons[i],
+                text = 'Доавьте текст',
+                buttons = buttons,
+                back = name)
+
     try:
         bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text = text, reply_markup = keyboard)
     except AttributeError:
-        user = call[0]
-        id_message = call[1]
-        bot.edit_message_text(chat_id=user, message_id=id_message, text = text, reply_markup = keyboard)
+        bot.edit_message_text(chat_id = call[0], message_id = call[1], text = text, reply_markup = keyboard)
 
 
 # создание менюшек
-def menu_insertion(call, text, buttons):
-    create_menu(
-        name = 'insertion',
-        text = text,
-        call = call,
-        buttons = buttons
-        )
-
-
 def menu_main(call):
     text = "Главное меню"
     buttons = ["Первая", "Вторая"]
+    try:
+        if call[0] == id_admin:
+            buttons.append('Администратор')
+    except:
+        if call.message.chat.id == id_admin:
+           buttons.append('Администратор') 
     create_menu(
         name = 'main',
         text = text,
         call = call,
         buttons = buttons
         )
-
-
 
 
 @bot.message_handler(commands=['start'])
