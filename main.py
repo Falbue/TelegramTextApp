@@ -71,9 +71,9 @@ def insertion(text = None, buttons = None, menu = None):
             call = [row[0], row[4]]
             try:
                 if menu != None:
-                    globals()[menu](call)
+                    open_menu(name = menu, create = True, call = call)
                 else:
-                    create_menu(name = 'insertion', text = text, call = call, buttons = buttons)
+                    open_menu(name = 'insertion', text = text, call = call, buttons = buttons)
             except Exception as e:
                 print(f'Ошибка во вставке: {e}')
                 bot.edit_message_text(chat_id=call[0], message_id=call[1], text='Возникла ошибка. Перезапуск...', reply_markup='')
@@ -107,42 +107,45 @@ def create_keyboard(buttons, back, call_data = None):
         keyboard.add(btn_return)
     return keyboard
 
-def create_menu(name = None, text = None, call = None, buttons = None, back = None):
-    if buttons == None and back == None:
+def open_menu(name = None, text = None, call = None, buttons = None, buttons_call = None, back = None, create = False):
+    if os.path.exists(f'{texts_path}/{name}.txt'):
+        with open(f'{texts_path}/{name}.txt', encoding='utf-8') as file:
+            file_data = file.read()
+            data = {}
+            for line in file_data.splitlines():
+                key, value = line.split(': ', 1)
+                data[key.strip()] = value.strip()
+            
+            text = None if isinstance(data['text'], str) and data['text'] == 'None' else data['text']
+            buttons = None if isinstance(data['buttons'], str) and data['buttons'] == 'None' else data['buttons'].split(',')
+            buttons_call = None if isinstance(data['buttons_call'], str) and data['buttons_call'] == 'None' else data['buttons_call']
+            back = None if isinstance(data['back'], str) and data['back'] == 'None' else data['back']
+    else:
+        if create == True:
+            create_menu(name = name, text = text, buttons = buttons, back = back, call = call)
+
+
+    if buttons is None and back is None:
         keyboard = ''
-    elif buttons == None or back != None:
-       keyboard = create_keyboard('', back)
-    else: 
+    elif buttons is not None and back is not None:
         keyboard = create_keyboard(buttons, back)
-        for i in range(len(buttons)):
-            create_menu(
-                name = buttons[i],
-                text = 'Доавьте текст',
-                buttons = buttons,
-                back = name)
+    elif buttons is not None and back is None:
+        keyboard = create_keyboard(buttons, back)
+    else:
+        keyboard = create_keyboard(buttons, back)
+
 
     try:
         bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text = text, reply_markup = keyboard)
     except AttributeError:
         bot.edit_message_text(chat_id = call[0], message_id = call[1], text = text, reply_markup = keyboard)
 
+def create_menu(name = None, text = None, buttons = None, buttons_call = None, back = None, call = None):
+    if text == None:
+        text = 'Отредактируйте текст в панели администратора!'
+    with open(f'{texts_path}/{name}.txt', 'w+', encoding='utf-8') as file:
+        file.write(f'text: {text}\nbuttons: {buttons}\nbuttons_call: {buttons_call}\nback: {back}')
 
-# создание менюшек
-def menu_main(call):
-    text = "Главное меню"
-    buttons = ["Первая", "Вторая"]
-    try:
-        if call[0] == id_admin:
-            buttons.append('Администратор')
-    except:
-        if call.message.chat.id == id_admin:
-           buttons.append('Администратор') 
-    create_menu(
-        name = 'main',
-        text = text,
-        call = call,
-        buttons = buttons
-        )
 
 
 @bot.message_handler(commands=['start'])
@@ -190,6 +193,8 @@ def callback_query(call):
     else: 
         x = call.data
         print(f"call: {call.data}")
+        menu = x.split('_')[0]
+        open_menu(name = menu, create = True, call = call)
 
 
 
@@ -200,7 +205,7 @@ def send_start_message():
 
     insertion('Обновление...')
     buttons = ['Запустить']
-    insertion(menu = 'menu_main')
+    insertion(menu = 'main')
     
     try:
         with open(error_path, 'r+', encoding='utf-8') as f:
