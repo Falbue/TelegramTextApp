@@ -68,15 +68,15 @@ def insertion(text = None, buttons = None, menu = None):
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM users")
         for row in cursor.fetchall():
-            user, id_message = row[0], row[4]
+            call = [row[0], row[4]]
             try:
                 if menu != None:
-                    globals()[menu]([user, id_message])
+                    globals()[menu](call)
                 else:
-                    menu_insertion([user, id_message], text, buttons)
+                    create_menu(name = 'insertion', text = text, call = call, buttons = buttons)
             except Exception as e:
                 print(f'Ошибка во вставке: {e}')
-                bot.edit_message_text(chat_id=user, message_id=id_message, text='Возникла ошибка. Перезапуск...', reply_markup='')
+                bot.edit_message_text(chat_id=call[0], message_id=call[1], text='Возникла ошибка. Перезапуск...', reply_markup='')
 
 
 def create_keyboard(buttons, back):
@@ -195,7 +195,7 @@ def send_start_message():
     keyboard_start_message = InlineKeyboardMarkup()
     keyboard_start_message.add(InlineKeyboardButton(text='Прочитано', callback_data='del_message'))
 
-    insertion('Обновление...', "none")
+    insertion('Обновление...')
     buttons = ['Запустить']
     insertion(menu = 'menu_main')
     
@@ -203,7 +203,6 @@ def send_start_message():
         with open(error_path, 'r+', encoding='utf-8') as f:
             text_error = f.read()
             if not text_error.strip():
-                print("Файл с логом пустой")
                 return 
     except Exception as e:
         text_error = f'Ошибка в поиске лога: {e}'
@@ -223,5 +222,5 @@ try:
 except Exception as e:
     with open(error_path, 'w+', encoding='utf-8') as f:
         f.write(str(e) + "\n")
-        insertion("Возникли технические проблемы. В скором времени всё заработает...", 'none')
+        insertion("Возникли технические проблемы. В скором времени всё заработает...")
         goodbuy
