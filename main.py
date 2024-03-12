@@ -79,7 +79,7 @@ def insertion(text = None, buttons = None, menu = None):
                 bot.edit_message_text(chat_id=call[0], message_id=call[1], text='Возникла ошибка. Перезапуск...', reply_markup='')
 
 
-def create_keyboard(buttons, back):
+def create_keyboard(buttons, back, call_data = None):
     keyboard = InlineKeyboardMarkup(row_width = 2)
     row_buttons = []
     num_buttons = 0
@@ -89,8 +89,11 @@ def create_keyboard(buttons, back):
             num_buttons = 1
         else:
             button_text = (buttons[i])
-        button_callback_data = f"{button_text}_data"
-        button = InlineKeyboardButton(text = button_text, callback_data = button_callback_data)
+        if call_data != None:
+            button_data = f"{button_text}_data_{call_data}"
+        else:
+            button_data = f"{button_text}_data"
+        button = InlineKeyboardButton(text = button_text, callback_data = button_data)
         row_buttons.append(button)
         num_buttons += 1
         if num_buttons == 2:
