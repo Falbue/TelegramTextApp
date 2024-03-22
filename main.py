@@ -12,7 +12,6 @@ import telebot
 import re
 from datetime import datetime
 import pytz
-from flask import Flask
 import sys
 sys.path.append(folder)
 import threading
