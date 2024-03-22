@@ -74,6 +74,7 @@ def now_time():
     return date
 
 
+# работа самого приложения
 def insertion(text = None, buttons = None, menu = None):
     with sqlite3.connect(f'{folder}/database.db') as conn:
         cursor = conn.cursor()
