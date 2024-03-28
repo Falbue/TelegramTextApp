@@ -290,7 +290,7 @@ def start(message):
     conn.close()
 
     keyboard = InlineKeyboardMarkup()
-    btn = InlineKeyboardButton(text = "Запустить", callback_data = 'start')
+    btn = InlineKeyboardButton(text = "Запустить", callback_data = 'data_start')
     keyboard.add(btn)
     bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
     bot.send_message(message.chat.id, "Добро пожаловать!", reply_markup = keyboard)
@@ -298,8 +298,9 @@ def start(message):
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_query(call):
-    if call.data == 'start': menu_main(call)
-    if call.data == 'Запустить_data': menu_main(call)
+
+    if call.data == 'data_start': 
+        open_menu(name = 'main', call = call)
 
     try:
         if (call.data).split('_')[1] == 'data' and (call.data).split('_')[2] == 'admin':
