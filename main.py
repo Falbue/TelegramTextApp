@@ -230,17 +230,17 @@ def open_menu(name = None, text = None, call = None, buttons = None, buttons_cal
         keyboard = create_keyboard('', back, buttons_call)
 
     if name == 'main':
-        btn_admin = InlineKeyboardButton(text = 'Администратор', callback_data = f'Администратор_data')
+        if keyboard == '':
+            keyboard = InlineKeyboardMarkup(row_width = 2)
+        btn_admin = InlineKeyboardButton(text = 'Администратор', callback_data = 'Администратор_data')
         keyboard.add(btn_admin)
 
+    # изменение сообщения
     try:
         bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text = text, reply_markup = keyboard)
     except AttributeError:
         bot.edit_message_text(chat_id = call[0], message_id = call[1], text = text, reply_markup = keyboard)
 
-def create_menu(name = None, text = None, buttons = None, buttons_call = None, back = None, call = None):
-    if buttons == ['Администратор']:
-        buttons = 'Администратор'
 
     path = f'{menu_user_path}/{name}.txt'
 
