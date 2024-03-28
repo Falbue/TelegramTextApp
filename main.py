@@ -261,14 +261,14 @@ def callback_query(call):
         bot.delete_message(chat_id=call.message.chat.id, message_id=call.message.message_id)
 
 
-    if (call.data).split('_')[1] == 'data':
-        print(call.data)
+    if (call.data).split('_')[1] == 'data' and (call.data).count('_') == 1:
+        print(f'Вызов: {call.data}')
         menu = (call.data).split('_')[0]
         open_menu(name = menu, back = 'main', create = True, call = call)
 
     else:
         x = call.data
-        print(f"call: {call.data}")
+        print(f"Такокого call нет: {call.data}")
 
 
 
