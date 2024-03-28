@@ -241,6 +241,8 @@ def open_menu(name = None, text = None, call = None, buttons = None, buttons_cal
     except AttributeError:
         bot.edit_message_text(chat_id = call[0], message_id = call[1], text = text, reply_markup = keyboard)
 
+    if enter == 'True':
+        bot.register_next_step_handler(call.message, input_text, call)
 
 def input_text(user_call, call):
     bot.delete_message(chat_id=user_call.chat.id, message_id=user_call.message_id)
@@ -255,13 +257,16 @@ def input_text(user_call, call):
         new_value = build_multilevel_string(data)
         with open(path, 'w+', encoding='utf-8') as file:
             file.write(new_value)
+
+
+
+def create_menu(name = None, text = None, buttons = None, buttons_call = None, back = None, call = None, enter = False):
     path = f'{menu_user_path}/{name}.txt'
 
     if name in dev_menu: path = f'{menu_dev_path}/{name}.txt'
 
-
     with open(path, 'w+', encoding='utf-8') as file:
-        file.write(f'text: {text}\nbuttons: {buttons}\nbuttons_call: {buttons_call}\nback: {back}')
+        file.write(f'text: {text}\nbuttons: {buttons}\nbuttons_call: {buttons_call}\nback: {back}\nenter: {enter}')
 
 
 @bot.message_handler(commands=['start'])
