@@ -107,9 +107,10 @@ def now_time():
     return date
 
 def find_square_brackets(text):
-    pattern = r'\[(.*?)\]'  # Поиск текста внутри квадратных скобок
-    matches = re.findall(pattern, text)
-    return matches
+    if text != None:
+        pattern = r'\[(.*?)\]'  # Поиск текста внутри квадратных скобок
+        matches = re.findall(pattern, text)
+        return matches
 
 def receivind_data_file(path):
     with open(path, encoding='utf-8') as file:
