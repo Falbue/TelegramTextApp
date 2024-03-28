@@ -64,9 +64,33 @@ def main_check():
         conn.close()
         print("База данных создана")
 
-    text = 'Панель администратора/nЗдесь вы можете изменить:'
-    buttons = 'Текста'
-    create_menu(name = 'Администратор', text = text, buttons = buttons, buttons_call = 'admin', back = 'main', call = None)
+
+def create_dev_menu():
+    for i in range(len(dev_menu)):
+        if dev_menu[i] == "Администратор":
+            name = dev_menu[i]
+            text = 'Панель администратора/nЗдесь вы можете изменить:'
+            buttons = 'Текста'
+            buttons_call = 'admin'
+            back = 'main'
+            create_menu(name, text, buttons, buttons_call, back)
+        if dev_menu[i] == "Текста":
+            name = dev_menu[i]
+            text = 'Выберите меню'
+            buttons = f's_buttons_file-{menu_user_path}'
+            buttons_call = None
+            back = 'Администратор'
+            create_menu(name, text, buttons, buttons_call, back)
+        if dev_menu[i] == "RenameTexts":
+            name = dev_menu[i]
+            text = 'Введите новый текст'
+            buttons = None
+            buttons_call = None
+            back = 'Текста'
+            create_menu(name, text, buttons, buttons_call, back)
+    print("Файлы для меню приложения созданы")
+
+
 
 def now_time():
     now = datetime.now()
