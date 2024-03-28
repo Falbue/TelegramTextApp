@@ -106,6 +106,15 @@ def find_square_brackets(text):
     matches = re.findall(pattern, text)
     return matches
 
+def receivind_data_file(path):
+    with open(path, encoding='utf-8') as file:
+        file_data = file.read()
+        data = {}
+        for line in file_data.splitlines():
+            key, value = line.split(': ', 1)
+            data[key.strip()] = value.strip()
+
+    return data
 # работа самого приложения
 def insertion(text = None, buttons = None, menu = None):
     with sqlite3.connect(f'{folder}/database.db') as conn:
