@@ -245,7 +245,10 @@ def callback_query(call):
 
     try:
         if (call.data).split('_')[1] == 'data' and (call.data).split('_')[2] == 'admin':
-            open_menu(name = 'admin', call = call)
+            menu = (call.data).split('_')[0]
+            open_menu(name = menu, call = call)
+        if (call.data).split('_')[1] == 'data' and (call.data).split('_')[2] == 'rename-texts':
+            open_menu(name = 'RenameTexts', call = call)
     except: pass
 
 
