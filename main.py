@@ -189,6 +189,9 @@ def open_menu(name = None, text = None, call = None, buttons = None, buttons_cal
     else:
         keyboard = create_keyboard('', back, buttons_call)
 
+    if name == 'main':
+        btn_admin = InlineKeyboardButton(text = 'Администратор', callback_data = f'Администратор_data')
+        keyboard.add(btn_admin)
 
     try:
         bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text = text, reply_markup = keyboard)
