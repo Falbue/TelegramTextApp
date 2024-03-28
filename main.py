@@ -77,8 +77,8 @@ def create_dev_menu():
         if dev_menu[i] == "Текста":
             name = dev_menu[i]
             text = 'Выберите меню'
-            buttons = f's_buttons_file-{menu_user_path}'
-            buttons_call = None
+            buttons = f'search_buttons_file-{menu_user_path}'
+            buttons_call = 'rename-texts'
             back = 'Администратор'
             create_menu(name, text, buttons, buttons_call, back)
         if dev_menu[i] == "RenameTexts":
