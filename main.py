@@ -146,10 +146,11 @@ def create_keyboard(buttons, back, call_data = None):
         keyboard.add(btn_return)
     return keyboard
 
+
+
 def open_menu(name = None, text = None, call = None, buttons = None, buttons_call = None, back = None, create = False):
     path = f'{menu_user_path}/{name}.txt'
 
-    dev_menu = ['main','Администратор']
     if name in dev_menu:
         path = f'{menu_dev_path}/{name}.txt'
     
