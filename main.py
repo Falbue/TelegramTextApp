@@ -198,14 +198,28 @@ def open_menu(name = None, text = None, call = None, buttons = None, buttons_cal
                 text = 'Отредактируйте текст в панели администратора!'
             create_menu(name = name, text = text, buttons = buttons, back = back, call = call)
 
+    bracket_contents = find_square_brackets(text)
+    if bracket_contents:
+        find_menu = (bracket_contents[0]).split('_')[1]
+        if find_menu == 'menu': # если указано нужное меню, то выведется текст выбранного меню
+            find_menu = (call.data).split('_')[0]
+            path = f'{menu_user_path}/{find_menu}.txt'
+            if name in dev_menu: path = f'{menu_dev_path}/{find_menu}.txt'
+            data = receivind_data_file(path)
+            text_menu = data['text']
+            text = text.replace(f'[{bracket_contents[0]}]', f'Текст меню: {text_menu}')
+
+    # добавление кнопок для клавиатуры из найденных файлов
     try:
-        if buttons[0].split('-')[0] == 's_buttons_file':
-            texts_path = buttons[0].split('-')[1]
+        if buttons[0].split('-')[0] == 'search_buttons_file':
+            if name == 'Текста':
+                buttons =['main']
+            texts_path = buttons[0].split('-')[1] # указание пути
             files = os.listdir(texts_path)
             buttons = [filename.split('.')[0] for filename in files]
-            buttons_call = 'rename-texts'
     except: pass
 
+    # создание клавиатуры
     if buttons is None and back is None:
         keyboard = ''
     elif buttons is not None and back is not None:
