@@ -101,6 +101,10 @@ def now_time():
     date = f"{current_date} {current_time}"
     return date
 
+def find_square_brackets(text):
+    pattern = r'\[(.*?)\]'  # Поиск текста внутри квадратных скобок
+    matches = re.findall(pattern, text)
+    return matches
 
 # работа самого приложения
 def insertion(text = None, buttons = None, menu = None):
