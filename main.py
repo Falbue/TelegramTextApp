@@ -173,10 +173,13 @@ def open_menu(name = None, text = None, call = None, buttons = None, buttons_cal
             if name == 'main':
                 buttons = ['Администратор']
             create_menu(name = name, text = text, buttons = buttons, back = back, call = call)
+
     try:
         if buttons[0].split('-')[0] == 's_buttons_file':
+            texts_path = buttons[0].split('-')[1]
             files = os.listdir(texts_path)
-            buttons = files
+            buttons = [filename.split('.')[0] for filename in files]
+            buttons_call = 'rename-texts'
     except: pass
 
     if buttons is None and back is None:
