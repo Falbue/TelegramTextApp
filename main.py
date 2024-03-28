@@ -242,6 +242,19 @@ def open_menu(name = None, text = None, call = None, buttons = None, buttons_cal
         bot.edit_message_text(chat_id = call[0], message_id = call[1], text = text, reply_markup = keyboard)
 
 
+def input_text(user_call, call):
+    bot.delete_message(chat_id=user_call.chat.id, message_id=user_call.message_id)
+
+    if (call.data).split('_')[1] == 'data' and (call.data).split('_')[2] == 'rename-texts':
+        name = (call.data).split('_')[0]
+        path = f'{menu_user_path}/{name}.txt'
+        if name in dev_menu: path = f'{menu_dev_path}/{name}.txt'
+        data = receivind_data_file(path)
+        new_text = user_call.text
+        data['text'] = new_text
+        new_value = build_multilevel_string(data)
+        with open(path, 'w+', encoding='utf-8') as file:
+            file.write(new_value)
     path = f'{menu_user_path}/{name}.txt'
 
     if name in dev_menu: path = f'{menu_dev_path}/{name}.txt'
