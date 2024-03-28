@@ -170,8 +170,6 @@ def open_menu(name = None, text = None, call = None, buttons = None, buttons_cal
         if create == True:
             if text == None:
                 text = 'Отредактируйте текст в панели администратора!'
-            if name == 'main':
-                buttons = ['Администратор']
             create_menu(name = name, text = text, buttons = buttons, back = back, call = call)
 
     try:
