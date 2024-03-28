@@ -204,8 +204,7 @@ def create_menu(name = None, text = None, buttons = None, buttons_call = None, b
 
     path = f'{menu_user_path}/{name}.txt'
 
-    if name == 'main': path = f'{menu_dev_path}/{name}.txt'
-    if name == 'Администратор': path = f'{menu_dev_path}/{name}.txt'
+    if name in dev_menu: path = f'{menu_dev_path}/{name}.txt'
 
 
     with open(path, 'w+', encoding='utf-8') as file:
