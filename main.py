@@ -12,7 +12,6 @@ import telebot
 import re
 from datetime import datetime
 import pytz
-from flask import Flask
 import sys
 sys.path.append(folder)
 import threading
@@ -102,6 +101,7 @@ def now_time():
     return date
 
 
+# работа самого приложения
 def insertion(text = None, buttons = None, menu = None):
     with sqlite3.connect(f'{folder}/database.db') as conn:
         cursor = conn.cursor()
