@@ -11,6 +11,5 @@
 - re
 - datetime
 - pytz
-- Flask
 - sys
 - threading
