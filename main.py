@@ -87,7 +87,12 @@ def create_dev_menu():
             buttons = None
             buttons_call = None
             back = 'Текста'
-            create_menu(name, text, buttons, buttons_call, back)
+            enter = True
+            create_menu(name, text, buttons, buttons_call, back, enter = enter)
+        if dev_menu[i] == 'main':
+            name = dev_menu[i]
+            text = 'Главное меню'
+            create_menu(name, text)
     print("Файлы для меню приложения созданы")
 
 
@@ -174,7 +179,7 @@ def create_keyboard(buttons, back, call_data = None):
 
 
 
-def open_menu(name = None, text = None, call = None, buttons = None, buttons_call = None, back = None, create = False):
+def open_menu(name = None, text = None, call = None, buttons = None, buttons_call = None, back = None, create = False, enter = False):
     path = f'{menu_user_path}/{name}.txt'
 
     if name in dev_menu:
