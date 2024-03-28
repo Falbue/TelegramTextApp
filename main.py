@@ -245,6 +245,7 @@ def open_menu(name = None, text = None, call = None, buttons = None, buttons_cal
     if enter == 'True':
         bot.register_next_step_handler(call.message, input_text, call)
 
+
 def input_text(user_call, call):
     bot.delete_message(chat_id=user_call.chat.id, message_id=user_call.message_id)
 
@@ -258,6 +259,9 @@ def input_text(user_call, call):
         new_value = build_multilevel_string(data)
         with open(path, 'w+', encoding='utf-8') as file:
             file.write(new_value)
+
+        open_menu(name = 'RenameTexts', call = call)
+
 
 
 
