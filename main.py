@@ -115,6 +115,18 @@ def receivind_data_file(path):
             data[key.strip()] = value.strip()
 
     return data
+
+def build_multilevel_string(data, indent=0):
+    result = ""
+    for key, value in data.items():
+        result += " " * indent + key + ": "
+        if isinstance(value, dict):
+            result += "\n" + build_multilevel_string(value, indent + 2)
+        else:
+            result += str(value) + "\n"
+    return result
+
+
 # работа самого приложения
 def insertion(text = None, buttons = None, menu = None):
     with sqlite3.connect(f'{folder}/database.db') as conn:
