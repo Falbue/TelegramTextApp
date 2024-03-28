@@ -183,7 +183,6 @@ def create_keyboard(buttons, back, call_data = None):
 def open_menu(name = None, text = None, call = None, buttons = None, buttons_call = None, back = None, create = False, enter = False):
     path = f'{menu_user_path}/{name}.txt'
     if name in dev_menu: path = f'{menu_dev_path}/{name}.txt'
-
     # получение данных для меню
     if os.path.exists(path):
         data = receivind_data_file(path)        
