@@ -181,23 +181,18 @@ def create_keyboard(buttons, back, call_data = None):
 
 def open_menu(name = None, text = None, call = None, buttons = None, buttons_call = None, back = None, create = False, enter = False):
     path = f'{menu_user_path}/{name}.txt'
+    if name in dev_menu: path = f'{menu_dev_path}/{name}.txt'
 
-    if name in dev_menu:
-        path = f'{menu_dev_path}/{name}.txt'
-    
+    # получение данных для меню
     if os.path.exists(path):
-        with open(path, encoding='utf-8') as file:
-            file_data = file.read()
-            data = {}
-            for line in file_data.splitlines():
-                key, value = line.split(': ', 1)
-                data[key.strip()] = value.strip()
-            
-            text = None if isinstance(data['text'], str) and data['text'] == 'None' else data['text']
-            buttons = None if isinstance(data['buttons'], str) and data['buttons'] == 'None' else data['buttons'].split(',')
-            buttons_call = None if isinstance(data['buttons_call'], str) and data['buttons_call'] == 'None' else data['buttons_call']
-            back = None if isinstance(data['back'], str) and data['back'] == 'None' else data['back']
-    else:
+        data = receivind_data_file(path)        
+        text = None if isinstance(data['text'], str) and data['text'] == 'None' else data['text']
+        buttons = None if isinstance(data['buttons'], str) and data['buttons'] == 'None' else data['buttons'].split(',')
+        buttons_call = None if isinstance(data['buttons_call'], str) and data['buttons_call'] == 'None' else data['buttons_call']
+        back = None if isinstance(data['back'], str) and data['back'] == 'None' else data['back']
+        enter = data['enter']
+
+    else: # если меню не найдено, то оно создается
         if create == True:
             if text == None:
                 text = 'Отредактируйте текст в панели администратора!'
