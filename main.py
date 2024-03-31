@@ -28,7 +28,7 @@ error_path = f'{texts_path}/error_log.txt'
 db_name = "database.db"
 db_path = os.path.join(folder_path, db_name)
 
-dev_menu = ['main','Администратор','Текста', 'RenameTexts']
+dev_menu = ['main','Администратор','Текста', 'RenameTexts', 'add_menu']
 
 
 # основные функции
