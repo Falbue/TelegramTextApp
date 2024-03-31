@@ -93,6 +93,13 @@ def create_dev_menu():
             name = dev_menu[i]
             text = 'Главное меню'
             create_menu(name, text)
+        if dev_menu[i] == 'add_menu':
+            name = dev_menu[i]
+            text = 'Выберите меню'
+            buttons = f'search_buttons_file-{menu_user_path}'
+            buttons_call = 'rename-texts'
+            back = 'Администратор'
+
     print("Файлы для меню приложения созданы")
 
 
