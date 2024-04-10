@@ -1,7 +1,7 @@
-bot_api = ''
+bot_api = '6373877428:AAHJ3oFfoeXY6pK82PLHwA_DtdwjBN44JQ8'
 folder = 'data'
 # folder = '/data'
-id_admin =
+id_admin = 1210146115
 # -----------------------------------------------------------
 
 
@@ -95,7 +95,7 @@ def create_dev_menu():
             create_menu(name, text)
         if dev_menu[i] == 'add_menu':
             name = dev_menu[i]
-            text = 'Выберите меню'
+            text = ''
             buttons = f'search_buttons_file-{menu_user_path}'
             buttons_call = 'rename-texts'
             back = 'Администратор'
