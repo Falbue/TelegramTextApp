@@ -237,16 +237,12 @@ def open_menu(name = None, text = None, call = None, buttons = None, buttons_cal
                 text = 'Отредактируйте текст в панели администратора!'
             create_menu(name = name, text = text, buttons = buttons, back = 'main', call = call)
 
-    bracket_contents = find_square_brackets(text)
-    if bracket_contents:
-        find_menu = (bracket_contents[0]).split('_')[1]
-        if find_menu == 'menu': # если указано нужное меню, то выведется текст выбранного меню
-            find_menu = (call.data).split('_')[0]
-            path = f'{menu_user_path}/{find_menu}.txt'
-            if name in dev_menu: path = f'{menu_dev_path}/{find_menu}.txt'
-            data = receivind_data_file(path)
-            text_menu = data['text']
-            text = text.replace(f'[{bracket_contents[0]}]', f'Текст меню: {text_menu}')
+    brackets = find_square_brackets(text)
+    if str(brackets) != '[]':
+        text = mardown_text(text, call)
+    else: text = mardown_text(text)
+
+
 
     # добавление кнопок для клавиатуры из найденных файлов
     try:
@@ -256,9 +252,7 @@ def open_menu(name = None, text = None, call = None, buttons = None, buttons_cal
             texts_path = buttons[0].split('-')[1] # указание пути
             files = os.listdir(texts_path)
             buttons = main_button + [filename.split('.')[0] for filename in files]
-    except Exception as e:
-        print(f"Ошибка в добовлении файлов в клавиатуру: {e}") 
-        pass
+    except Exception as e:pass
 
     # создание клавиатуры
     if buttons is None and back is None:
@@ -311,6 +305,22 @@ def create_menu(name = None, text = None, buttons = None, buttons_call = None, b
 
     with open(path, 'w+', encoding='utf-8') as file:
         file.write(f'text: {text}\nbuttons: {buttons}\nbuttons_call: {buttons_call}\nback: {back}\nenter_text: {enter_text}')
+
+def mardown_text(text, call = None):
+    if call != None:
+        filename = call.data.split('_')[0]
+        path = f'{menu_user_path}/{filename}.txt'
+        if filename in dev_menu: path = f'{menu_dev_path}/{filename}.txt'
+        print(path)
+        with open(path, encoding='utf-8') as file:
+            data = file.read()
+        print(data)
+        text = text.replace('[name_file]', filename)
+        text = text.replace('[config_file]', data)
+
+    text = text.replace('/n', '\n')
+
+    return(text)
 
 
 @bot.message_handler(commands=['start'])
