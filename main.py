@@ -218,7 +218,7 @@ def open_menu(name = None, text = None, call = None, buttons = None, buttons_cal
         if create == True:
             if text == None:
                 text = 'Отредактируйте текст в панели администратора!'
-            create_menu(name = name, text = text, buttons = buttons, back = back, call = call)
+            create_menu(name = name, text = text, buttons = buttons, back = 'main', call = call)
 
     bracket_contents = find_square_brackets(text)
     if bracket_contents:
