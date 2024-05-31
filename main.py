@@ -149,7 +149,7 @@ def find_square_brackets(text): # Поиск текста внутри квад�
         matches = re.findall(pattern, text)
         return matches
 
-def receivind_data_file(path): # пока не знаю что это!!!!!!!!!!!!
+def receivind_data_file(path): # получение всех данных из файла
     with open(path, encoding='utf-8') as file:
         file_data = file.read()
         data = {}
