@@ -163,6 +163,7 @@ def insertion(text = None, buttons = None, menu = None, all_users = True, call =
             open_menu(name = menu, create = True, call = call)
         else:
             open_menu(name = 'insertion', text = text, call = call, buttons = buttons)
+    conn.close()
 
 def create_keyboard(buttons, back, call_data = None): # создание клавиатуры
     keyboard = InlineKeyboardMarkup(row_width = 2)
