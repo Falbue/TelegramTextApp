@@ -32,7 +32,7 @@ dev_menu = ['main','Администратор','Текста', 'RenameTexts', '
 
 
 # основные функции
-def main_check():
+def main_check():   # основные проверки
     if not os.path.exists(f"{folder}"):
         os.makedirs(f"{folder}")
         print("Папка библиотеки создана")
@@ -64,8 +64,7 @@ def main_check():
         conn.close()
         print("База данных создана")
 
-
-def create_dev_menu():
+def create_dev_menu(): # создание основных меню
     for i in range(len(dev_menu)):
         if dev_menu[i] == "Администратор":
             name = dev_menu[i]
@@ -102,9 +101,7 @@ def create_dev_menu():
 
     print("Файлы для меню приложения созданы")
 
-
-
-def now_time():
+def now_time(): # получение текущего времени
     now = datetime.now()
     tz = pytz.timezone('Europe/Moscow')
     now_moscow = now.astimezone(tz)
@@ -113,13 +110,13 @@ def now_time():
     date = f"{current_date} {current_time}"
     return date
 
-def find_square_brackets(text):
+def find_square_brackets(text): # Поиск текста внутри квадратных скобок
     if text != None:
-        pattern = r'\[(.*?)\]'  # Поиск текста внутри квадратных скобок
+        pattern = r'\[(.*?)\]'
         matches = re.findall(pattern, text)
         return matches
 
-def receivind_data_file(path):
+def receivind_data_file(path): # пока не знаю что это!!!!!!!!!!!!
     with open(path, encoding='utf-8') as file:
         file_data = file.read()
         data = {}
@@ -129,7 +126,7 @@ def receivind_data_file(path):
 
     return data
 
-def build_multilevel_string(data, indent=0):
+def build_multilevel_string(data, indent=0): # создание многострочной строки
     result = ""
     for key, value in data.items():
         result += " " * indent + key + ": "
@@ -139,9 +136,7 @@ def build_multilevel_string(data, indent=0):
             result += str(value) + "\n"
     return result
 
-
-# работа самого приложения
-def insertion(text = None, buttons = None, menu = None):
+def insertion(text = None, buttons = None, menu = None): # вставочные меню
     with sqlite3.connect(f'{folder}/database.db') as conn:
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM users")
@@ -156,8 +151,7 @@ def insertion(text = None, buttons = None, menu = None):
                 print(f'Ошибка во вставке: {e}')
                 bot.edit_message_text(chat_id=call[0], message_id=call[1], text='Возникла ошибка. Перезапуск...', reply_markup='')
 
-
-def create_keyboard(buttons, back, call_data = None):
+def create_keyboard(buttons, back, call_data = None): # создание клавиатуры
     keyboard = InlineKeyboardMarkup(row_width = 2)
     row_buttons = []
     num_buttons = 0
@@ -185,9 +179,7 @@ def create_keyboard(buttons, back, call_data = None):
         keyboard.add(btn_return)
     return keyboard
 
-
-
-def open_menu(name = None, text = None, call = None, buttons = None, buttons_call = None, back = None, create = False, enter = False):
+def open_menu(name = None, text = None, call = None, buttons = None, buttons_call = None, back = None, create = False, enter = False): # открытие меню
     path = f'{menu_user_path}/{name}.txt'
     if name in dev_menu: path = f'{menu_dev_path}/{name}.txt'
     # получение данных для меню
@@ -251,8 +243,7 @@ def open_menu(name = None, text = None, call = None, buttons = None, buttons_cal
     if enter == 'True':
         bot.register_next_step_handler(call.message, input_text, call)
 
-
-def input_text(user_call, call):
+def input_text(user_call, call):# вставка нового текста
     bot.delete_message(chat_id=user_call.chat.id, message_id=user_call.message_id)
 
     if (call.data).split('_')[1] == 'data' and (call.data).split('_')[2] == 'rename-texts':
@@ -268,10 +259,7 @@ def input_text(user_call, call):
 
         open_menu(name = 'RenameTexts', call = call)
 
-
-
-
-def create_menu(name = None, text = None, buttons = None, buttons_call = None, back = None, call = None, enter = False):
+def create_menu(name = None, text = None, buttons = None, buttons_call = None, back = None, call = None, enter = False):# создание меню
     path = f'{menu_user_path}/{name}.txt'
 
     if name in dev_menu: path = f'{menu_dev_path}/{name}.txt'
