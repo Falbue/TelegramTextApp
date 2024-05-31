@@ -100,8 +100,8 @@ def create_dev_menu(): # создание основных меню
             buttons_call = 'admin_menu'
             back = 'Администратор'
             create_menu(name, text, buttons, buttons_call, back)
-        if dev_menu[i] == "Создать меню":
-            name = dev_menu[i]
+        if dev_menu[i] == "create_menu":
+            name = 'create_menu'
             text = 'Выберите, что нужно добавить в меню'
             buttons = 'Название,Текст,Кнопки,Возврат,Создать' 
             buttons_call = 'create_menu'
@@ -112,7 +112,7 @@ def create_dev_menu(): # создание основных меню
             text = 'Введите название меню'
             buttons = None 
             buttons_call = 'create_menu'
-            back = 'Создать меню'
+            back = 'Менюшки'
             enter_text = 'create_user_menu'
             create_menu(name, text, buttons, buttons_call, back)
         if dev_menu[i] == "Редактировать меню":
