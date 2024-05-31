@@ -263,6 +263,8 @@ def input_text(user_call, call):# вставка нового текста
         with open(path, 'w+', encoding='utf-8') as file:
             file.write(new_value)
 
+        insertion('Обновление...', all_users = None, call = call)
+
         open_menu(name = 'RenameTexts', call = call)
 
 def create_menu(name = None, text = None, buttons = None, buttons_call = None, back = None, call = None, enter = False):# создание меню
