@@ -100,13 +100,7 @@ def create_dev_menu(): # создание основных меню
             buttons_call = 'admin_menu'
             back = 'Администратор'
             create_menu(name, text, buttons, buttons_call, back)
-        if dev_menu[i] == "Редактировать меню":
-            name = dev_menu[i]
-            text = 'Выберите, что нужно добавить в меню'
-            buttons = 'Название,Текст,Кнопки,Возврат,Сохранить' 
-            buttons_call = 'create_menu'
-            back = 'Менюшки'
-            create_menu(name, text, buttons, buttons_call, back)
+
         if dev_menu[i] == "Создать меню":
             name = dev_menu[i]
             text = 'Введите название меню'
@@ -115,6 +109,14 @@ def create_dev_menu(): # создание основных меню
             back = 'Менюшки'
             enter_text = 'create_user_menu'
             create_menu(name, text, buttons, buttons_call, back, enter_text = enter_text)
+
+        if dev_menu[i] == "Редактировать меню":
+            name = dev_menu[i]
+            text = 'Выберите нужное меню'
+            buttons =  f'search_buttons_file-{menu_user_path}'
+            buttons_call = 'open-menu'
+            back = 'Менюшки'
+            create_menu(name, text, buttons, buttons_call, back)
 
     print("Файлы для меню приложения созданы")
 
