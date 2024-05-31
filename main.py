@@ -136,20 +136,26 @@ def build_multilevel_string(data, indent=0): # создание многостр
             result += str(value) + "\n"
     return result
 
-def insertion(text = None, buttons = None, menu = None): # вставочные меню
-    with sqlite3.connect(f'{folder}/database.db') as conn:
-        cursor = conn.cursor()
-        cursor.execute("SELECT * FROM users")
-        for row in cursor.fetchall():
-            call = [row[0], row[4]]
-            try:
-                if menu != None:
-                    open_menu(name = menu, create = True, call = call)
-                else:
-                    open_menu(name = 'insertion', text = text, call = call, buttons = buttons)
-            except Exception as e:
-                print(f'Ошибка во вставке: {e}')
-                bot.edit_message_text(chat_id=call[0], message_id=call[1], text='Возникла ошибка. Перезапуск...', reply_markup='')
+def insertion(text = None, buttons = None, menu = None, all_users = True, call = None): # вставочные меню
+    if all_users == True:
+        with sqlite3.connect(f'{folder}/database.db') as conn:
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM users")
+            for row in cursor.fetchall():
+                call = [row[0], row[4]]
+                try:
+                    if menu != None:
+                        open_menu(name = menu, create = True, call = call)
+                    else:
+                        open_menu(name = 'insertion', text = text, call = call, buttons = buttons)
+                except Exception as e:
+                    print(f'Ошибка во вставке: {e}')
+                    bot.edit_message_text(chat_id=call[0], message_id=call[1], text='Возникла ошибка. Перезапуск...', reply_markup='')
+    else:
+        if menu != None:
+            open_menu(name = menu, create = True, call = call)
+        else:
+            open_menu(name = 'insertion', text = text, call = call, buttons = buttons)
 
 def create_keyboard(buttons, back, call_data = None): # создание клавиатуры
     keyboard = InlineKeyboardMarkup(row_width = 2)
