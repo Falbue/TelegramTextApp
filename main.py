@@ -28,8 +28,6 @@ error_path = f'{texts_path}/error_log.txt'
 db_name = "database.db"
 db_path = os.path.join(folder_path, db_name)
 
-dev_menu = ['main','Администратор','Текста', 'RenameTexts', 'Менюшки', 'Редактировать меню', 'Создать меню']
-
 
 # основные функции
 def main_check():   # основные проверки
@@ -63,6 +61,8 @@ def main_check():   # основные проверки
             ''')
         conn.close()
         print("База данных создана")
+
+dev_menu = ['main','Администратор','Текста', 'RenameTexts', 'Менюшки', 'Редактировать меню', 'Создать меню', 'edit_menu']
 
 def create_dev_menu(): # создание основных меню
     for i in range(len(dev_menu)):
@@ -116,6 +116,13 @@ def create_dev_menu(): # создание основных меню
             buttons =  f'search_buttons_file-{menu_user_path}'
             buttons_call = 'open-menu'
             back = 'Менюшки'
+            create_menu(name, text, buttons, buttons_call, back)
+        if dev_menu[i] == "edit_menu":
+            name = dev_menu[i]
+            text = 'Выберите, что хотите настроить'
+            buttons =  'Имя,Текст,Кнопки,Возврат,Сохранить'
+            buttons_call = 'edit-menu'
+            back = 'Редактировать меню'
             create_menu(name, text, buttons, buttons_call, back)
 
     print("Файлы для меню приложения созданы")
