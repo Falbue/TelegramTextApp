@@ -28,7 +28,7 @@ error_path = f'{texts_path}/error_log.txt'
 db_name = "database.db"
 db_path = os.path.join(folder_path, db_name)
 
-dev_menu = ['main','Администратор','Текста', 'RenameTexts', 'Менюшки', 'Редактировать меню', 'create_menu', 'name_menu']
+dev_menu = ['main','Администратор','Текста', 'RenameTexts', 'Менюшки', 'Редактировать меню', 'Создать меню']
 
 
 # основные функции
@@ -100,30 +100,30 @@ def create_dev_menu(): # создание основных меню
             buttons_call = 'admin_menu'
             back = 'Администратор'
             create_menu(name, text, buttons, buttons_call, back)
-        if dev_menu[i] == "create_menu":
-            name = 'create_menu'
+        if dev_menu[i] == "Редактировать меню":
+            name = dev_menu[i]
             text = 'Выберите, что нужно добавить в меню'
-            buttons = 'Название,Текст,Кнопки,Возврат,Создать' 
+            buttons = 'Название,Текст,Кнопки,Возврат,Сохранить' 
             buttons_call = 'create_menu'
             back = 'Менюшки'
             create_menu(name, text, buttons, buttons_call, back)
-        if dev_menu[i] == "name_menu":
+        if dev_menu[i] == "Создать меню":
             name = dev_menu[i]
             text = 'Введите название меню'
             buttons = None 
-            buttons_call = 'create_menu'
+            buttons_call = None
             back = 'Менюшки'
             enter_text = 'create_user_menu'
-            create_menu(name, text, buttons, buttons_call, back)
-        if dev_menu[i] == "Редактировать меню":
-            name = dev_menu[i]
-            text = 'Выберите, что нужно изменить в меню'
-            buttons = 'Название,Текст,Кнопки,Возвра,Создать' 
-            buttons_call = 'edit_menu'
-            back = 'Менюшки'
-            create_menu(name, text, buttons, buttons_call, back)
+            create_menu(name, text, buttons, buttons_call, back, enter_text = enter_text)
 
     print("Файлы для меню приложения созданы")
+
+def create_user_menu(user_call, call):
+    bot.delete_message(chat_id=user_call.chat.id, message_id=user_call.message_id)
+
+    name = user_call.text
+    create_menu(name, 'Измените текст', buttons_call = name, back = 'main')
+    open_menu('edit_menu', call = call)
 
 def now_time(): # получение текущего времени
     now = datetime.now()
@@ -272,7 +272,7 @@ def open_menu(name = None, text = None, call = None, buttons = None, buttons_cal
         bot.edit_message_text(chat_id = call[0], message_id = call[1], text = text, reply_markup = keyboard)
 
     if enter_text != None:
-        print(enter_text)
+        print(f'Ожидание ввода: {enter_text}')
         bot.register_next_step_handler(call.message, globals()[enter_text], call)
 
 def input_text(user_call, call):# вставка нового текста
@@ -342,8 +342,6 @@ def callback_query(call):
         if (call.data).split('_')[1] == 'data' and (call.data).split('_')[2] == 'rename-texts':
             open_menu(name = 'RenameTexts', call = call)
     except: pass
-
-    if call.data == 'Создать меню_data_admin_menu': open_menu(name = 'name_menu', call = call)
 
     if (call.data).split('_')[0] == 'return':
         bot.clear_step_handler_by_chat_id(chat_id=call.message.chat.id)
