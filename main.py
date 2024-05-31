@@ -319,6 +319,7 @@ def callback_query(call):
 
 
     if (call.data).split('_')[0] == 'return':
+        bot.clear_step_handler_by_chat_id(chat_id=call.message.chat.id)
         menu = (call.data).split('_')[1]
         open_menu(name = menu, create = True, call = call)
 
