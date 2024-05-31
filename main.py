@@ -76,7 +76,7 @@ def create_dev_menu(): # создание основных меню
         if dev_menu[i] == "Менюшки":
             name = dev_menu[i]
             text = 'Редактирование меню'
-            buttons = 'Редактировать, создать' 
+            buttons = 'Редактировать,Создать' 
             buttons_call = 'admin_menu'
             back = 'Администратор'
             create_menu(name, text, buttons, buttons_call, back)
