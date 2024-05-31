@@ -123,7 +123,7 @@ def create_user_menu(user_call, call):
 
     name = user_call.text
     create_menu(name, 'Измените текст', buttons_call = name, back = 'main')
-    open_menu('edit_menu', call = call)
+    open_menu(name, call = call)
 
 def now_time(): # получение текущего времени
     now = datetime.now()
