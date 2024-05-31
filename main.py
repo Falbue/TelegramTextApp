@@ -28,7 +28,7 @@ error_path = f'{texts_path}/error_log.txt'
 db_name = "database.db"
 db_path = os.path.join(folder_path, db_name)
 
-dev_menu = ['main','Администратор','Текста', 'RenameTexts', 'add_menu', 'Менюшки']
+dev_menu = ['main','Администратор','Текста', 'RenameTexts', 'add_menu', 'Менюшки', 'Редактировать меню', 'Создать меню']
 
 
 # основные функции
@@ -73,13 +73,6 @@ def create_dev_menu(): # создание основных меню
             buttons_call = 'admin'
             back = 'main'
             create_menu(name, text, buttons, buttons_call, back)
-        if dev_menu[i] == "Менюшки":
-            name = dev_menu[i]
-            text = 'Редактирование меню'
-            buttons = 'Редактировать,Создать' 
-            buttons_call = 'admin_menu'
-            back = 'Администратор'
-            create_menu(name, text, buttons, buttons_call, back)
         if dev_menu[i] == "Текста":
             name = dev_menu[i]
             text = 'Выберите меню'
@@ -93,18 +86,34 @@ def create_dev_menu(): # создание основных меню
             buttons = None
             buttons_call = None
             back = 'Текста'
-            enter = True
-            create_menu(name, text, buttons, buttons_call, back, enter = enter)
+            enter_text = True
+            create_menu(name, text, buttons, buttons_call, back, enter_text = enter_text)
         if dev_menu[i] == 'main':
             name = dev_menu[i]
             text = 'Главное меню'
             create_menu(name, text)
-        if dev_menu[i] == 'add_menu':
+
+        if dev_menu[i] == "Менюшки":
             name = dev_menu[i]
-            text = ''
-            buttons = f'search_buttons_file-{menu_user_path}'
-            buttons_call = 'rename-texts'
+            text = 'Настройки меню'
+            buttons = 'Редактировать меню,Создать меню' 
+            buttons_call = 'admin_menu'
             back = 'Администратор'
+            create_menu(name, text, buttons, buttons_call, back)
+        if dev_menu[i] == "Создать меню":
+            name = dev_menu[i]
+            text = 'Выберите, что нужно добавить в меню'
+            buttons = 'Название,Текст,Кнопки,Возврат,Создать' 
+            buttons_call = 'create_menu'
+            back = 'Менюшки'
+            create_menu(name, text, buttons, buttons_call, back)
+        if dev_menu[i] == "Редактировать меню":
+            name = dev_menu[i]
+            text = 'Выберите, что нужно изменить в меню'
+            buttons = 'Название,Текст,Кнопки,Возвра,Создать' 
+            buttons_call = 'edit_menu'
+            back = 'Менюшки'
+            create_menu(name, text, buttons, buttons_call, back)
 
     print("Файлы для меню приложения созданы")
 
@@ -158,12 +167,12 @@ def insertion(text = None, buttons = None, menu = None, all_users = True, call =
                 except Exception as e:
                     print(f'Ошибка во вставке: {e}')
                     bot.edit_message_text(chat_id=call[0], message_id=call[1], text='Возникла ошибка. Перезапуск...', reply_markup='')
+        conn.close()
     else:
         if menu != None:
             open_menu(name = menu, create = True, call = call)
         else:
             open_menu(name = 'insertion', text = text, call = call, buttons = buttons)
-    conn.close()
 
 def create_keyboard(buttons, back, call_data = None): # создание клавиатуры
     keyboard = InlineKeyboardMarkup(row_width = 2)
@@ -193,7 +202,7 @@ def create_keyboard(buttons, back, call_data = None): # создание кла�
         keyboard.add(btn_return)
     return keyboard
 
-def open_menu(name = None, text = None, call = None, buttons = None, buttons_call = None, back = None, create = False, enter = False): # открытие меню
+def open_menu(name = None, text = None, call = None, buttons = None, buttons_call = None, back = None, create = False, enter_text = False): # открытие меню
     path = f'{menu_user_path}/{name}.txt'
     if name in dev_menu: path = f'{menu_dev_path}/{name}.txt'
     # получение данных для меню
@@ -203,7 +212,7 @@ def open_menu(name = None, text = None, call = None, buttons = None, buttons_cal
         buttons = None if isinstance(data['buttons'], str) and data['buttons'] == 'None' else data['buttons'].split(',')
         buttons_call = None if isinstance(data['buttons_call'], str) and data['buttons_call'] == 'None' else data['buttons_call']
         back = None if isinstance(data['back'], str) and data['back'] == 'None' else data['back']
-        enter = data['enter']
+        enter_text = data['enter_text']
 
     else: # если меню не найдено, то оно создается
         if create == True:
@@ -254,7 +263,7 @@ def open_menu(name = None, text = None, call = None, buttons = None, buttons_cal
     except AttributeError:
         bot.edit_message_text(chat_id = call[0], message_id = call[1], text = text, reply_markup = keyboard)
 
-    if enter == 'True':
+    if enter_text == 'True':
         bot.register_next_step_handler(call.message, input_text, call)
 
 def input_text(user_call, call):# вставка нового текста
@@ -275,13 +284,13 @@ def input_text(user_call, call):# вставка нового текста
 
         open_menu(name = 'RenameTexts', call = call)
 
-def create_menu(name = None, text = None, buttons = None, buttons_call = None, back = None, call = None, enter = False):# создание меню
+def create_menu(name = None, text = None, buttons = None, buttons_call = None, back = None, call = None, enter_text = False):# создание меню
     path = f'{menu_user_path}/{name}.txt'
 
     if name in dev_menu: path = f'{menu_dev_path}/{name}.txt'
 
     with open(path, 'w+', encoding='utf-8') as file:
-        file.write(f'text: {text}\nbuttons: {buttons}\nbuttons_call: {buttons_call}\nback: {back}\nenter: {enter}')
+        file.write(f'text: {text}\nbuttons: {buttons}\nbuttons_call: {buttons_call}\nback: {back}\nenter_text: {enter_text}')
 
 
 @bot.message_handler(commands=['start'])
@@ -324,6 +333,8 @@ def callback_query(call):
         if (call.data).split('_')[1] == 'data' and (call.data).split('_')[2] == 'rename-texts':
             open_menu(name = 'RenameTexts', call = call)
     except: pass
+
+    if call.data == 'Создать меню_data_admin_menu': create_menu(name = 'create_menu', text = 'Измените текст', buttons = None, buttons_call = None, back = 'main', call = None, enter_text = False) 
 
 
     if (call.data).split('_')[0] == 'return':
