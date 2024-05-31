@@ -28,7 +28,7 @@ error_path = f'{texts_path}/error_log.txt'
 db_name = "database.db"
 db_path = os.path.join(folder_path, db_name)
 
-dev_menu = ['main','Администратор','Текста', 'RenameTexts', 'add_menu']
+dev_menu = ['main','Администратор','Текста', 'RenameTexts', 'add_menu', 'Менюшки']
 
 
 # основные функции
@@ -69,9 +69,16 @@ def create_dev_menu(): # создание основных меню
         if dev_menu[i] == "Администратор":
             name = dev_menu[i]
             text = 'Панель администратора/nЗдесь вы можете изменить:'
-            buttons = 'Текста'
+            buttons = 'Текста,Менюшки'
             buttons_call = 'admin'
             back = 'main'
+            create_menu(name, text, buttons, buttons_call, back)
+        if dev_menu[i] == "Менюшки":
+            name = dev_menu[i]
+            text = 'Редактирование меню'
+            buttons = 'Редактировать, создать' 
+            buttons_call = 'admin_menu'
+            back = 'Администратор'
             create_menu(name, text, buttons, buttons_call, back)
         if dev_menu[i] == "Текста":
             name = dev_menu[i]
