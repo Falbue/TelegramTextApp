@@ -242,12 +242,14 @@ def open_menu(name = None, text = None, call = None, buttons = None, buttons_cal
     # добавление кнопок для клавиатуры из найденных файлов
     try:
         if buttons[0].split('-')[0] == 'search_buttons_file':
-            if name == 'Текста':
-                buttons =['main']
+            if buttons[0].split('-')[1] == str(menu_user_path):
+                main_button =['main']
             texts_path = buttons[0].split('-')[1] # указание пути
             files = os.listdir(texts_path)
-            buttons = [filename.split('.')[0] for filename in files]
-    except: pass
+            buttons = main_button + [filename.split('.')[0] for filename in files]
+    except Exception as e:
+        print(f"Ошибка в добовлении файлов в клавиатуру: {e}") 
+        pass
 
     # создание клавиатуры
     if buttons is None and back is None:
