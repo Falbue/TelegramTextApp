@@ -362,6 +362,8 @@ def callback_query(call):
             open_menu(name = menu, call = call)
         if (call.data).split('_')[1] == 'data' and (call.data).split('_')[2] == 'rename-texts':
             open_menu(name = 'RenameTexts', call = call)
+        if (call.data).split('_')[1] == 'data' and (call.data).split('_')[2] == 'open-menu':
+            open_menu(name = 'edit_menu', call = call)
     except: pass
 
     if (call.data).split('_')[0] == 'return':
