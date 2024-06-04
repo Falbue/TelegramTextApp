@@ -119,7 +119,7 @@ def create_dev_menu(): # создание основных меню
             create_menu(name, text, buttons, buttons_call, back)
         if dev_menu[i] == "edit_menu":
             name = dev_menu[i]
-            text = 'Выберите, что хотите настроить'
+            text = 'Выберите, что хотите настроить/n/nНазвание меню: [file_name]/n[file_config]'
             buttons =  'Имя,Текст,Кнопки,Возврат,Сохранить'
             buttons_call = 'edit-menu'
             back = 'Редактировать меню'
