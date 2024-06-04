@@ -299,6 +299,7 @@ def input_text(user_call, call):# вставка нового текста
         open_menu(name = 'RenameTexts', call = call)
 
 def create_menu(name = None, text = None, buttons = None, buttons_call = None, back = None, call = None, enter_text = None):# создание меню
+    print(f'Создано меню: {name}')
     path = f'{menu_user_path}/{name}.txt'
 
     if name in dev_menu: path = f'{menu_dev_path}/{name}.txt'
