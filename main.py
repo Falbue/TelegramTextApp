@@ -143,11 +143,10 @@ def now_time(): # получение текущего времени
     date = f"{current_date} {current_time}"
     return date
 
-def find_square_brackets(text): # Поиск текста внутри квадратных скобок
-    if text != None:
-        pattern = r'\[(.*?)\]'
-        matches = re.findall(pattern, text)
-        return matches
+def find_double_objects(text, start = '[', end = ']'): # Поиск текста заданных значений
+    pattern = rf'\ {start}(.*?){end}\ '
+    matches = re.findall(pattern, text)
+    return matches
 
 def receivind_data_file(path): # получение всех данных из файла
     with open(path, encoding='utf-8') as file:
