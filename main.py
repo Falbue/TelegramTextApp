@@ -324,6 +324,29 @@ def mardown_text(text, call = None):
 def save_data_menu(user_call, call):
     print(user_call,call)
 
+def send_start_message(): # отправка сообщения при старте бота
+    keyboard_start_message = InlineKeyboardMarkup()
+    keyboard_start_message.add(InlineKeyboardButton(text='Прочитано', callback_data='del_message'))
+
+    insertion('Обновление...')
+    buttons = ['Запустить']
+    insertion(menu = 'main')
+    
+    try:
+        with open(error_path, 'r+', encoding='utf-8') as f:
+            text_error = f.read()
+            if not text_error.strip():
+                return 
+    except Exception as e:
+        text_error = f'Ошибка в поиске лога: {e}'
+        print(text_error)
+    else:
+        with open(error_path, 'w+', encoding='utf-8') as f:
+            print("Файл с логом очищен")
+
+    bot.send_message(chat_id=id_admin, text=f"Бот перезапущен\n{now_time()}\nОшибка: {text_error}", reply_markup=keyboard_start_message)
+
+
 @bot.message_handler(commands=['start'])
 def start(message):
     message_id = message.id
@@ -353,7 +376,6 @@ def start(message):
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_query(call):
-
     if call.data == 'data_start': 
         open_menu(name = 'main', call = call)
 
@@ -366,9 +388,7 @@ def callback_query(call):
         if (call.data).split('_')[1] == 'data' and (call.data).split('_')[2] == 'open-menu':
             open_menu(name = 'edit_menu', call = call)
         if (call.data).split('_')[1] == 'data' and (call.data).split('_')[2] == 'edit-menu':
-            save_data = ((call.message.text).split(' ')[1])
-            print(save_data)
-            open_menu(name = None, text = f'Введите {save_data}', call = 'save-edit-menu', buttons = None, buttons_call = None, back = call.data, create = False, enter_text = 'save_data_menu')
+            open_menu(name = None, text = f'Введите что-то', call = 'save-edit-menu', buttons = None, buttons_call = None, back = call.data, create = False, enter_text = 'save_data_menu')
     except: pass
 
     if (call.data).split('_')[0] == 'return':
@@ -387,37 +407,14 @@ def callback_query(call):
 
     else:
         x = call.data
-        print(f"Такокого call нет: {call.data}")
+        # print(f"Такокого call нет: {call.data}")
 
-
-
-
-def send_start_message():
-    keyboard_start_message = InlineKeyboardMarkup()
-    keyboard_start_message.add(InlineKeyboardButton(text='Прочитано', callback_data='del_message'))
-
-    insertion('Обновление...')
-    buttons = ['Запустить']
-    insertion(menu = 'main')
-    
-    try:
-        with open(error_path, 'r+', encoding='utf-8') as f:
-            text_error = f.read()
-            if not text_error.strip():
-                return 
-    except Exception as e:
-        text_error = f'Ошибка в поиске лога: {e}'
-        print(text_error)
-    else:
-        with open(error_path, 'w+', encoding='utf-8') as f:
-            print("Файл с логом очищен")
-
-    bot.send_message(chat_id=id_admin, text=f"Бот перезапущен\n{now_time()}\nОшибка: {text_error}", reply_markup=keyboard_start_message)
 
 
 main_check()
 send_start_message()
 print("Бот запущен...")
+
 try:
     bot.polling()
 except Exception as e:
