@@ -269,9 +269,6 @@ def open_menu(name = None, text = None, call = None, buttons = None, buttons_cal
         btn_admin = InlineKeyboardButton(text = 'Администратор', callback_data = 'Администратор_data')
         keyboard.add(btn_admin)
 
-    if enter_text != None:
-        print(f'Ожидание ввода: {enter_text}')
-        bot.register_next_step_handler(call.message, globals()[enter_text], call)
 
     # изменение сообщения
     try:
@@ -279,6 +276,9 @@ def open_menu(name = None, text = None, call = None, buttons = None, buttons_cal
     except AttributeError:
         bot.edit_message_text(chat_id = call[0], message_id = call[1], text = text, reply_markup = keyboard)
 
+    if enter_text != None:
+        print(f'Ожидание ввода: {enter_text}')
+        bot.register_next_step_handler(call.message, globals()[enter_text], call)
 
 def input_text(user_call, call):# вставка нового текста
     bot.delete_message(chat_id=user_call.chat.id, message_id=user_call.message_id)
