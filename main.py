@@ -364,6 +364,10 @@ def callback_query(call):
             open_menu(name = 'RenameTexts', call = call)
         if (call.data).split('_')[1] == 'data' and (call.data).split('_')[2] == 'open-menu':
             open_menu(name = 'edit_menu', call = call)
+        if (call.data).split('_')[1] == 'data' and (call.data).split('_')[2] == 'edit-menu':
+            save_data = ((call.message.text).split(' ')[1])
+            print(save_data)
+            open_menu(name = None, text = f'Введите {save_data}', call = 'save-edit-menu', buttons = None, buttons_call = None, back = call.data, create = False, enter_text = 'save_data_menu')
     except: pass
 
     if (call.data).split('_')[0] == 'return':
