@@ -307,15 +307,15 @@ def create_menu(name = None, text = None, buttons = None, buttons_call = None, b
     with open(path, 'w+', encoding='utf-8') as file:
         file.write(f'text: {text}\nbuttons: {buttons}\nbuttons_call: {buttons_call}\nback: {back}\nenter_text: {enter_text}')
 
-def mardown_text(text, call = None):
+def mardown_text(text, call = None): # mardown разметка 
     if call != None:
         filename = call.data.split('_')[0]
         path = f'{menu_user_path}/{filename}.txt'
         if filename in dev_menu: path = f'{menu_dev_path}/{filename}.txt'
         with open(path, encoding='utf-8') as file:
             data = file.read()
-        text = text.replace('[name_file]', filename)
-        text = text.replace('[config_file]', data)
+        text = text.replace('[file_name]', filename)
+        text = text.replace('[file_config]', data)
 
     text = text.replace('/n', '\n')
 
@@ -388,7 +388,8 @@ def callback_query(call):
         if (call.data).split('_')[1] == 'data' and (call.data).split('_')[2] == 'open-menu':
             open_menu(name = 'edit_menu', call = call)
         if (call.data).split('_')[1] == 'data' and (call.data).split('_')[2] == 'edit-menu':
-            open_menu(name = None, text = f'Введите что-то', call = 'save-edit-menu', buttons = None, buttons_call = None, back = call.data, create = False, enter_text = 'save_data_menu')
+            print("Раотает")
+            open_menu(name = 'edit_menu', text = f'Введите что-то', call = 'save-edit-menu', buttons = None, buttons_call = None, back = call.data, create = False, enter_text = 'save_data_menu')
     except: pass
 
     if (call.data).split('_')[0] == 'return':
@@ -407,7 +408,7 @@ def callback_query(call):
 
     else:
         x = call.data
-        # print(f"Такокого call нет: {call.data}")
+        print(f"Такокого call нет: {call.data}")
 
 
 
