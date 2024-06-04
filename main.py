@@ -294,7 +294,7 @@ def input_text(user_call, call):# вставка нового текста
         with open(path, 'w+', encoding='utf-8') as file:
             file.write(new_value)
 
-        insertion('Обновление...', all_users = None, call = call)
+        open_menu(text = 'Обновление...', call = call)
 
         open_menu(name = 'RenameTexts', call = call)
 
