@@ -236,7 +236,7 @@ def open_menu(name = None, text = None, call = None, buttons = None, buttons_cal
                 text = 'Отредактируйте текст в панели администратора!'
             create_menu(name = name, text = text, buttons = buttons, back = 'main', call = call)
 
-    brackets = find_square_brackets(text)
+    brackets = find_double_objects(text, '[', ']')
     if str(brackets) != '[]':
         text = mardown_text(text, call)
     else: text = mardown_text(text)
