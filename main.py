@@ -382,7 +382,7 @@ def callback_query(call):
     if (call.data).split('_')[1] == 'data' and (call.data).count('_') == 1:
         print(f'Вызов: {call.data}')
         menu = (call.data).split('_')[0]
-        open_menu(name = menu, back = 'main', create = True, call = call)
+        open_menu(name = menu, back = 'main', create = False, call = call)
 
     else:
         x = call.data
