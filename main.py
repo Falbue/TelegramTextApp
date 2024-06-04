@@ -144,7 +144,7 @@ def now_time(): # получение текущего времени
     return date
 
 def find_double_objects(text, start = '[', end = ']'): # Поиск текста заданных значений
-    pattern = rf'\ {start}(.*?){end}\ '
+    pattern = rf'\{start}(.*?)\{end}'
     matches = re.findall(pattern, text)
     return matches
 
