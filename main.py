@@ -177,9 +177,9 @@ def insertion(text = None, buttons = None, menu = None, all_users = True, call =
                 call = [row[0], row[4]]
                 try:
                     if menu != None:
-                        open_menu(name = menu, create = True, call = call)
+                        open_menu(name = menu, call = call)
                     else:
-                        open_menu(name = 'insertion', text = text, call = call, buttons = buttons)
+                        open_menu(text = text, call = call, buttons = buttons)
                 except Exception as e:
                     print(f'Ошибка во вставке: {e}')
                     bot.edit_message_text(chat_id=call[0], message_id=call[1], text='Возникла ошибка. Перезапуск...', reply_markup='')
