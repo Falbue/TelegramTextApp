@@ -311,10 +311,8 @@ def mardown_text(text, call = None):
         filename = call.data.split('_')[0]
         path = f'{menu_user_path}/{filename}.txt'
         if filename in dev_menu: path = f'{menu_dev_path}/{filename}.txt'
-        print(path)
         with open(path, encoding='utf-8') as file:
             data = file.read()
-        print(data)
         text = text.replace('[name_file]', filename)
         text = text.replace('[config_file]', data)
 
