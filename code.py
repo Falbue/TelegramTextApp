@@ -106,18 +106,19 @@ def open_data_menu(path): # получение всех данных из фай
 def create_keyboard(buttons, back): # создание клавиатуры
     keyboard = InlineKeyboardMarkup(row_width = 2)
     row_buttons = []
-    buttons = eval(buttons)
-    num_buttons = 1
-    for button_text in buttons.keys():
-        button = InlineKeyboardButton(text = button_text, callback_data = buttons[button_text])
-        row_buttons.append(button)
-        num_buttons += 1
-        if num_buttons == 2:
+    if buttons != None:
+        buttons = eval(buttons)
+        num_buttons = 1
+        for button_text in buttons.keys():
+            button = InlineKeyboardButton(text = button_text, callback_data = buttons[button_text])
+            row_buttons.append(button)
+            num_buttons += 1
+            if num_buttons == 2:
+                keyboard.add(*row_buttons)
+                row_buttons = []
+                num_buttons = 0
+        if num_buttons > 0:
             keyboard.add(*row_buttons)
-            row_buttons = []
-            num_buttons = 0
-    if num_buttons > 0:
-        keyboard.add(*row_buttons)
     if back != None:
         btn_return = InlineKeyboardButton(text = 'Назад', callback_data = f'return_{back}')
         keyboard.add(btn_return)
