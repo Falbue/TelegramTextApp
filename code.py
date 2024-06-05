@@ -1,6 +1,6 @@
-bot_api = '6373877428:AAHJ3oFfoeXY6pK82PLHwA_DtdwjBN44JQ8'
+bot_api = ''
 folder = 'data'
-id_admin = 1210146115
+id_admin = 1
 # -----------------------------------------------------------
 
 
@@ -26,6 +26,12 @@ texts_path = f"{folder}/texts"
 menu_user_path = f'{folder}/user_menu'
 menu_dev_path = f'{folder}/telegram_text_apps_menu'
 error_path = f'{texts_path}/error_log.txt'
+
+dev_menu = [
+    {"name": "main", "text": 'Главное меню', 'buttons': {'Администратор': 'admin'}},
+    {"name": "admin", "text": 'Панель администратора', 'back': 'main'},
+]
+
 
 
 
