@@ -103,8 +103,7 @@ def open_data_menu(path): # получение всех данных из фай
             data[key.strip()] = value.strip()
     return data
 
-
-def open_menu(name = None):
+def open_menu(name = None, call = None, create = None): # открытие меню в чате из файла
     path = f'{menu_user_path}/{name}.txt'
     if name in [menu_item['name'] for menu_item in dev_menu]: 
         path = f'{menu_dev_path}/{name}.txt'
