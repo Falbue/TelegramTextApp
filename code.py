@@ -104,6 +104,19 @@ def open_data_menu(path): # получение всех данных из фай
     return data
 
 
+def open_menu(name = None):
+    path = f'{menu_user_path}/{name}.txt'
+    if name in [menu_item['name'] for menu_item in dev_menu]: 
+        path = f'{menu_dev_path}/{name}.txt'
+    # получение данных для меню
+    if os.path.exists(path):
+        data = open_data_menu(path)        
+        text = None if isinstance(data['text'], str) and data['text'] == 'None' else data['text']
+        buttons = None if isinstance(data['buttons'], str) and data['buttons'] == 'None' else data['buttons'].split(',')
+        back = None if isinstance(data['back'], str) and data['back'] == 'None' else data['back']
+        type_menu = None if isinstance(data['type_menu'], str) and data['type_menu'] == 'None' else data['type_menu']
+
+
 @bot.message_handler(commands=['start'])
 def start(message): # обработка команды start
     message_id = message.id
