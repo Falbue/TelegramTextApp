@@ -147,8 +147,7 @@ def start(message): # обработка команды start
         pass
     conn.close()
 
-    bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
-    bot.send_message(message.chat.id, "Главное меню")
+    open_menu('main', message)
 
 
 @bot.callback_query_handler(func=lambda call: True)
