@@ -36,7 +36,7 @@ dev_menu = [
 
 
 # основные функции
-def main_check():   # основные проверки
+def main_check(): # основные проверки
     if not os.path.exists(f"{folder}"):
         os.makedirs(f"{folder}")
         print("Папка библиотеки создана")
@@ -85,7 +85,7 @@ def create_menu(name=None, text=None, buttons=None, back=None, type_menu=None):
     with open(path, 'w+', encoding='utf-8') as file:
         file.write(f'text: {text}\nbuttons: {buttons}\nback: {back}\ntype_menu: {type_menu}')
 
-def create_dev_menu():
+def create_dev_menu(): # создание меню программы
     for menu in dev_menu:
         create_menu(
             name=menu.get('name'), 
