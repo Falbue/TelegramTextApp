@@ -131,7 +131,7 @@ def open_menu(name = None, call = None, create = None): # открытие ме�
     if os.path.exists(path):
         data = open_data_menu(path)        
         text = None if isinstance(data['text'], str) and data['text'] == 'None' else data['text']
-        buttons = None if isinstance(data['buttons'], str) and data['buttons'] == 'None' else data['buttons'].split(',')
+        buttons = None if data['buttons'] == 'None' else data['buttons']
         back = None if isinstance(data['back'], str) and data['back'] == 'None' else data['back']
         type_menu = None if isinstance(data['type_menu'], str) and data['type_menu'] == 'None' else data['type_menu']
     
