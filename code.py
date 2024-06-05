@@ -74,6 +74,15 @@ def now_time(): # получение текущего времени
     date = f"{current_date} {current_time}"
     return date
 
+def create_menu(name=None, text=None, buttons=None, back=None, type_menu=None):
+    print(f'Создано меню: {name}')
+    path = f'{menu_user_path}/{name}.txt'
+    if name in [menu_item['name'] for menu_item in dev_menu]: 
+        path = f'{menu_dev_path}/{name}.txt'
+
+    with open(path, 'w+', encoding='utf-8') as file:
+        file.write(f'text: {text}\nbuttons: {buttons}\nback: {back}\ntype_menu: {type_menu}')
+
 
 @bot.message_handler(commands=['start'])
 def start(message): # обработка команды start
