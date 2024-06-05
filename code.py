@@ -138,6 +138,8 @@ def open_menu(name = None, call = None, create = None): # открытие ме�
     else:
         print(f"Меню {name} не найдено!")
 
+    keyboard = create_keyboard(buttons, back)
+        
     # изменение сообщения
     try:
         bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text = text, reply_markup = keyboard)
