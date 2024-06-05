@@ -28,7 +28,7 @@ menu_dev_path = f'{folder}/telegram_text_apps_menu'
 error_path = f'{texts_path}/error_log.txt'
 
 dev_menu = [
-    {"name": "main", "text": 'Главное меню', 'buttons': {'Администратор': 'admin'}},
+    {"name": "main", "text": 'Главное меню', 'buttons': {'Администратор': 'admin', 'Тест': "test"}},
     {"name": "admin", "text": 'Панель администратора', 'back': 'main'},
 ]
 
