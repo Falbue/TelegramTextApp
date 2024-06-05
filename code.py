@@ -149,8 +149,12 @@ def open_menu(name = None, call = None, create = None): # открытие ме�
         bot.send_message(call.chat.id, text, reply_markup = keyboard)
         bot.delete_message(chat_id=call.chat.id, message_id=call.message_id)
 
-    if (call.text) == '/start': # удаление старого меню
-        bot.delete_message(chat_id=call.chat.id, message_id=call.message_id - 1)
+    try:
+        if (call.text) == '/start': # удаление старого меню
+            bot.delete_message(chat_id=call.chat.id, message_id=call.message_id - 1)
+    except AttributeError:
+        if (call.message.text) == '/start': # удаление старого меню
+            bot.delete_message(chat_id=call.chat.id, message_id=call.message_id - 1)
 
 
 @bot.message_handler(commands=['start'])
