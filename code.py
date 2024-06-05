@@ -115,6 +115,16 @@ def open_menu(name = None):
         buttons = None if isinstance(data['buttons'], str) and data['buttons'] == 'None' else data['buttons'].split(',')
         back = None if isinstance(data['back'], str) and data['back'] == 'None' else data['back']
         type_menu = None if isinstance(data['type_menu'], str) and data['type_menu'] == 'None' else data['type_menu']
+    
+    else:
+        print(f"Меню {name} не найдено!")
+
+    # изменение сообщения
+    try:
+        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text = text, reply_markup = keyboard)
+    except AttributeError: # этот код должен срабатывать, если в чате вообще нет сообщений
+        bot.send_message(call.chat.id, text)
+        bot.delete_message(chat_id=call.chat.id, message_id=call.message_id)
 
 
 @bot.message_handler(commands=['start'])
