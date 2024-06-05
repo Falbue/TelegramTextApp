@@ -143,9 +143,13 @@ def open_menu(name = None, call = None, create = None): # открытие ме�
     # изменение сообщения
     try:
         bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text = text, reply_markup = keyboard)
-    except AttributeError: # этот код должен срабатывать, если в чате вообще нет сообщений
-        bot.send_message(call.chat.id, text)
+    except AttributeError as e: # этот код должен срабатывать, если в чате вообще нет сообщений
+        print(f'Ошибка в отправке меню: {e}')
+        bot.send_message(call.chat.id, text, reply_markup = keyboard)
         bot.delete_message(chat_id=call.chat.id, message_id=call.message_id)
+
+    if (call.text) == '/start': # удаление старого меню
+        bot.delete_message(chat_id=call.chat.id, message_id=call.message_id - 1)
 
 
 @bot.message_handler(commands=['start'])
