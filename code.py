@@ -85,7 +85,6 @@ def create_menu(name=None, text=None, buttons=None, back=None, type_menu=None):
     with open(path, 'w+', encoding='utf-8') as file:
         file.write(f'text: {text}\nbuttons: {buttons}\nback: {back}\ntype_menu: {type_menu}')
 
-
 def create_dev_menu():
     for menu in dev_menu:
         create_menu(
@@ -94,6 +93,15 @@ def create_dev_menu():
             buttons=menu.get('buttons'), 
             back=menu.get('back')
         )
+
+def open_data_menu(path): # получение всех данных из файла
+    with open(path, encoding='utf-8') as file:
+        file_data = file.read()
+        data = {}
+        for line in file_data.splitlines():
+            key, value = line.split(': ', 1)
+            data[key.strip()] = value.strip()
+    return data
 
 
 @bot.message_handler(commands=['start'])
