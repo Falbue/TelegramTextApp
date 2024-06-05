@@ -140,6 +140,7 @@ def open_menu(name = None, call = None, create = None): # открытие ме�
         print(f"Меню {name} не найдено!")
 
     keyboard = create_keyboard(buttons, back)
+
         
     # изменение сообщения
     try:
@@ -182,8 +183,11 @@ def start(message): # обработка команды start
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_query(call):
-    if call.data == 'data_start': 
-        open_menu(name = 'main', call = call)
+    if call.data == 'admin': 
+        open_menu(name = 'admin', call = call)
+
+    if (call.data).split('_')[0] == 'return':
+        open_menu(name = (call.data).split('_')[1], call = call)
 
     
 
