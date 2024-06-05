@@ -235,7 +235,7 @@ def open_menu(name = None, text = None, call = None, buttons = None, buttons_cal
             if text == None:
                 text = 'Отредактируйте текст в панели администратора!'
             create_menu(name = name, text = text, buttons = buttons, back = 'main', call = call)
-
+    
     brackets = find_double_objects(text, '[', ']')
     if str(brackets) != '[]':
         text = mardown_text(text, call)
@@ -386,15 +386,26 @@ def callback_query(call):
         if (call.data).split('_')[1] == 'data' and (call.data).split('_')[2] == 'rename-texts':
             open_menu(name = 'RenameTexts', call = call)
         if (call.data).split('_')[1] == 'data' and (call.data).split('_')[2] == 'open-menu':
+            print(call.data)
             open_menu(name = 'edit_menu', call = call)
         if (call.data).split('_')[1] == 'data' and (call.data).split('_')[2] == 'edit-menu':
-            print("Раотает")
-            open_menu(name = 'edit_menu', text = f'Введите что-то', call = 'save-edit-menu', buttons = None, buttons_call = None, back = call.data, create = False, enter_text = 'save_data_menu')
+            y = (call.message.text)
+            y = y.split('\n')[2]
+            y = y.replace("Название меню: ", '')
+            text = f'Измените {y}'
+            open_menu(text = y, call = call, back = f'{y}_data_open-menu')
     except: pass
 
     if (call.data).split('_')[0] == 'return':
         bot.clear_step_handler_by_chat_id(chat_id=call.message.chat.id)
-        menu = (call.data).split('_')[1]
+        print(call.data)
+        print((call.data).count('_'))
+        if str((call.data)).count('_') <= 1:
+            print("Работает")
+            menu = (call.data).split('_')[1]
+        else:
+            menu = (call.data).replace('return_', '')
+            print(menu)
         open_menu(name = menu, create = False, call = call)
 
 
@@ -408,7 +419,7 @@ def callback_query(call):
 
     else:
         x = call.data
-        print(f"Такокого call нет: {call.data}")
+        # print(f"Такокого call нет: {call.data}")
 
 
 
