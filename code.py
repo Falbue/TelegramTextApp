@@ -65,6 +65,8 @@ def main_check():   # основные проверки
         conn.close()
         print("База данных создана")
 
+    create_dev_menu()
+
 def now_time(): # получение текущего времени
     now = datetime.now()
     tz = pytz.timezone('Europe/Moscow')
