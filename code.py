@@ -84,6 +84,16 @@ def create_menu(name=None, text=None, buttons=None, back=None, type_menu=None):
         file.write(f'text: {text}\nbuttons: {buttons}\nback: {back}\ntype_menu: {type_menu}')
 
 
+def create_dev_menu():
+    for menu in dev_menu:
+        create_menu(
+            name=menu.get('name'), 
+            text=menu.get('text'), 
+            buttons=menu.get('buttons'), 
+            back=menu.get('back')
+        )
+
+
 @bot.message_handler(commands=['start'])
 def start(message): # обработка команды start
     message_id = message.id
