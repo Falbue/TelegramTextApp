@@ -194,11 +194,12 @@ def start(message): # обработка команды start
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_query(call):
-    if call.data == 'admin': 
-        open_menu(name = 'admin', call = call)
 
     if (call.data).split('_')[0] == 'return':
         open_menu(name = (call.data).split('_')[1], call = call)
+
+    else:
+        open_menu(name = call.data, call = call)
 
     
 
