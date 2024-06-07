@@ -112,7 +112,6 @@ def create_keyboard(buttons, back): # создание клавиатуры
     keyboard = InlineKeyboardMarkup(row_width = 2)
     row_buttons = []
     if buttons != None:
-        # buttons = eval(buttons)
         num_buttons = 0
         for button_text in buttons.keys():
             button = InlineKeyboardButton(text = button_text, callback_data = buttons[button_text])
