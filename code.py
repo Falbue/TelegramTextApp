@@ -225,8 +225,10 @@ def callback_query(call):
         bot.clear_step_handler_by_chat_id(chat_id=call.message.chat.id)
         open_menu(name = (call.data).split('_')[1], call = call)
 
+    if (call.data).split('_')[0] == 'admin':
+        open_menu(name = (call.data).split('_')[1], call = call)
     else:
-        open_menu(name = call.data, call = call)
+        print(call.data)
 
     
 
