@@ -156,6 +156,8 @@ def open_menu(name = None, call = None, create = None): # открытие ме�
     except AttributeError:
         if (call.message.text) == '/start': # удаление старого меню
             bot.delete_message(chat_id=call.chat.id, message_id=call.message_id - 1)
+    except:
+        pass
 
 
 @bot.message_handler(commands=['start'])
