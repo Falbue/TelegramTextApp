@@ -31,7 +31,7 @@ dev_menu = [
     {"name": "main", "text": 'Главное меню'},
     {"name": "admin", "text": 'Панель администратора', 'buttons': {'Настройка меню': 'settings-menu'}, 'back': 'main'},
     {"name": "settings-menu", "text": 'Найстройки меню', 'buttons': {'Редактировать': 'edit_menu', 'Создать': 'create-menu'}, 'back': 'admin'},
-    {"name": "create-menu", "text": 'Введите название меню', 'back': 'settings-menu'},
+    {"name": "create-menu", "text": 'Введите название меню', 'back': 'settings-menu', 'type_menu': 'insert_text', 'command': 'create_menu'},
 ]
 
 
