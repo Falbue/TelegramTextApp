@@ -150,7 +150,7 @@ def open_menu(name = None, call = None): # открытие меню в чате
                 new_buttons = {}
                 for filename in files:
                     file_key = filename.split('.')[0]
-                    new_buttons[file_key] = buttons['menu_lists']
+                    new_buttons[file_key] = buttons['menu_lists']+'_'+file_key
                 buttons = new_buttons
     
         keyboard = create_keyboard(buttons, back)
