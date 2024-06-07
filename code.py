@@ -128,7 +128,8 @@ def create_keyboard(buttons, back): # создание клавиатуры
         keyboard.add(btn_return)
     return keyboard
 
-def open_menu(name = None, call = None, create = None): # открытие меню в чате из файла
+def open_menu(name = None, call = None): # открытие меню в чате из файла
+    # данные меню
     path = f'{menu_user_path}/{name}.txt'
     if name in [menu_item['name'] for menu_item in dev_menu]: 
         path = f'{menu_dev_path}/{name}.txt'
@@ -144,6 +145,7 @@ def open_menu(name = None, call = None, create = None): # открытие ме�
     else:
         print(f"Меню {name} не найдено!")
 
+    # работа с клавиатурами
     keyboard = create_keyboard(buttons, back)
     try:
         if name == 'main' and id_admin == (call.chat.id):
