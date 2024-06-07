@@ -147,13 +147,23 @@ def open_menu(name = None, call = None): # открытие меню в чате
         print(f"Меню {name} не найдено!")
 
     # работа с клавиатурами
+    if buttons != None:
+        buttons = eval(buttons)
+        if 'menu_lists' in buttons:
+            files = os.listdir(menu_user_path)
+            new_buttons = {}
+            for filename in files:
+                file_key = filename.split('.')[0]
+                new_buttons[file_key] = buttons['menu_lists']
+            buttons = new_buttons
+
     keyboard = create_keyboard(buttons, back)
     try:
         if name == 'main' and id_admin == (call.chat.id):
-            keyboard.add(InlineKeyboardButton(text = 'Администратор', callback_data = 'admin'))
+            keyboard.add(InlineKeyboardButton(text = 'Администратор', callback_data = 'admin_admin'))
     except:
         if name == 'main' and id_admin == (call.message.chat.id):
-            keyboard.add(InlineKeyboardButton(text = 'Администратор', callback_data = 'admin'))
+            keyboard.add(InlineKeyboardButton(text = 'Администратор', callback_data = 'admin_admin'))
 
     # работа с типом меню
     if type_menu == 'insert_text':
