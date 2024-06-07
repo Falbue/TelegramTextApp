@@ -187,6 +187,9 @@ def open_menu(name = None, call = None): # открытие меню в чате
     else:
         print(f"Меню {name} не найдено!")
 
+def delete_menu(name, call):
+    os.remove(f'{menu_user_path}/{name}.txt')
+    print(f'Меню {name}.txt удалено!')
 
 def command_create_menu(user_call, call):
     bot.delete_message(chat_id=user_call.chat.id, message_id=user_call.message_id)
