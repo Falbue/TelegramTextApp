@@ -29,7 +29,9 @@ error_path = f'{texts_path}/error_log.txt'
 
 dev_menu = [
     {"name": "main", "text": 'Главное меню'},
-    {"name": "admin", "text": 'Панель администратора', 'back': 'main'},
+    {"name": "admin", "text": 'Панель администратора', 'buttons': {'Настройка меню': 'settings-menu'}, 'back': 'main'},
+    {"name": "settings-menu", "text": 'Найстройки меню', 'buttons': {'Редактировать': 'edit_menu', 'Создать': 'create-menu'}, 'back': 'admin'},
+    {"name": "create-menu", "text": 'Введите название меню', 'back': 'settings-menu'},
 ]
 
 
