@@ -143,50 +143,50 @@ def open_menu(name = None, call = None): # открытие меню в чате
         type_menu = None if isinstance(data['type_menu'], str) and data['type_menu'] == 'None' else data['type_menu']
         command = None if isinstance(data['command'], str) and data['command'] == 'None' else data['command']
     
+        # работа с клавиатурами
+        if buttons != None and buttons:
+            buttons = eval(buttons)
+            if 'menu_lists' in buttons:
+                files = os.listdir(menu_user_path)
+                new_buttons = {}
+                for filename in files:
+                    file_key = filename.split('.')[0]
+                    new_buttons[file_key] = buttons['menu_lists']
+                buttons = new_buttons
+    
+        keyboard = create_keyboard(buttons, back)
+        try:
+            if name == 'main' and id_admin == (call.chat.id):
+                keyboard.add(InlineKeyboardButton(text = 'Администратор', callback_data = 'admin_admin'))
+        except:
+            if name == 'main' and id_admin == (call.message.chat.id):
+                keyboard.add(InlineKeyboardButton(text = 'Администратор', callback_data = 'admin_admin'))
+    
+        # работа с типом меню
+        if type_menu == 'insert_text':
+            print(f'Ожидание ввода')
+            x = f'command_{command}'
+            bot.register_next_step_handler(call.message, globals()[x], call)
+    
+        # изменение сообщения
+        try:
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text = text, reply_markup = keyboard)
+        except AttributeError as e: # этот код должен срабатывать, если в чате вообще нет сообщений
+            print(f'Ошибка в отправке меню: {e}')
+            bot.send_message(call.chat.id, text, reply_markup = keyboard)
+            bot.delete_message(chat_id=call.chat.id, message_id=call.message_id)
+    
+        try:
+            if (call.text) == '/start': # удаление старого меню
+                bot.delete_message(chat_id=call.chat.id, message_id=call.message_id - 1)
+        except AttributeError:
+            if (call.message.text) == '/start': # удаление старого меню
+                bot.delete_message(chat_id=call.chat.id, message_id=call.message_id - 1)
+        except:
+            pass
+            
     else:
         print(f"Меню {name} не найдено!")
-
-    # работа с клавиатурами
-    if buttons != None:
-        buttons = eval(buttons)
-        if 'menu_lists' in buttons:
-            files = os.listdir(menu_user_path)
-            new_buttons = {}
-            for filename in files:
-                file_key = filename.split('.')[0]
-                new_buttons[file_key] = buttons['menu_lists']
-            buttons = new_buttons
-
-    keyboard = create_keyboard(buttons, back)
-    try:
-        if name == 'main' and id_admin == (call.chat.id):
-            keyboard.add(InlineKeyboardButton(text = 'Администратор', callback_data = 'admin_admin'))
-    except:
-        if name == 'main' and id_admin == (call.message.chat.id):
-            keyboard.add(InlineKeyboardButton(text = 'Администратор', callback_data = 'admin_admin'))
-
-    # работа с типом меню
-    if type_menu == 'insert_text':
-        print(f'Ожидание ввода')
-        x = f'command_{command}'
-        bot.register_next_step_handler(call.message, globals()[x], call)
-
-    # изменение сообщения
-    try:
-        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text = text, reply_markup = keyboard)
-    except AttributeError as e: # этот код должен срабатывать, если в чате вообще нет сообщений
-        print(f'Ошибка в отправке меню: {e}')
-        bot.send_message(call.chat.id, text, reply_markup = keyboard)
-        bot.delete_message(chat_id=call.chat.id, message_id=call.message_id)
-
-    try:
-        if (call.text) == '/start': # удаление старого меню
-            bot.delete_message(chat_id=call.chat.id, message_id=call.message_id - 1)
-    except AttributeError:
-        if (call.message.text) == '/start': # удаление старого меню
-            bot.delete_message(chat_id=call.chat.id, message_id=call.message_id - 1)
-    except:
-        pass
 
 
 def command_create_menu(user_call, call):
