@@ -78,14 +78,14 @@ def now_time(): # получение текущего времени
     date = f"{current_date} {current_time}"
     return date
 
-def create_menu(name=None, text=None, buttons=None, back=None, type_menu=None): # создание меню
+def create_menu(name=None, text=None, buttons=None, back=None, type_menu=None, command=None): # создание меню
     print(f'Создано меню: {name}')
     path = f'{menu_user_path}/{name}.txt'
     if name in [menu_item['name'] for menu_item in dev_menu]: 
         path = f'{menu_dev_path}/{name}.txt'
 
     with open(path, 'w+', encoding='utf-8') as file:
-        file.write(f'text: {text}\nbuttons: {buttons}\nback: {back}\ntype_menu: {type_menu}')
+        file.write(f'text: {text}\nbuttons: {buttons}\nback: {back}\ntype_menu: {type_menu}\ncommand: {command}')
 
 def create_dev_menu(): # создание меню программы
     for menu in dev_menu:
@@ -93,7 +93,9 @@ def create_dev_menu(): # создание меню программы
             name=menu.get('name'), 
             text=menu.get('text'), 
             buttons=menu.get('buttons'), 
-            back=menu.get('back')
+            back=menu.get('back'),
+            type_menu=menu.get('type_menu'),
+            command=menu.get('command'),
         )
 
 def open_data_menu(path): # получение всех данных из файла
@@ -137,6 +139,7 @@ def open_menu(name = None, call = None, create = None): # открытие ме�
         buttons = None if data['buttons'] == 'None' else data['buttons']
         back = None if isinstance(data['back'], str) and data['back'] == 'None' else data['back']
         type_menu = None if isinstance(data['type_menu'], str) and data['type_menu'] == 'None' else data['type_menu']
+        command = None if isinstance(data['command'], str) and data['command'] == 'None' else data['command']
     
     else:
         print(f"Меню {name} не найдено!")
