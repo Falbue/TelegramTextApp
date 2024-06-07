@@ -151,6 +151,13 @@ def open_menu(name = None, call = None, create = None): # открытие ме�
     except:
         if name == 'main' and id_admin == (call.message.chat.id):
             keyboard.add(InlineKeyboardButton(text = 'Администратор', callback_data = 'admin'))
+
+    # работа с типом меню
+    if type_menu == 'insert_text':
+        print(f'Ожидание ввода')
+        x = f'command_{command}'
+        bot.register_next_step_handler(call.message, globals()[x], call)
+
     # изменение сообщения
     try:
         bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text = text, reply_markup = keyboard)
