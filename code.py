@@ -196,6 +196,7 @@ def start(message): # обработка команды start
 def callback_query(call):
 
     if (call.data).split('_')[0] == 'return':
+        bot.clear_step_handler_by_chat_id(chat_id=call.message.chat.id)
         open_menu(name = (call.data).split('_')[1], call = call)
 
     else:
