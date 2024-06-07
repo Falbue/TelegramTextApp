@@ -112,7 +112,7 @@ def create_keyboard(buttons, back): # создание клавиатуры
     row_buttons = []
     if buttons != None:
         buttons = eval(buttons)
-        num_buttons = 1
+        num_buttons = 0
         for button_text in buttons.keys():
             button = InlineKeyboardButton(text = button_text, callback_data = buttons[button_text])
             row_buttons.append(button)
