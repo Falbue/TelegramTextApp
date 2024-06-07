@@ -190,6 +190,12 @@ def open_menu(name = None, call = None): # открытие меню в чате
 def delete_menu(name, call):
     os.remove(f'{menu_user_path}/{name}.txt')
     print(f'Меню {name}.txt удалено!')
+    insertion('Меню удалено!', 'delete-menu', call = call)
+
+def insertion(text=None, back=None, all_users=None, call=None): # вставка меню (без создания)
+    buttons={}
+    keyboard = create_keyboard(buttons, back)
+    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text = text, reply_markup = keyboard)
 
 def command_create_menu(user_call, call):
     bot.delete_message(chat_id=user_call.chat.id, message_id=user_call.message_id)
