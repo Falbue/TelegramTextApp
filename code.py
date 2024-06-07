@@ -187,7 +187,7 @@ def open_menu(name = None, call = None): # открытие меню в чате
     else:
         print(f"Меню {name} не найдено!")
 
-def delete_menu(name, call):
+def delete_menu(name, call): # удаление меню
     os.remove(f'{menu_user_path}/{name}.txt')
     print(f'Меню {name}.txt удалено!')
     insertion('Меню удалено!', 'delete-menu', call = call)
