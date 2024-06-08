@@ -155,22 +155,31 @@ def open_menu(name = None, call = None): # открытие меню в чате
         back = None if isinstance(data['back'], str) and data['back'] == 'None' else data['back']
         type_menu = None if isinstance(data['type_menu'], str) and data['type_menu'] == 'None' else data['type_menu']
         command = None if isinstance(data['command'], str) and data['command'] == 'None' else data['command']
-    
+
+        # работа с текстом
+        text = markdown_text(text, call)
+
         # работа с клавиатурами
         if buttons is not None and buttons:
             buttons = eval(buttons)
-            if 'menu_lists' in buttons:
+            if '[menu_lists]' in buttons:
                 files = os.listdir(menu_user_path)
                 new_buttons = {}
                 for filename in files:
                     file_key = filename.split('.')[0]
-                    if buttons['menu_lists'].split('_')[1] != 'delete':
-                        main = buttons['menu_lists'] + '_' + 'main'
+                    if buttons['[menu_lists]'].split('_')[1] != 'delete':
+                        main = buttons['[menu_lists]'] + '_' + 'main'
                         if 'main' not in new_buttons:
                             new_buttons['main'] = main
-                    new_buttons[file_key] = buttons['menu_lists'] + '_' + file_key
+                    new_buttons[file_key] = buttons['[menu_lists]'] + '_' + file_key
                 buttons = new_buttons
-            
+            if '[file_name]' in buttons.get('Текст', ''):
+                call_data = buttons.get('Текст')
+                call_data = markdown_text(call_data, call)
+                buttons['Текст'] = call_data
+
+        if back != None:
+            back = markdown_text(back, call)
         keyboard = create_keyboard(buttons, back)
         try:
             if name == 'main' and id_admin == (call.chat.id):
