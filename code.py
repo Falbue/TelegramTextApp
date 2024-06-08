@@ -172,19 +172,9 @@ def open_menu(name = None, call = None): # открытие меню в чате
         try:
             bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text = text, reply_markup = keyboard)
         except AttributeError as e: # этот код должен срабатывать, если в чате вообще нет сообщений
-            print(f'Ошибка в отправке меню: {e}')
             bot.send_message(call.chat.id, text, reply_markup = keyboard)
             bot.delete_message(chat_id=call.chat.id, message_id=call.message_id)
-    
-        try:
-            if (call.text) == '/start': # удаление старого меню
-                bot.delete_message(chat_id=call.chat.id, message_id=call.message_id - 1)
-        except AttributeError:
-            if (call.message.text) == '/start': # удаление старого меню
-                bot.delete_message(chat_id=call.chat.id, message_id=call.message_id - 1)
-        except:
-            pass
-            
+        
     else:
         print(f"Меню {name} не найдено!")
 
@@ -218,7 +208,7 @@ def start(message): # обработка команды start
         conn.commit()
         print('Зарегистрирован новый пользователь', message.chat.id)
     else:
-        c.execute(f"UPDATE users SET id_message = {(message_id+1)} WHERE user_id = {message.chat.id}")
+        c.execute(f"UPDATE users SET id_message = {(message_id)} WHERE user_id = {message.chat.id}")
         print('Пользователь' ,message.chat.id,'уже существует в базе')
         conn.commit()
         pass
