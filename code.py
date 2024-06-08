@@ -30,7 +30,8 @@ error_path = f'{texts_path}/error_log.txt'
 dev_menu = [
     {"name": "main", "text": 'Главное меню'},
     {"name": "admin", "text": 'Панель администратора', 'buttons': {'Настройка меню': 'admin_settings-menu'}, 'back': 'main'},
-    {"name": "settings-menu", "text": 'Найстройки меню', 'buttons': {'Редактировать': 'admin_edit_menu', 'Создать': 'admin_create-menu', 'Удалить': 'admin_delete-menu'}, 'back': 'admin'},
+    {"name": "settings-menu", "text": 'Найстройки меню', 'buttons': {'Редактировать': 'admin_list-edit-menu', 'Создать': 'admin_create-menu', 'Удалить': 'admin_delete-menu'}, 'back': 'admin'},
+    {"name": "list-edit-menu", "text": 'Выберите меню, которое хотите отредактировать', 'buttons': {'menu_lists': 'admin_edit-menu'}, 'back': 'settings-menu'},
     {"name": "create-menu", "text": 'Введите название меню', 'back': 'settings-menu', 'type_menu': 'insert_text', 'command': 'create_menu'},
     {"name": "delete-menu", "text": 'Выберите меню для удаления', 'buttons': {'menu_lists': 'admin_delete'}, 'back': 'settings-menu'},
 ]
