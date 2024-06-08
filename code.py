@@ -38,9 +38,6 @@ dev_menu = [
     {"name": "rename-text", "text": 'Введите новый текст', 'back': 'edit-menu_[file_name]'},
 ]
 
-
-
-
 # основные функции
 def main_check(): # основные проверки
     if not os.path.exists(f"{folder}"):
@@ -81,6 +78,20 @@ def now_time(): # получение текущего времени
     current_date = now_moscow.strftime("%m.%d.%Y")
     date = f"{current_date} {current_time}"
     return date
+
+def markdown_text(text, call = None): # mardown разметка 
+    if text != None and '[' in text:
+        filename = call.data.split('_')[2]
+        path = f'{menu_user_path}/{filename}.txt'
+        if filename in [menu_item['name'] for menu_item in dev_menu]: path = f'{menu_dev_path}/{filename}.txt'
+        with open(path, encoding='utf-8') as file:
+            data = file.read()
+        text = text.replace('[file_name]', filename)
+        text = text.replace('[file_data]', data)
+
+    text = text.replace('/n', '\n')
+
+    return(text)
 
 def create_menu(name=None, text=None, buttons=None, back=None, type_menu=None, command=None): # создание меню
     print(f'Создано меню: {name}')
