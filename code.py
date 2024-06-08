@@ -256,6 +256,10 @@ def callback_query(call):
     if str((call.data)).count('_') <= 2:
         if (call.data).split('_')[0] == 'admin' and (call.data).split('_')[1] == 'delete':
             delete_menu((call.data).split('_')[2], call)
+        if (call.data).split('_')[0] == 'admin' and (call.data).split('_')[1] == 'edit-menu':
+            open_menu((call.data).split('_')[1], call = call)
+        if (call.data).split('_')[0] == 'admin' and (call.data).split('_')[1] == 'rename-text':
+            open_menu((call.data).split('_')[1], call = call)
 
     else:
         print(call.data)
