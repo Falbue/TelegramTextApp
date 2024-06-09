@@ -113,13 +113,18 @@ def create_dev_menu(): # создание меню программы
             command=menu.get('command'),
         )
 
-def open_data_menu(path): # получение всех данных из файла
-    with open(path, encoding='utf-8') as file:
-        file_data = file.read()
-        data = {}
-        for line in file_data.splitlines():
-            key, value = line.split(': ', 1)
-            data[key.strip()] = value.strip()
+def open_data_menu(name): # получение всех данных из файла
+    path = f'{menu_user_path}/{name}.txt'
+    if name in [menu_item['name'] for menu_item in dev_menu]: 
+        path = f'{menu_dev_path}/{name}.txt'
+    if os.path.exists(path):
+        with open(path, encoding='utf-8') as file:
+            file_data = file.read()
+            data = {}
+            for line in file_data.splitlines():
+                key, value = line.split(': ', 1)
+                data[key.strip()] = value.strip()
+    else:data = None
     return data
 
 def create_keyboard(buttons, back): # создание клавиатуры
