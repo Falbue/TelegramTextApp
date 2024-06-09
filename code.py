@@ -148,13 +148,9 @@ def create_keyboard(buttons, back): # создание клавиатуры
     return keyboard
 
 def open_menu(name = None, call = None): # открытие меню в чате из файла
-    # данные меню
-    path = f'{menu_user_path}/{name}.txt'
-    if name in [menu_item['name'] for menu_item in dev_menu]: 
-        path = f'{menu_dev_path}/{name}.txt'
     # получение данных для меню
-    if os.path.exists(path):
-        data = open_data_menu(path)        
+    data = open_data_menu(name)        
+    if data != None:
         text = None if isinstance(data['text'], str) and data['text'] == 'None' else data['text']
         buttons = None if data['buttons'] == 'None' else data['buttons']
         back = None if isinstance(data['back'], str) and data['back'] == 'None' else data['back']
