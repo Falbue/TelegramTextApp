@@ -35,7 +35,7 @@ dev_menu = [
     {"name": "create-menu", "text": 'Введите название меню', 'back': 'settings-menu', 'type_menu': 'insert_text', 'command': 'create_menu'},
     {"name": "delete-menu", "text": 'Выберите меню для удаления', 'buttons': {'[menu_lists]': 'admin_delete'}, 'back': 'settings-menu'},
     {"name": "edit-menu", "text": '[file_name]/n/n[file_data]/n/nВыберите, что нужно изменить', 'buttons': {'Текст': 'admin_rename-text_[file_name]', 'Кнопки': 'admin_rename-buttons_[file_name]'}, 'back': 'list-edit-menu'},
-    {"name": "rename-text", "text": 'Введите новый текст', 'back': 'edit-menu_[file_name]'},
+    {"name": "rename-text", "text": 'Введите новый текст', 'back': 'edit-menu_[file_name]', 'type_menu': 'insert_text', 'command': 'rename_menu'},
 ]
 
 # основные функции
