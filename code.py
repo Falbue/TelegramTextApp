@@ -182,10 +182,6 @@ def open_menu(name = None, call = None): # открытие меню в чате
                             new_buttons['main'] = main
                     new_buttons[file_key] = buttons['[menu_lists]'] + '_' + file_key
                 buttons = new_buttons
-            if '[file_name]' in buttons.get('Текст', ''):
-                call_data = buttons.get('Текст')
-                call_data = markdown_text(call_data, call)
-                buttons['Текст'] = call_data
 
         if back != None:
             back = markdown_text(back, call)
