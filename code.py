@@ -83,13 +83,17 @@ def now_time(): # получение текущего времени
     date = f"{current_date} {current_time}"
     return date
 
-def markdown_text(text, call = None): # mardown разметка 
+def markdown_text(text, call): # mardown разметка 
     if text != None and '[' in text:
         filename = call.data.split('_')[2]
         path = f'{menu_user_path}/{filename}.txt'
         if filename in [menu_item['name'] for menu_item in dev_menu]: path = f'{menu_dev_path}/{filename}.txt'
         with open(path, encoding='utf-8') as file:
             data = file.read()
+        try:
+            object_m = (call.data).split('-')[2].split('_')[0]
+            text = text.replace('[object]', object_m)
+        except:pass
         text = text.replace('[file_name]', filename)
         text = text.replace('[file_data]', data)
 
