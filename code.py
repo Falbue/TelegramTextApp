@@ -27,6 +27,10 @@ menu_user_path = f'{folder}/user_menu'
 menu_dev_path = f'{folder}/telegram_text_apps_menu'
 error_path = f'{texts_path}/error_log.txt'
 
+object_menu = {'Текст':'text', 'Кнопки':'buttons', 'Возврат':'back', 'Тип меню':'type_menu', 'Команда':'command'}
+buttons_edit_menu = {key: f'admin_rename-object-{value}_[file_name]' for key, value in object_menu.items()}
+print (buttons_edit_menu)
+
 dev_menu = [
     {"name": "main", "text": 'Главное меню'},
     {"name": "admin", "text": 'Панель администратора', 'buttons': {'Настройка меню': 'admin_settings-menu'}, 'back': 'main'},
@@ -34,8 +38,8 @@ dev_menu = [
     {"name": "list-edit-menu", "text": 'Выберите меню, которое хотите отредактировать', 'buttons': {'[menu_lists]': 'admin_edit-menu'}, 'back': 'settings-menu'},
     {"name": "create-menu", "text": 'Введите название меню', 'back': 'settings-menu', 'type_menu': 'insert_text', 'command': 'create_menu'},
     {"name": "delete-menu", "text": 'Выберите меню для удаления', 'buttons': {'[menu_lists]': 'admin_delete'}, 'back': 'settings-menu'},
-    {"name": "edit-menu", "text": '[file_name]/n/n[file_data]/n/nВыберите, что нужно изменить', 'buttons': {'Текст': 'admin_rename-text_[file_name]', 'Кнопки': 'admin_rename-buttons_[file_name]'}, 'back': 'list-edit-menu'},
-    {"name": "rename-text", "text": 'Введите новый текст', 'back': 'edit-menu_[file_name]', 'type_menu': 'insert_text', 'command': 'rename_menu'},
+    {"name": "edit-menu", "text": '[file_name]/n/n[file_data]/n/nВыберите, что нужно изменить', 'buttons': buttons_edit_menu, 'back': 'list-edit-menu'},
+    {"name": "rename-object", "text": 'Введите новый [object]', 'back': 'edit-menu_[file_name]', 'type_menu': 'insert_text', 'command': 'rename_menu'},
 ]
 
 # основные функции
