@@ -221,6 +221,23 @@ def command_create_menu(user_call, call):
     create_menu(name)
     notification('Меню создано!', 'settings-menu', call = call)
 
+def command_rename_menu(user_call, call):
+    bot.delete_message(chat_id=user_call.chat.id, message_id=user_call.message_id)
+    rename = (call.data).split('-')[1]
+    rename = rename.split('_')[0]
+    name = (call.data).split('_')[2]
+
+    data = open_data_menu(name)
+    data[rename] = user_call.text
+    path = f'{menu_user_path}/{name}.txt'
+    if name in [menu_item['name'] for menu_item in dev_menu]: 
+        path = f'{menu_dev_path}/{name}.txt'
+    with open(path, 'w', encoding='utf-8') as file:
+        for key, value in data.items():
+            file.write(f"{key}: {value}\n")
+
+    open_menu('edit-menu', call = call)
+
 @bot.message_handler(commands=['start'])
 def start(message): # обработка команды start
     message_id = message.id
