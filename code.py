@@ -273,20 +273,23 @@ def start(message): # обработка команды start
 def callback_query(call):
     print(call.data)
     if (call.data).split('_')[0] == 'return':
-        print(call.data)
         bot.clear_step_handler_by_chat_id(chat_id=call.message.chat.id)
         open_menu(name = (call.data).split('_')[1], call = call)
-    
-    elif (call.data).split('_')[0] == 'admin':
-        open_menu(name = (call.data).split('_')[1], call = call)
+    elif str((call.data)).count('_') <= 1:
+        if (call.data).split('_')[0] == 'admin':
+            open_menu(name = (call.data).split('_')[1], call = call)
 
     elif str((call.data)).count('_') <= 2:
         if (call.data).split('_')[0] == 'admin' and (call.data).split('_')[1] == 'delete':
             delete_menu((call.data).split('_')[2], call)
-        if (call.data).split('_')[0] == 'admin' and (call.data).split('_')[1] == 'edit-menu':
+        elif (call.data).split('_')[0] == 'admin' and (call.data).split('_')[1] == 'edit-menu':
+            print((call.data).split('-')[1])
             open_menu((call.data).split('_')[1], call = call)
-        if (call.data).split('_')[0] == 'admin' and (call.data).split('_')[1] == 'rename-text':
-            open_menu((call.data).split('_')[1], call = call)
+        elif (call.data).split('_')[0] == 'admin' and ((call.data).split('_')[1].split('-')[0]) == 'rename':
+            rename_object = (call.data).split('-')[2].split('_')[0]
+            for y, x in object_menu.items():
+                if x == rename_object:
+                    open_menu('rename-object', call = call)
 
     else:
         print(call.data)
