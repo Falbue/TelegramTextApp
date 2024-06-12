@@ -183,6 +183,15 @@ def open_menu(name = None, call = None): # открытие меню в чате
                     new_buttons[file_key] = buttons['[menu_lists]'] + '_' + file_key
                 buttons = new_buttons
 
+            new_buttons = {}
+            for key, value in buttons.items():
+                if '[file-name]' in value:
+                    new_value = markdown_text(value, call)
+                    new_buttons[key] = new_value
+                else:
+                    new_buttons[key] = value
+            buttons = new_buttons
+
         if back != None:
             back = markdown_text(back, call)
         keyboard = create_keyboard(buttons, back)
