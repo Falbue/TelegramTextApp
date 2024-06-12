@@ -28,7 +28,7 @@ menu_dev_path = f'{folder}/telegram_text_apps_menu'
 error_path = f'{texts_path}/error_log.txt'
 
 object_menu = {'Текст':'text', 'Кнопки':'buttons', 'Возврат':'back', 'Тип меню':'typemenu', 'Команда':'command'}
-buttons_edit_menu = {key: f'admin_rename-object-{value}_[file_name]' for key, value in object_menu.items()}
+buttons_edit_menu = {key: f'admin_rename-object-{value}_[file-name]' for key, value in object_menu.items()}
 print (buttons_edit_menu)
 
 dev_menu = [
@@ -38,8 +38,8 @@ dev_menu = [
     {"name": "list-edit-menu", "text": 'Выберите меню, которое хотите отредактировать', 'buttons': {'[menu_lists]': 'admin_edit-menu'}, 'back': 'settings-menu'},
     {"name": "create-menu", "text": 'Введите название меню', 'back': 'settings-menu', 'type_menu': 'insert_text', 'command': 'create_menu'},
     {"name": "delete-menu", "text": 'Выберите меню для удаления', 'buttons': {'[menu_lists]': 'admin_delete'}, 'back': 'settings-menu'},
-    {"name": "edit-menu", "text": '[file_name]/n/n[file_data]/n/nВыберите, что нужно изменить', 'buttons': buttons_edit_menu, 'back': 'list-edit-menu'},
-    {"name": "rename-object", "text": 'Введите новый [object]', 'back': 'edit-menu_[file_name]', 'type_menu': 'insert_text', 'command': 'rename_menu'},
+    {"name": "edit-menu", "text": '[file-name]/n/n[file-data]/n/nВыберите, что нужно изменить', 'buttons': buttons_edit_menu, 'back': 'list-edit-menu'},
+    {"name": "rename-object", "text": 'Введите новый [object]', 'back': 'edit-menu_[file-name]', 'type_menu': 'insert_text', 'command': 'rename_menu'},
 ]
 
 # основные функции
@@ -94,8 +94,8 @@ def markdown_text(text, call): # mardown разметка
             object_m = (call.data).split('-')[2].split('_')[0]
             text = text.replace('[object]', object_m)
         except:pass
-        text = text.replace('[file_name]', filename)
-        text = text.replace('[file_data]', data)
+        text = text.replace('[file-name]', filename)
+        text = text.replace('[file-data]', data)
 
     text = text.replace('/n', '\n')
 
