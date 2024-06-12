@@ -297,7 +297,8 @@ def callback_query(call):
                     open_menu('rename-object', call = call)
 
     else:
-        print(call.data)
+        print(f'Вызов не найден: {call.data}')
+        print(str((call.data)).count('_'))
 
     
 
