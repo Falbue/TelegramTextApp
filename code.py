@@ -27,7 +27,7 @@ menu_user_path = f'{folder}/user_menu'
 menu_dev_path = f'{folder}/telegram_text_apps_menu'
 error_path = f'{texts_path}/error_log.txt'
 
-object_menu = {'Текст':'text', 'Кнопки':'buttons', 'Возврат':'back', 'Тип меню':'type_menu', 'Команда':'command'}
+object_menu = {'Текст':'text', 'Кнопки':'buttons', 'Возврат':'back', 'Тип меню':'typemenu', 'Команда':'command'}
 buttons_edit_menu = {key: f'admin_rename-object-{value}_[file_name]' for key, value in object_menu.items()}
 print (buttons_edit_menu)
 
@@ -108,7 +108,7 @@ def create_menu(name=None, text=None, buttons=None, back=None, type_menu=None, c
         path = f'{menu_dev_path}/{name}.txt'
 
     with open(path, 'w+', encoding='utf-8') as file:
-        file.write(f'text: {text}\nbuttons: {buttons}\nback: {back}\ntype_menu: {type_menu}\ncommand: {command}')
+        file.write(f'text: {text}\nbuttons: {buttons}\nback: {back}\ntype-menu: {type_menu}\ncommand: {command}')
 
 def create_dev_menu(): # создание меню программы
     for menu in dev_menu:
@@ -162,7 +162,7 @@ def open_menu(name = None, call = None): # открытие меню в чате
         text = None if isinstance(data['text'], str) and data['text'] == 'None' else data['text']
         buttons = None if data['buttons'] == 'None' else data['buttons']
         back = None if isinstance(data['back'], str) and data['back'] == 'None' else data['back']
-        type_menu = None if isinstance(data['type_menu'], str) and data['type_menu'] == 'None' else data['type_menu']
+        type_menu = None if isinstance(data['type-menu'], str) and data['type-menu'] == 'None' else data['type-menu']
         command = None if isinstance(data['command'], str) and data['command'] == 'None' else data['command']
 
         # работа с текстом
