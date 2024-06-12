@@ -103,7 +103,7 @@ def markdown_text(text, call): # mardown разметка
 
     return(text)
 
-def create_menu(name=None, text=None, buttons=None, back=None, type_menu=None, command=None): # создание меню
+def create_menu(name=None, text='Измените текст!', buttons=None, back='main', type_menu=None, command=None): # создание меню
     print(f'Создано меню: {name}')
     path = f'{menu_user_path}/{name}.txt'
     if name in [menu_item['name'] for menu_item in dev_menu]: 
