@@ -60,6 +60,9 @@ def main_check(): # основные проверки
         with open(error_path, 'w'): 
             pass
         print("Файл с логами ошибок создан")
+    if not os.path.exists(f'{menu_user_path}/main.txt'):
+        create_menu('main', 'Главное меню') # создание главного меню
+        print('Главное меню создано!')
     if not os.path.exists(db_path):
         conn = sqlite3.connect(f"{folder}/database.db")
         cursor = conn.cursor()
