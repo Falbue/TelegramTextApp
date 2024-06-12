@@ -286,6 +286,9 @@ def callback_query(call):
     elif str((call.data)).count('_') <= 1:
         if (call.data).split('_')[0] == 'admin':
             open_menu(name = (call.data).split('_')[1], call = call)
+        if (call.data).split('_')[0] == 'user':
+            open_menu(name = (call.data).split('_')[1], call = call)
+
 
     elif str((call.data)).count('_') <= 2:
         if (call.data).split('_')[0] == 'admin' and (call.data).split('_')[1] == 'delete':
