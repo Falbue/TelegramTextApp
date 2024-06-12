@@ -108,6 +108,8 @@ def create_menu(name=None, text='Измените текст!', buttons=None, ba
     path = f'{menu_user_path}/{name}.txt'
     if name in [menu_item['name'] for menu_item in dev_menu]: 
         path = f'{menu_dev_path}/{name}.txt'
+    if name == 'main':
+        back = None
 
     with open(path, 'w+', encoding='utf-8') as file:
         file.write(f'text: {text}\nbuttons: {buttons}\nback: {back}\ntype-menu: {type_menu}\ncommand: {command}')
