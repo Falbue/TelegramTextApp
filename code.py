@@ -32,14 +32,13 @@ buttons_edit_menu = {key: f'admin_rename-object-{value}_[file-name]' for key, va
 print (buttons_edit_menu)
 
 dev_menu = [
-    {"name": "main", "text": 'Главное меню'},
     {"name": "admin", "text": 'Панель администратора', 'buttons': {'Настройка меню': 'admin_settings-menu'}, 'back': 'main'},
     {"name": "settings-menu", "text": 'Найстройки меню', 'buttons': {'Редактировать': 'admin_list-edit-menu', 'Создать': 'admin_create-menu', 'Удалить': 'admin_delete-menu'}, 'back': 'admin'},
     {"name": "list-edit-menu", "text": 'Выберите меню, которое хотите отредактировать', 'buttons': {'[menu_lists]': 'admin_edit-menu'}, 'back': 'settings-menu'},
     {"name": "create-menu", "text": 'Введите название меню', 'back': 'settings-menu', 'type_menu': 'insert_text', 'command': 'create_menu'},
     {"name": "delete-menu", "text": 'Выберите меню для удаления', 'buttons': {'[menu_lists]': 'admin_delete'}, 'back': 'settings-menu'},
     {"name": "edit-menu", "text": '[file-name]/n/n[file-data]/n/nВыберите, что нужно изменить', 'buttons': buttons_edit_menu, 'back': 'list-edit-menu'},
-    {"name": "rename-object", "text": 'Введите новый [object]', 'back': 'edit-menu_[file-name]', 'type_menu': 'insert_text', 'command': 'rename_menu'},
+    {"name": "rename-object", "text": 'Введите новый [object]/n{"Настройка меню": "admin_settings-menu"}', 'back': 'edit-menu_[file-name]', 'type_menu': 'insert_text', 'command': 'rename_menu'},
 ]
 
 # основные функции
@@ -307,7 +306,6 @@ def callback_query(call):
         print(str((call.data)).count('_'))
 
     
-
 main_check()
 print("Бот запущен...")
 
