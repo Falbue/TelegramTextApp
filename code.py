@@ -245,6 +245,7 @@ def command_rename_menu(user_call, call):
     bot.delete_message(chat_id=user_call.chat.id, message_id=user_call.message_id)
     rename = (call.data).split('-')[2]
     rename = rename.split('_')[0]
+    rename = rename.replace('\n', '/n')
     name = (call.data).split('_')[2]
 
     data = open_data_menu(name)
