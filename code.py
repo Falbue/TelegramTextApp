@@ -254,11 +254,11 @@ def command_rename_menu(user_call, call):
             elements = text.split(',')
             for element in elements:
                 button_text, button_call = element.split(':')
-                buttons[button_text] = button_call
+                buttons[button_text] = f'user_{button_call}'
         elif text.count(',') > 0:
             element = text.split(',')
             button_text, button_call = element.split(':')
-            buttons[button_text] = button_call
+            buttons[button_text] = f'user_{button_call}'
         text = str(buttons)
 
     data = open_data_menu(name)
