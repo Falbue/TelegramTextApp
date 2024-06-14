@@ -244,11 +244,27 @@ def command_rename_menu(user_call, call):
     bot.delete_message(chat_id=user_call.chat.id, message_id=user_call.message_id)
     rename = (call.data).split('-')[2]
     rename = rename.split('_')[0]
-    rename = rename.replace('\n', '/n')
     name = (call.data).split('_')[2]
+    text = (user_call.text).replace('\n', '/n')
+    if text == '':
+        text = None
+
+    if rename == 'buttons':
+        text = text.replace(' ','')
+        buttons = {}
+        if text.count(',') > 0:
+            elements = text.split(',')
+            for element in elements:
+                button_text, button_call = element.split(':')
+                buttons[button_text] = button_call
+        elif text.count(',') > 0:
+            element = text.split(',')
+            button_text, button_call = element.split(':')
+            buttons[button_text] = button_call
+        text = str(buttons)
 
     data = open_data_menu(name)
-    data[rename] = user_call.text
+    data[rename] = text
     path = f'{menu_user_path}/{name}.txt'
     if name in [menu_item['name'] for menu_item in dev_menu]: 
         path = f'{menu_dev_path}/{name}.txt'
