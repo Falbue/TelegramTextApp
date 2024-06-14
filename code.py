@@ -32,12 +32,12 @@ buttons_edit_menu = {key: f'admin_rename-object-{value}_[file-name]' for key, va
 
 dev_menu = [
     {"name": "admin", "text": 'Панель администратора', 'buttons': {'Настройка меню': 'admin_settings-menu'}, 'back': 'main'},
-    {"name": "settings-menu", "text": 'Найстройки меню', 'buttons': {'Редактировать': 'admin_list-edit-menu', 'Создать': 'admin_create-menu', 'Удалить': 'admin_delete-menu'}, 'back': 'admin'},
+    {"name": "settings-menu", "text": 'Найстройки меню', 'buttons': {'Редактировать': 'admin_list-edit-menu', '+ Создать': 'admin_create-menu', '× Удалить ': 'admin_delete-menu'}, 'back': 'admin'},
     {"name": "list-edit-menu", "text": 'Выберите меню, которое хотите отредактировать', 'buttons': {'[menu_lists]': 'admin_edit-menu'}, 'back': 'settings-menu'},
-    {"name": "create-menu", "text": 'Введите название меню', 'back': 'settings-menu', 'type_menu': 'insert_text', 'command': 'create_menu'},
+    {"name": "create-menu", "text": 'Введите название меню/n/nНазвание меню <u>не должно</u> содержать  <b>_</b> и <b>-</b> !', 'back': 'settings-menu', 'type_menu': 'insert_text', 'command': 'create_menu'},
     {"name": "delete-menu", "text": 'Выберите меню для удаления', 'buttons': {'[menu_lists]': 'admin_delete'}, 'back': 'settings-menu'},
-    {"name": "edit-menu", "text": '[file-name]/n/n[file-data]/n/nВыберите, что нужно изменить', 'buttons': buttons_edit_menu, 'back': 'list-edit-menu'},
-    {"name": "rename-object", "text": 'Введите: [object-menu]', 'back': 'edit-menu_[file-name]', 'type_menu': 'insert_text', 'command': 'rename_menu'},
+    {"name": "edit-menu", "text": '<b>Выбранное меню:</b> [file-name]/n/n[file-data]/n/nВыберите, что нужно изменить:', 'buttons': buttons_edit_menu, 'back': 'list-edit-menu'},
+    {"name": "rename-object", "text": '<b>Введите:</b> [object-menu]', 'back': 'edit-menu_[file-name]', 'type_menu': 'insert_text', 'command': 'rename_menu'},
 ]
 
 # основные функции
@@ -157,7 +157,7 @@ def create_keyboard(buttons, back): # создание клавиатуры
         if num_buttons > 0:
             keyboard.add(*row_buttons)
     if back != None:
-        btn_return = InlineKeyboardButton(text = 'Назад', callback_data = f'return_{back}')
+        btn_return = InlineKeyboardButton(text = '< Назад', callback_data = f'return_{back}')
         keyboard.add(btn_return)
     return keyboard
 
