@@ -235,6 +235,7 @@ def command_create_menu(user_call, call):
     bot.delete_message(chat_id=user_call.chat.id, message_id=user_call.message_id)
     name = user_call.text
     create_menu(name)
+    bot.answer_callback_query(callback_query_id=call.id, text="Меню успешно создано!")
     notification('Меню создано!', 'settings-menu', call = call)
 
 def command_rename_menu(user_call, call):
