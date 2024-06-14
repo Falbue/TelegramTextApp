@@ -29,7 +29,6 @@ error_path = f'{texts_path}/error_log.txt'
 
 object_menu = {'Текст':'text', 'Кнопки':'buttons', 'Возврат':'back', 'Тип меню':'typemenu', 'Команда':'command'}
 buttons_edit_menu = {key: f'admin_rename-object-{value}_[file-name]' for key, value in object_menu.items()}
-print (buttons_edit_menu)
 
 dev_menu = [
     {"name": "admin", "text": 'Панель администратора', 'buttons': {'Настройка меню': 'admin_settings-menu'}, 'back': 'main'},
