@@ -312,7 +312,6 @@ def callback_query(call):
         if (call.data).split('_')[0] == 'admin' and (call.data).split('_')[1] == 'delete':
             delete_menu((call.data).split('_')[2], call)
         elif (call.data).split('_')[0] == 'admin' and (call.data).split('_')[1] == 'edit-menu':
-            print((call.data).split('-')[1])
             open_menu((call.data).split('_')[1], call = call)
         elif (call.data).split('_')[0] == 'admin' and ((call.data).split('_')[1].split('-')[0]) == 'rename':
             rename_object = (call.data).split('-')[2].split('_')[0]
