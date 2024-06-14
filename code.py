@@ -94,7 +94,10 @@ def markdown_text(text, call): # mardown разметка
             data = file.read()
         try:
             object_m = (call.data).split('-')[2].split('_')[0]
-            text = text.replace('[object]', object_m)
+            for key, value in object_menu.items():
+                if object_m in value:
+                    object_m = key
+                    text = text.replace('[object-menu]', object_m)
         except:pass
         text = text.replace('[file-name]', filename)
         text = text.replace('[file-data]', data)
