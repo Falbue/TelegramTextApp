@@ -104,7 +104,7 @@ def escape_markdown(text): # экранирование любых символ�
     return escaped_text
 
 def tg_markdown(text): # экранирование только для телеграма
-    special_characters = r'[]()>#+-=|{}.!','/n'
+    special_characters = r'[]()>#+-=|{}.!'
     escaped_text = ''
     for char in text:
         if char in special_characters:
