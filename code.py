@@ -13,6 +13,7 @@ from datetime import datetime
 import pytz
 import sys
 import re
+import importlib
 sys.path.append(folder)
 import threading
 bot = telebot.TeleBot(bot_api)
@@ -28,7 +29,7 @@ menu_dev_path = f'{folder}/telegram_text_apps_menu'
 error_path = f'{texts_path}/error_log.txt'
 command_path = f'{folder}/command'
 
-object_menu = {'Текст':'text', 'Кнопки':'buttons', 'Возврат':'back', 'Тип меню':'typemenu', 'Команда':'command'}
+object_menu = {'Текст':'text', 'Кнопки':'buttons', 'Возврат':'back', 'Тип':'type', 'Команда':'command'}
 buttons_edit_menu = {key: f'admin_rename-object-{value}_[file-name]' for key, value in object_menu.items()}
 
 dev_menu = [
@@ -265,9 +266,11 @@ def open_menu(name = None, call = None): # открытие меню в чате
         # работа с типом меню
         if type_menu == 'insertion':
             print(f'Ожидание ввода')
-            x = f'command_{command}'
-            bot.register_next_step_handler(call.message, globals()[x], call)
-    
+            if command in ['create_menu','rename_menu','create_command']:
+                bot.register_next_step_handler(call.message, globals()[f'command_{command}'], call)
+            else:
+                bot.register_next_step_handler(call.message, open_command, call, command)
+
         # изменение сообщения
         try:
             bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text = text, reply_markup = keyboard, parse_mode = 'MarkdownV2')
@@ -374,6 +377,19 @@ def command_create_command(message, call): # команда создания к�
         notification('Команда успешно конвертирована и добавлена!', 'control-command', call=call)
 
     bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
+
+def open_command(message, call, command):
+    command = f'{folder}.command.{command}'
+    try:
+        script_module = importlib.import_module(command)
+        if hasattr(script_module, 'main'):
+            script_module.main()
+        else:
+            with open(script_module.__file__, encoding = 'utf-8') as f:
+                code = f.read()
+                exec(code)
+    except Exception as e:
+        print(f"Ошибка импорта модуля {command}: {e}")
 
 @bot.message_handler(commands=['start'])
 def start(message): # обработка команды start
