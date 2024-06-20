@@ -113,7 +113,7 @@ def tg_markdown(text): # экранирование только для теле
             escaped_text += char
     return escaped_text
 
-def square_rename(text, call):
+def square_rename(text, call): # замена квадратных скобок
     if '[file-name]' in text:
         text = text.replace('[file-name]', call.data.split('_')[2])
 
@@ -295,14 +295,14 @@ def notification(text=None, back=None, all_users=None, call=None): # встав�
     keyboard = create_keyboard(buttons, back)
     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text = text, reply_markup = keyboard, parse_mode = 'HTML')
 
-def command_create_menu(user_call, call):
+def command_create_menu(user_call, call): # команда создания меню
     bot.delete_message(chat_id=user_call.chat.id, message_id=user_call.message_id)
     name = user_call.text
     create_menu(name)
     bot.answer_callback_query(callback_query_id=call.id, text="Меню успешно создано!")
     notification('Меню создано!', 'settings-menu', call = call)
 
-def command_rename_menu(user_call, call):
+def command_rename_menu(user_call, call): # команда изменения меню
     bot.delete_message(chat_id=user_call.chat.id, message_id=user_call.message_id)
     rename = (call.data).split('-')[2]
     rename = rename.split('_')[0]
@@ -336,7 +336,7 @@ def command_rename_menu(user_call, call):
 
     open_menu('edit-menu', call = call)
 
-def command_create_command(message, call):
+def command_create_command(message, call): # команда создания команд
     if message.document: # Обработка документа
         file_id = message.document.file_id
         file_info = bot.get_file(file_id)
