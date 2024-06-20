@@ -295,6 +295,38 @@ def command_rename_menu(user_call, call):
 
     open_menu('edit-menu', call = call)
 
+def command_create_command(message, call):
+    if message.document: # Обработка документа
+        file_id = message.document.file_id
+        file_info = bot.get_file(file_id)
+        downloaded_file = bot.download_file(file_info.file_path)
+
+        with open(f'{command_path}/{message.document.file_name}', 'wb') as new_file:
+            new_file.write(downloaded_file)
+    elif message.text:
+        text_content = message.text
+        existing_files = os.listdir(command_path)
+        max_number = 0
+        for file in existing_files:
+            if file.startswith('command_') and file.endswith('.py'):
+                try:
+                    number = int(file[len('command_'):-len('.py')])
+                    if number > max_number:
+                        max_number = number
+                except ValueError:
+                    continue
+
+        new_number = max_number + 1
+        file_name = f'{command_path}/command_{new_number}.py'
+
+        with open(file_name, 'w', encoding='utf-8') as text_file:
+            text_file.write(text_content)
+
+    bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
+
+    bot.answer_callback_query(callback_query_id=call.id, text="Команда добавлена!")
+    notification('Команда добавлена!', 'control-command', call=call)
+
 @bot.message_handler(commands=['start'])
 def start(message): # обработка команды start
     message_id = message.id
