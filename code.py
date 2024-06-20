@@ -93,7 +93,7 @@ def now_time(): # получение текущего времени
     return date
 
 def markdown_text(text, call): # mardown разметка 
-    if text != None and '[' in text:
+    if '[file-name]' in text or '[object-menu]' in text:
         filename = call.data.split('_')[2]
         path = f'{menu_user_path}/{filename}.txt'
         if filename in [menu_item['name'] for menu_item in dev_menu]: path = f'{menu_dev_path}/{filename}.txt'
