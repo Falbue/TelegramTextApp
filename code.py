@@ -301,8 +301,10 @@ def command_create_command(message, call):
         file_id = message.document.file_id
         file_info = bot.get_file(file_id)
         downloaded_file = bot.download_file(file_info.file_path)
+        filename = message.document.file_name
+        filename = filename.replace('_', '-')
 
-        with open(f'{command_path}/{message.document.file_name}', 'wb') as new_file:
+        with open(f'{command_path}/{filename}', 'wb') as new_file:
             new_file.write(downloaded_file)
     elif message.text:
         text_content = message.text
@@ -318,7 +320,7 @@ def command_create_command(message, call):
                     continue
 
         new_number = max_number + 1
-        file_name = f'{command_path}/command_{new_number}.py'
+        file_name = f'{command_path}/command-{new_number}.py'
 
         with open(file_name, 'w', encoding='utf-8') as text_file:
             text_file.write(text_content)
