@@ -245,7 +245,7 @@ def open_menu(name = None, call = None): # открытие меню в чате
             new_buttons = {}
             for key, value in buttons.items():
                 if '[file-name]' in value:
-                    new_value = markdown_text(value, call)
+                    new_value = square_rename(value, call)
                     new_buttons[key] = new_value
                 else:
                     new_buttons[key] = value
