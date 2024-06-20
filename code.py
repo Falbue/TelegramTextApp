@@ -252,6 +252,7 @@ def open_menu(name = None, call = None): # открытие меню в чате
                     new_buttons[key] = value
             buttons = new_buttons
 
+        # работа с возвратом
         if back != None:
             back = square_rename(back, call)
         keyboard = create_keyboard(buttons, back)
