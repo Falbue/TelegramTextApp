@@ -280,7 +280,8 @@ def open_menu(name = None, call = None): # открытие меню в чате
 def delete_menu(name, call): # удаление меню
     os.remove(f'{menu_user_path}/{name}.txt')
     print(f'Меню {name}.txt удалено!')
-    notification('Меню удалено!', 'delete-menu', call = call)
+    notification('Меню удалено!', 'list-delete-menu', call = call)
+    bot.answer_callback_query(callback_query_id=call.id, text="Меню удалено!")
 
 def delete_command(name, call): # удаление меню
     name = name.replace('admin_delete-command_', '')
