@@ -307,6 +307,10 @@ def command_create_command(message, call):
 
         with open(f'{command_path}/{filename}', 'wb') as new_file:
             new_file.write(downloaded_file)
+
+        bot.answer_callback_query(callback_query_id=call.id, text="Команда добавлена!")
+        notification('Команда добавлена!', 'control-command', call=call)
+
     elif message.text:
         text_content = message.text
         existing_files = os.listdir(command_path)
