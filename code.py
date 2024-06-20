@@ -416,7 +416,7 @@ def start(message): # обработка команды start
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_query(call):
-    print(f'{call.data} ({(call.data).count("_")})')
+    # print(f'{call.data} ({(call.data).count("_")})')
 
     if (call.data).split('_')[0] == 'admin' and (call.data).split('_')[1] == 'delete-menu':
         delete_menu((call.data).split('_')[2], call)
@@ -449,7 +449,7 @@ main_check()
 print("Бот запущен...")
 
 try:
-    bot.polling()
+    bot.polling(non_stop = True)
 except Exception as e:
     with open(error_path, 'w+', encoding='utf-8') as f:
         f.write(str(e) + "\n")
