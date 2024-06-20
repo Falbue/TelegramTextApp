@@ -41,10 +41,11 @@ dev_menu = [
     {"name": "edit-menu", "text": '*Выбранное меню:* [file-name]/n/n[file-data]/n/nВыберите, что нужно изменить:', 'buttons': buttons_edit_menu, 'back': 'list-edit-menu'},
     {"name": "rename-object", "text": '*Введите:* [object-menu]', 'back': 'edit-menu_[file-name]', 'type_menu': 'insertion', 'command': 'rename_menu'},
     {"name": "control-command", "text": 'Выберите, нужное действие', 'buttons':{'Список команд': 'admin_list-commands', 'Добавить команду': 'admin_add-command', 'Удалить команду': 'admin_list-delete-command'}, 'back': 'admin'},
-    {"name": "add-command", "text": 'Введите команду либо загрузите python файл', 'back': 'control-command', 'type_menu': 'insertion', 'command': 'create_command'},
+    {"name": "add-command", "text": 'Отправьте текст либо загрузите python файл', 'back': 'control-command', 'type_menu': 'insertion', 'command': 'create_command'},
     {"name": "list-delete-command", "text": 'Выберите, какую команду нужно удалить', 'buttons': {'[command_lists]': 'admin_delete-command'}, 'back': 'control-command'},
     {"name": "list-commands", "text": 'Все добавленные команды', 'buttons': {'[command_lists]': 'admin_open-command'},  'back': 'control-command'},
-    {"name": "open-command", "text": '[file-code]', 'back': 'list-commands'},
+    {"name": "open-command", "text": '[file-name]/n[file-code]', 'buttons':{'Изменить': 'admin_rename-command_[command-name]'}, 'back': 'list-commands'},
+    {"name": "rename-command", "text": 'Отправьте текст либо загрузите python файл', 'type_menu': 'insertion', 'command': 'rename_command', 'back': 'list-commands'},
 ]
 
 # основные функции
@@ -140,6 +141,9 @@ def square_rename(text, call): # замена квадратных скобок
             data = file.read()
             data = escape_markdown(data)
         text = text.replace('[file-data]', data)
+
+    if '[command-name]' in text:
+        text = text.replace('[command-name]', call.data.split('_')[2])
 
     return text
 
@@ -249,6 +253,10 @@ def open_menu(name = None, call = None): # открытие меню в чате
                 if '[file-name]' in value:
                     new_value = square_rename(value, call)
                     new_buttons[key] = new_value
+                elif '[command-name]' in value:
+                    new_value = square_rename(value, call)
+                    print(new_value)
+                    new_buttons[key] = new_value
                 else:
                     new_buttons[key] = value
             buttons = new_buttons
@@ -266,7 +274,7 @@ def open_menu(name = None, call = None): # открытие меню в чате
         # работа с типом меню
         if type_menu == 'insertion':
             print(f'Ожидание ввода')
-            if command in ['create_menu','rename_menu','create_command']:
+            if command in ['create_menu','rename_menu','create_command', 'rename_command']:
                 bot.register_next_step_handler(call.message, globals()[f'command_{command}'], call)
             else:
                 bot.register_next_step_handler(call.message, open_command, call, command)
@@ -378,6 +386,34 @@ def command_create_command(message, call): # команда создания к�
 
     bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
 
+def command_rename_command(message, call): # команда изменения команды
+    if message.document: # Обработка документа
+        file_id = message.document.file_id
+        file_info = bot.get_file(file_id)
+        downloaded_file = bot.download_file(file_info.file_path)
+        filename = message.document.file_name
+        filename = filename.replace('_', '-')
+
+        with open(f'{command_path}/{filename}', 'wb') as new_file:
+            new_file.write(downloaded_file)
+
+        bot.answer_callback_query(callback_query_id=call.id, text="Команда изменена!")
+        notification('Команда изменена!', 'control-command', call=call)
+
+    elif message.text:
+        name = (call.data).split('_')[2]
+        text_content = message.text
+        existing_files = os.listdir(command_path)
+        file_name = f'{command_path}/{name}.py'
+
+        with open(file_name, 'w', encoding='utf-8') as text_file:
+            text_file.write(text_content)
+
+        bot.answer_callback_query(callback_query_id=call.id, text="Команда обновлена!")
+        notification('Команда успешно конвертирована и обновлена!', 'control-command', call=call)
+
+    bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
+
 def open_command(message, call, command):
     command = f'{folder}.command.{command}'
     try:
@@ -436,13 +472,17 @@ def callback_query(call):
     elif str((call.data)).count('_') <= 2:
         if (call.data).split('_')[0] == 'admin' and (call.data).split('_')[1] == 'edit-menu':
             open_menu((call.data).split('_')[1], call = call)
-        elif (call.data).split('_')[0] == 'admin' and ((call.data).split('_')[1].split('-')[0]) == 'rename':
+        if (call.data).split('_')[0] == 'admin' and ((call.data).split('_')[1].split('-')[0]) == 'rename' and ((call.data).split('_')[1].split('-')[1]) == 'object':
             rename_object = (call.data).split('-')[2].split('_')[0]
             for y, x in object_menu.items():
                 if x == rename_object:
                     open_menu('rename-object', call = call)
-        elif (call.data).split('_')[0] == 'admin' and (call.data).split('_')[1] == 'open-command':
+        if (call.data).split('_')[0] == 'admin' and (call.data).split('_')[1] == 'open-command':
             open_menu((call.data).split('_')[1], call = call)
+
+        if (call.data).split('_')[0] == 'admin' and ((call.data).split('_')[1].split('-')[0]) == 'rename' and ((call.data).split('_')[1].split('-')[1]) == 'command':
+            open_menu((call.data).split('_')[1], call = call)
+
 
     
 main_check()
