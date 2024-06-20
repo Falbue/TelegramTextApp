@@ -209,7 +209,7 @@ def create_keyboard(buttons, back): # создание клавиатуры
         keyboard.add(btn_return)
     return keyboard
 
-def update_buttons(path, key, exclude_main=False):
+def update_buttons(buttons, path, key, exclude_main=False):
     # замена квадратных скобок
     files = os.listdir(path)
     new_buttons = {}
@@ -238,10 +238,10 @@ def open_menu(name = None, call = None): # открытие меню в чате
             buttons = eval(buttons)
             if '[menu_lists]' in buttons:
                 exclude_main = buttons['[menu_lists]'].split('_')[1] == 'delete-menu'
-                buttons = update_buttons(menu_user_path, '[menu_lists]', exclude_main)
+                buttons = update_buttons(buttons, menu_user_path, '[menu_lists]', exclude_main)
             
             if '[command_lists]' in buttons:
-                buttons = update_buttons(command_path, '[command_lists]')
+                buttons = update_buttons(buttons, command_path, '[command_lists]')
 
             new_buttons = {}
             for key, value in buttons.items():
