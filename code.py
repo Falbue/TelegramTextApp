@@ -194,6 +194,14 @@ def open_menu(name = None, call = None): # открытие меню в чате
                     new_buttons[file_key] = buttons['[menu_lists]'] + '_' + file_key
                 buttons = new_buttons
 
+            if '[command_lists]' in buttons:
+                files = os.listdir(command_path)
+                new_buttons = {}
+                for filename in files:
+                    file_key = filename.split('.')[0]
+                    new_buttons[file_key] = buttons['[command_lists]'] + '_' + file_key
+                buttons = new_buttons
+
             new_buttons = {}
             for key, value in buttons.items():
                 if '[file-name]' in value:
