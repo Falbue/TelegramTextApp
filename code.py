@@ -146,10 +146,11 @@ def markdown_text(text, call): # mardown разметка
     text = text.replace('/n', '\n')
     text = square_rename(text, call)
     text = tg_markdown(text)
-    print(text)
     text = text.replace('////', '//')
+    text = text.replace('<', '//')
     text = text.replace('//', '\\')
     text = text.replace('/n', f' _~enter~_ ')
+    print(text)
     return(text)
 
 def create_menu(name=None, text='Измените текст!', buttons=None, back='main', type_menu=None, command=None): # создание меню
