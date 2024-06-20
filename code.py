@@ -378,10 +378,8 @@ def callback_query(call):
             for y, x in object_menu.items():
                 if x == rename_object:
                     open_menu('rename-object', call = call)
-
-    else:
-        print(f'Вызов не найден: {call.data}')
-        print(str((call.data)).count('_'))
+        elif (call.data).split('_')[0] == 'admin' and (call.data).split('_')[1] == 'open-command':
+            open_menu((call.data).split('_')[1], call = call)
 
     
 main_check()
