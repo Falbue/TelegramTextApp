@@ -353,7 +353,7 @@ def start(message): # обработка команды start
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_query(call):
-    print(call.data)
+    print(f'{call.data} ({(call.data).count("_")})')
 
     if (call.data).split('_')[0] == 'admin' and (call.data).split('_')[1] == 'delete-menu':
         delete_menu((call.data).split('_')[2], call)
