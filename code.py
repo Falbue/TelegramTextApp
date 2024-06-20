@@ -93,25 +93,63 @@ def now_time(): # получение текущего времени
     date = f"{current_date} {current_time}"
     return date
 
-def markdown_text(text, call): # mardown разметка 
-    if '[file-name]' in text or '[object-menu]' in text:
+def escape_markdown(text): # экранирование любых символов текста
+    special_characters = r'_*[]()~>#+-=|{}.!`'
+    escaped_text = ''
+    for char in text:
+        if char in special_characters:
+            escaped_text += '//' + char
+        else:
+            escaped_text += char
+    return escaped_text
+
+def tg_markdown(text): # экранирование только для телеграма
+    special_characters = r'[]()>#+-=|{}.!','/n'
+    escaped_text = ''
+    for char in text:
+        if char in special_characters:
+            escaped_text += '//' + char
+        else:
+            escaped_text += char
+    return escaped_text
+
+def square_rename(text, call):
+    if '[file-name]' in text:
+        text = text.replace('[file-name]', call.data.split('_')[2])
+
+    if '[file-code]' in text:
+        filename = call.data.split('_')[2]
+        path = f'{command_path}/{filename}.py'
+        with open(path, encoding='utf-8') as file:
+            code = file.read()
+        text = text.replace('[file-code]', f'```\n{code}\n```')
+
+    if '[object-menu]' in text:
+        object_m = (call.data).split('-')[2].split('_')[0]
+        for key, value in object_menu.items():
+            if object_m in value:
+                object_m = key
+                text = text.replace('[object-menu]', object_m)
+
+    if '[file-data]' in text:
         filename = call.data.split('_')[2]
         path = f'{menu_user_path}/{filename}.txt'
         if filename in [menu_item['name'] for menu_item in dev_menu]: path = f'{menu_dev_path}/{filename}.txt'
         with open(path, encoding='utf-8') as file:
             data = file.read()
-        try:
-            object_m = (call.data).split('-')[2].split('_')[0]
-            for key, value in object_menu.items():
-                if object_m in value:
-                    object_m = key
-                    text = text.replace('[object-menu]', object_m)
-        except:pass
-        text = text.replace('[file-name]', filename)
+            data = escape_markdown(data)
         text = text.replace('[file-data]', data)
 
-    text = text.replace('/n', '\n')
+    return text
 
+def markdown_text(text, call): # mardown разметка
+    text = text.replace('/n', '\n')
+    text = square_rename(text, call)
+    text = tg_markdown(text)
+    print(text)
+    text = text.replace('////', '//')
+    text = text.replace('//', '\\')
+    text = text.replace('/n', f' _~enter~_ ')
     return(text)
 
 def create_menu(name=None, text='Измените текст!', buttons=None, back='main', type_menu=None, command=None): # создание меню
@@ -231,9 +269,9 @@ def open_menu(name = None, call = None): # открытие меню в чате
     
         # изменение сообщения
         try:
-            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text = text, reply_markup = keyboard, parse_mode = 'Markdown')
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text = text, reply_markup = keyboard, parse_mode = 'MarkdownV2')
         except AttributeError as e: # этот код должен срабатывать, если в чате вообще нет сообщений
-            bot.send_message(call.chat.id, text, reply_markup = keyboard, parse_mode = 'Markdown')
+            bot.send_message(call.chat.id, text, reply_markup = keyboard, parse_mode = 'MarkdownV2')
             bot.delete_message(chat_id=call.chat.id, message_id=call.message_id)
         
     else:
