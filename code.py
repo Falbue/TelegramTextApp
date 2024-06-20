@@ -417,7 +417,7 @@ def command_rename_command(message, call): # команда изменения �
 def open_command(message, call, command):
     filename = f'{command_path}/{command}.py'
     try:
-        with open(filename, 'r') as file:
+        with open(filename, 'r', encoding='utf-8') as file:
             code = file.read()
         local_vars = {
             'message': message,
