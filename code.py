@@ -313,16 +313,16 @@ def command_rename_menu(user_call, call): # команда изменения м
         text = None
 
     if rename == 'buttons':
-        text = text.replace(' ','')
         buttons = {}
         if text.count(',') > 0:
             elements = text.split(',')
             for element in elements:
                 button_text, button_call = element.split(':')
+                button_call = button_call.replace(' ', '')
                 buttons[button_text] = f'user_{button_call}'
-        elif text.count(',') > 0:
-            element = text.split(',')
-            button_text, button_call = element.split(':')
+        else:
+            button_text, button_call = text.split(':')
+            button_call = button_call.replace(' ', '')
             buttons[button_text] = f'user_{button_call}'
         text = str(buttons)
 
