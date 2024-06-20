@@ -353,6 +353,12 @@ def start(message): # обработка команды start
 @bot.callback_query_handler(func=lambda call: True)
 def callback_query(call):
     print(call.data)
+
+    if (call.data).split('_')[0] == 'admin' and (call.data).split('_')[1] == 'delete-menu':
+        delete_menu((call.data).split('_')[2], call)
+    elif (call.data).split('_')[0] == 'admin' and (call.data).split('_')[1] == 'delete-command':
+        delete_command(call.data, call)
+
     if (call.data).split('_')[0] == 'return':
         bot.clear_step_handler_by_chat_id(chat_id=call.message.chat.id)
         open_menu(name = (call.data).split('_')[1], call = call)
@@ -364,9 +370,7 @@ def callback_query(call):
 
 
     elif str((call.data)).count('_') <= 2:
-        if (call.data).split('_')[0] == 'admin' and (call.data).split('_')[1] == 'delete':
-            delete_menu((call.data).split('_')[2], call)
-        elif (call.data).split('_')[0] == 'admin' and (call.data).split('_')[1] == 'edit-menu':
+        if (call.data).split('_')[0] == 'admin' and (call.data).split('_')[1] == 'edit-menu':
             open_menu((call.data).split('_')[1], call = call)
         elif (call.data).split('_')[0] == 'admin' and ((call.data).split('_')[1].split('-')[0]) == 'rename':
             rename_object = (call.data).split('-')[2].split('_')[0]
