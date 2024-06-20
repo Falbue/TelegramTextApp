@@ -189,7 +189,7 @@ def open_menu(name = None, call = None): # открытие меню в чате
                 files = os.listdir(menu_user_path)
                 new_buttons = {}
                 for filename in files:
-                    if buttons['[menu_lists]'].split('_')[1] == 'delete' and filename == 'main.txt': continue
+                    if buttons['[menu_lists]'].split('_')[1] == 'delete-menu' and filename == 'main.txt': continue
                     file_key = filename.split('.')[0]
                     new_buttons[file_key] = buttons['[menu_lists]'] + '_' + file_key
                 buttons = new_buttons
