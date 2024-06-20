@@ -323,10 +323,10 @@ def command_create_command(message, call):
         with open(file_name, 'w', encoding='utf-8') as text_file:
             text_file.write(text_content)
 
-    bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
+        bot.answer_callback_query(callback_query_id=call.id, text="Команда добавлена!")
+        notification('Команда успешно конвертирована и добавлена!', 'control-command', call=call)
 
-    bot.answer_callback_query(callback_query_id=call.id, text="Команда добавлена!")
-    notification('Команда добавлена!', 'control-command', call=call)
+    bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
 
 @bot.message_handler(commands=['start'])
 def start(message): # обработка команды start
