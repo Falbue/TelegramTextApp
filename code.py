@@ -242,6 +242,13 @@ def delete_menu(name, call): # удаление меню
     print(f'Меню {name}.txt удалено!')
     notification('Меню удалено!', 'delete-menu', call = call)
 
+def delete_command(name, call): # удаление меню
+    name = name.replace('admin_delete-command_', '')
+    os.remove(f'{command_path}/{name}.py')
+    print(f'Команда {name}.pt удалена!')
+    notification('Команда удалена!', 'list-delete-command', call = call)
+    bot.answer_callback_query(callback_query_id=call.id, text="Команда удалена!")
+
 def notification(text=None, back=None, all_users=None, call=None): # вставка меню (без создания)
     buttons={}
     keyboard = create_keyboard(buttons, back)
