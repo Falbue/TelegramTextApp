@@ -209,6 +209,17 @@ def create_keyboard(buttons, back): # создание клавиатуры
         keyboard.add(btn_return)
     return keyboard
 
+def update_buttons(path, key, exclude_main=False):
+    # замена квадратных скобок
+    files = os.listdir(path)
+    new_buttons = {}
+    for filename in files:
+        if exclude_main and filename == 'main.txt': 
+            continue
+        file_key = filename.split('.')[0]
+        new_buttons[file_key] = buttons[key] + '_' + file_key
+    return new_buttons
+
 def open_menu(name = None, call = None): # открытие меню в чате из файла
     # получение данных для меню
     data = open_data_menu(name)        
@@ -226,21 +237,11 @@ def open_menu(name = None, call = None): # открытие меню в чате
         if buttons is not None and buttons:
             buttons = eval(buttons)
             if '[menu_lists]' in buttons:
-                files = os.listdir(menu_user_path)
-                new_buttons = {}
-                for filename in files:
-                    if buttons['[menu_lists]'].split('_')[1] == 'delete-menu' and filename == 'main.txt': continue
-                    file_key = filename.split('.')[0]
-                    new_buttons[file_key] = buttons['[menu_lists]'] + '_' + file_key
-                buttons = new_buttons
-
+                exclude_main = buttons['[menu_lists]'].split('_')[1] == 'delete-menu'
+                buttons = update_buttons(menu_user_path, '[menu_lists]', exclude_main)
+            
             if '[command_lists]' in buttons:
-                files = os.listdir(command_path)
-                new_buttons = {}
-                for filename in files:
-                    file_key = filename.split('.')[0]
-                    new_buttons[file_key] = buttons['[command_lists]'] + '_' + file_key
-                buttons = new_buttons
+                buttons = update_buttons(command_path, '[command_lists]')
 
             new_buttons = {}
             for key, value in buttons.items():
