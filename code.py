@@ -252,7 +252,7 @@ def open_menu(name = None, call = None): # открытие меню в чате
             buttons = new_buttons
 
         if back != None:
-            back = markdown_text(back, call)
+            back = square_rename(back, call)
         keyboard = create_keyboard(buttons, back)
         try:
             if name == 'main' and id_admin == (call.chat.id):
