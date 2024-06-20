@@ -42,7 +42,8 @@ dev_menu = [
     {"name": "control-command", "text": 'Выберите, нужное действие', 'buttons':{'Список команд': 'admin_list-commands', 'Добавить команду': 'admin_add-command', 'Удалить команду': 'admin_list-delete-command'}, 'back': 'admin'},
     {"name": "add-command", "text": 'Введите команду либо загрузите python файл', 'back': 'control-command', 'type_menu': 'insert_text', 'command': 'create_command'},
     {"name": "list-delete-command", "text": 'Выберите, какую команду нужно удалить', 'buttons': {'[command_lists]': 'admin_delete-command'}, 'back': 'control-command'},
-    {"name": "list-commands", "text": 'Все добавленные команды/n/n[list-command]', 'back': 'control-command'},
+    {"name": "list-commands", "text": 'Все добавленные команды', 'buttons': {'[command_lists]': 'admin_open-command'},  'back': 'control-command'},
+    {"name": "open-command", "text": '[file-code]', 'back': 'list-commands'},
 ]
 
 # основные функции
