@@ -35,12 +35,12 @@ dev_menu = [
     {"name": "admin", "text": 'Панель администратора', 'buttons': {'Настройка меню': 'admin_settings-menu', 'Управление командами': 'admin_control-command'}, 'back': 'main'},
     {"name": "settings-menu", "text": 'Найстройки меню', 'buttons': {'Редактировать': 'admin_list-edit-menu', '+ Создать': 'admin_create-menu', '× Удалить ': 'admin_list-delete-menu'}, 'back': 'admin'},
     {"name": "list-edit-menu", "text": 'Выберите меню, которое хотите отредактировать', 'buttons': {'[menu_lists]': 'admin_edit-menu'}, 'back': 'settings-menu'},
-    {"name": "create-menu", "text": 'Введите название меню/n/nНазвание меню не должно содержать  *<_* и *-* !', 'back': 'settings-menu', 'type_menu': 'insert_text', 'command': 'create_menu'},
+    {"name": "create-menu", "text": 'Введите название меню/n/nНазвание меню не должно содержать  *<_* и *-* !', 'back': 'settings-menu', 'type_menu': 'insertion', 'command': 'create_menu'},
     {"name": "list-delete-menu", "text": 'Выберите меню для удаления', 'buttons': {'[menu_lists]': 'admin_delete-menu'}, 'back': 'settings-menu'},
     {"name": "edit-menu", "text": '*Выбранное меню:* [file-name]/n/n[file-data]/n/nВыберите, что нужно изменить:', 'buttons': buttons_edit_menu, 'back': 'list-edit-menu'},
-    {"name": "rename-object", "text": '*Введите:* [object-menu]', 'back': 'edit-menu_[file-name]', 'type_menu': 'insert_text', 'command': 'rename_menu'},
+    {"name": "rename-object", "text": '*Введите:* [object-menu]', 'back': 'edit-menu_[file-name]', 'type_menu': 'insertion', 'command': 'rename_menu'},
     {"name": "control-command", "text": 'Выберите, нужное действие', 'buttons':{'Список команд': 'admin_list-commands', 'Добавить команду': 'admin_add-command', 'Удалить команду': 'admin_list-delete-command'}, 'back': 'admin'},
-    {"name": "add-command", "text": 'Введите команду либо загрузите python файл', 'back': 'control-command', 'type_menu': 'insert_text', 'command': 'create_command'},
+    {"name": "add-command", "text": 'Введите команду либо загрузите python файл', 'back': 'control-command', 'type_menu': 'insertion', 'command': 'create_command'},
     {"name": "list-delete-command", "text": 'Выберите, какую команду нужно удалить', 'buttons': {'[command_lists]': 'admin_delete-command'}, 'back': 'control-command'},
     {"name": "list-commands", "text": 'Все добавленные команды', 'buttons': {'[command_lists]': 'admin_open-command'},  'back': 'control-command'},
     {"name": "open-command", "text": '[file-code]', 'back': 'list-commands'},
@@ -150,7 +150,6 @@ def markdown_text(text, call): # mardown разметка
     text = text.replace('<', '//')
     text = text.replace('//', '\\')
     text = text.replace('/n', f' _~enter~_ ')
-    print(text)
     return(text)
 
 def create_menu(name=None, text='Измените текст!', buttons=None, back='main', type_menu=None, command=None): # создание меню
@@ -163,7 +162,7 @@ def create_menu(name=None, text='Измените текст!', buttons=None, ba
         back = None
 
     with open(path, 'w+', encoding='utf-8') as file:
-        file.write(f'text: {text}\nbuttons: {buttons}\nback: {back}\ntype-menu: {type_menu}\ncommand: {command}')
+        file.write(f'text: {text}\nbuttons: {buttons}\nback: {back}\ntype: {type_menu}\ncommand: {command}')
 
 def create_dev_menu(): # создание меню программы
     for menu in dev_menu:
@@ -228,7 +227,7 @@ def open_menu(name = None, call = None): # открытие меню в чате
         text = None if isinstance(data['text'], str) and data['text'] == 'None' else data['text']
         buttons = None if data['buttons'] == 'None' else data['buttons']
         back = None if isinstance(data['back'], str) and data['back'] == 'None' else data['back']
-        type_menu = None if isinstance(data['type-menu'], str) and data['type-menu'] == 'None' else data['type-menu']
+        type_menu = None if isinstance(data['type'], str) and data['type'] == 'None' else data['type']
         command = None if isinstance(data['command'], str) and data['command'] == 'None' else data['command']
 
         # работа с текстом
@@ -263,9 +262,8 @@ def open_menu(name = None, call = None): # открытие меню в чате
         except:
             if name == 'main' and id_admin == (call.message.chat.id):
                 keyboard.add(InlineKeyboardButton(text = 'Администратор', callback_data = 'admin_admin'))
-    
         # работа с типом меню
-        if type_menu == 'insert_text':
+        if type_menu == 'insertion':
             print(f'Ожидание ввода')
             x = f'command_{command}'
             bot.register_next_step_handler(call.message, globals()[x], call)
@@ -275,7 +273,7 @@ def open_menu(name = None, call = None): # открытие меню в чате
             bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text = text, reply_markup = keyboard, parse_mode = 'MarkdownV2')
         except AttributeError as e: # этот код должен срабатывать, если в чате вообще нет сообщений
             bot.send_message(call.chat.id, text, reply_markup = keyboard, parse_mode = 'MarkdownV2')
-            bot.delete_message(chat_id=call.chat.id, message_id=call.message_id)
+            bot.delete_message(chat_id=call.chat.id, message_id=call.message_id) 
         
     else:
         print(f"Меню {name} не найдено!")
