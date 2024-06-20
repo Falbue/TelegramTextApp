@@ -58,7 +58,10 @@ def main_check(): # основные проверки
         print("Папка с пользовательскими меню создана")
     if not os.path.exists(menu_dev_path):
         os.makedirs(menu_dev_path)
-        print("Папка c меню приложения создана")     
+        print("Папка c меню приложения создана")   
+    if not os.path.exists(command_path):
+        os.makedirs(command_path)
+        print("Папка с командами создана")   
     if not os.path.exists(error_path):
         with open(error_path, 'w'): 
             pass
