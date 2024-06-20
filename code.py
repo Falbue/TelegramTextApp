@@ -246,7 +246,7 @@ def delete_menu(name, call): # удаление меню
 def delete_command(name, call): # удаление меню
     name = name.replace('admin_delete-command_', '')
     os.remove(f'{command_path}/{name}.py')
-    print(f'Команда {name}.pt удалена!')
+    print(f'Команда {name}.py удалена!')
     notification('Команда удалена!', 'list-delete-command', call = call)
     bot.answer_callback_query(callback_query_id=call.id, text="Команда удалена!")
 
