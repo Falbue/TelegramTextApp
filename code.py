@@ -415,17 +415,21 @@ def command_rename_command(message, call): # команда изменения �
     bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
 
 def open_command(message, call, command):
-    command = f'{folder}.command.{command}'
+    filename = f'{command_path}/{command}.py'
     try:
-        script_module = importlib.import_module(command)
-        if hasattr(script_module, 'main'):
-            script_module.main()
-        else:
-            with open(script_module.__file__, encoding = 'utf-8') as f:
-                code = f.read()
-                exec(code)
+        with open(filename, 'r') as file:
+            code = file.read()
+        local_vars = {
+            'message': message,
+            'call': call,
+            'bot': bot  # Если `bot` тоже используется в файле
+        }
+        exec(code, globals(), local_vars)
+        print(f"Код из {filename} успешно выполнен.")
+    except FileNotFoundError:
+        print(f"Файл {filename} не найден.")
     except Exception as e:
-        print(f"Ошибка импорта модуля {command}: {e}")
+        print(f"Ошибка при выполнении кода из файла {filename}: {e}")
 
 @bot.message_handler(commands=['start'])
 def start(message): # обработка команды start
