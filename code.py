@@ -36,7 +36,7 @@ dev_menu = [
     {"name": "admin", "text": 'Панель администратора', 'buttons': {'Настройка меню': 'admin_settings-menu', 'Управление командами': 'admin_control-command'}, 'back': 'main'},
     {"name": "settings-menu", "text": 'Найстройки меню', 'buttons': {'Редактировать': 'admin_list-edit-menu', '+ Создать': 'admin_create-menu', '× Удалить ': 'admin_list-delete-menu'}, 'back': 'admin'},
     {"name": "list-edit-menu", "text": 'Выберите меню, которое хотите отредактировать', 'buttons': {'[menu_lists]': 'admin_edit-menu'}, 'back': 'settings-menu'},
-    {"name": "create-menu", "text": 'Введите название меню/n/nНазвание меню не должно содержать  *<_* и *-* !', 'back': 'settings-menu', 'type_menu': 'insertion', 'command': 'create_menu'},
+    {"name": "create-menu", "text": 'Введите название меню/n/nНазвание меню не должно содержать  *<_* !', 'back': 'settings-menu', 'type_menu': 'insertion', 'command': 'create_menu'},
     {"name": "list-delete-menu", "text": 'Выберите меню для удаления', 'buttons': {'[menu_lists]': 'admin_delete-menu'}, 'back': 'settings-menu'},
     {"name": "edit-menu", "text": '*Выбранное меню:* [file-name]/n/n[file-data]/n/nВыберите, что нужно изменить:', 'buttons': buttons_edit_menu, 'back': 'list-edit-menu'},
     {"name": "rename-object", "text": '*Введите:* [object-menu]', 'back': 'edit-menu_[file-name]', 'type_menu': 'insertion', 'command': 'rename_menu'},
