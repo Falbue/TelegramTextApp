@@ -472,34 +472,14 @@ def callback_query(call):
     elif (call.data).split('_')[0] == 'admin' and (call.data).split('_')[1] == 'delete-command':
         delete_command(call.data, call)
 
-    if (call.data).split('_')[0] == 'return':
+    elif (call.data).split('_')[0] == 'return':
         bot.clear_step_handler_by_chat_id(chat_id=call.message.chat.id)
         open_menu(name = (call.data).split('_')[1], call = call)
-    elif str((call.data)).count('_') <= 1:
-        if (call.data).split('_')[0] == 'admin':
-            open_menu(name = (call.data).split('_')[1], call = call)
-        if (call.data).split('_')[0] == 'user':
-            open_menu(name = (call.data).split('_')[1], call = call)
+
+    else:
+        open_menu((call.data).split('_')[1], call = call)
 
 
-    elif str((call.data)).count('_') <= 2:
-        if (call.data).split('_')[0] == 'admin' and (call.data).split('_')[1] == 'edit-menu':
-            open_menu((call.data).split('_')[1], call = call)
-        elif (call.data).split('_')[0] == 'admin' and ((call.data).split('_')[1].split('-')[0]) == 'rename' and ((call.data).split('_')[1].split('-')[1]) == 'object':
-            rename_object = (call.data).split('-')[2].split('_')[0]
-            for y, x in object_menu.items():
-                if x == rename_object:
-                    open_menu('rename-object', call = call)
-        elif (call.data).split('_')[0] == 'admin' and (call.data).split('_')[1] == 'open-command':
-            open_menu((call.data).split('_')[1], call = call)
-
-        elif (call.data).split('_')[0] == 'admin' and ((call.data).split('_')[1].split('-')[0]) == 'edit' and ((call.data).split('_')[1].split('-')[1]) == 'command':
-            open_menu((call.data).split('_')[1], call = call)
-        elif (call.data).split('_')[0] == 'admin' and ((call.data).split('_')[1].split('-')[0]) == 'rename' and ((call.data).split('_')[1].split('-')[1]) == 'command':
-            open_menu((call.data).split('_')[1], call = call) 
-
-
-    
 main_check()
 print("Бот запущен...")
 
