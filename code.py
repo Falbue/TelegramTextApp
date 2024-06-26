@@ -44,8 +44,9 @@ dev_menu = [
     {"name": "add-command", "text": 'Отправьте текст либо загрузите python файл', 'back': 'control-command', 'type_menu': 'insertion', 'command': 'create_command'},
     {"name": "list-delete-command", "text": 'Выберите, какую команду нужно удалить', 'buttons': {'[command_lists]': 'admin_delete-command'}, 'back': 'control-command'},
     {"name": "list-commands", "text": 'Все добавленные команды', 'buttons': {'[command_lists]': 'admin_open-command'},  'back': 'control-command'},
-    {"name": "open-command", "text": '[file-name]/n[file-code]', 'buttons':{'Изменить': 'admin_rename-command_[command-name]'}, 'back': 'list-commands'},
-    {"name": "rename-command", "text": 'Отправьте текст либо загрузите python файл', 'type_menu': 'insertion', 'command': 'rename_command', 'back': 'list-commands'},
+    {"name": "open-command", "text": '*Название: *[file-name]/n[file-code]', 'buttons':{'Переименовать':'admin_rename-command_[command-name]','Изменить код': 'admin_edit-command_[command-name]'}, 'back': 'list-commands'},
+    {"name": "edit-command", "text": 'Отправьте текст либо загрузите python файл', 'type_menu': 'insertion', 'command': 'update_command', 'back': 'open-command_[file-name]'},
+    {"name": "rename-command", "text": 'Введите новое название команды', 'type_menu': 'insertion', 'command': 'rename_command', 'back': 'list-commands'},
 ]
 
 # основные функции
@@ -386,7 +387,7 @@ def command_create_command(message, call): # команда создания к�
 
     bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
 
-def command_rename_command(message, call): # команда изменения команды
+def command_updade_command(message, call): # команда изменения команды
     if message.document: # Обработка документа
         file_id = message.document.file_id
         file_info = bot.get_file(file_id)
@@ -413,6 +414,14 @@ def command_rename_command(message, call): # команда изменения �
         notification('Команда успешно конвертирована и обновлена!', 'control-command', call=call)
 
     bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
+
+def command_rename_command(message, call): # команда переименования файла команды
+    bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
+    old_name = (call.data).split('_')[2]
+    new_name = message.text
+    os.rename(f"{command_path}/{old_name}.py", f"{command_path}/{new_name}.py")
+
+
 
 def open_command(message, call, command):
     filename = f'{command_path}/{command}.py'
@@ -456,7 +465,7 @@ def start(message): # обработка команды start
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_query(call):
-    # print(f'{call.data} ({(call.data).count("_")})')
+    print(f'{call.data} ({(call.data).count("_")})')
 
     if (call.data).split('_')[0] == 'admin' and (call.data).split('_')[1] == 'delete-menu':
         delete_menu((call.data).split('_')[2], call)
@@ -476,16 +485,18 @@ def callback_query(call):
     elif str((call.data)).count('_') <= 2:
         if (call.data).split('_')[0] == 'admin' and (call.data).split('_')[1] == 'edit-menu':
             open_menu((call.data).split('_')[1], call = call)
-        if (call.data).split('_')[0] == 'admin' and ((call.data).split('_')[1].split('-')[0]) == 'rename' and ((call.data).split('_')[1].split('-')[1]) == 'object':
+        elif (call.data).split('_')[0] == 'admin' and ((call.data).split('_')[1].split('-')[0]) == 'rename' and ((call.data).split('_')[1].split('-')[1]) == 'object':
             rename_object = (call.data).split('-')[2].split('_')[0]
             for y, x in object_menu.items():
                 if x == rename_object:
                     open_menu('rename-object', call = call)
-        if (call.data).split('_')[0] == 'admin' and (call.data).split('_')[1] == 'open-command':
+        elif (call.data).split('_')[0] == 'admin' and (call.data).split('_')[1] == 'open-command':
             open_menu((call.data).split('_')[1], call = call)
 
-        if (call.data).split('_')[0] == 'admin' and ((call.data).split('_')[1].split('-')[0]) == 'rename' and ((call.data).split('_')[1].split('-')[1]) == 'command':
+        elif (call.data).split('_')[0] == 'admin' and ((call.data).split('_')[1].split('-')[0]) == 'edit' and ((call.data).split('_')[1].split('-')[1]) == 'command':
             open_menu((call.data).split('_')[1], call = call)
+        elif (call.data).split('_')[0] == 'admin' and ((call.data).split('_')[1].split('-')[0]) == 'rename' and ((call.data).split('_')[1].split('-')[1]) == 'command':
+            open_menu((call.data).split('_')[1], call = call) 
 
 
     
