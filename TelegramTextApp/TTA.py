@@ -5,22 +5,15 @@ import telebot
 from datetime import datetime
 import pytz
 
-bot_api = API
-name_bot = NAME
-id_admin = ID
+chek_data = False
 
-bot = telebot.TeleBot(bot_api)
+def start(API, NAME, ID):
+    global bot_api, name_bot, id_admin, chek_data 
+    bot_api = API
+    name_bot = NAME
+    id_admin = ID
 
-# пути
-folder_path = f"{name_bot}"
-db_name = "database.db"
-db_path = os.path.join(folder_path, db_name)
-texts_path = f"{folder_path}/texts"
-menu_user_path = f'{folder_path}/user_menu'
-menu_dev_path = f'{folder_path}/telegram_text_apps_menu'
-error_path = f'{texts_path}/error_log.txt'
-command_path = f'{folder_path}/command'
-
+    chek_data = True
 
 # основные функции
 def now_time(): # получение текущего времени
@@ -364,8 +357,7 @@ def open_command(message, call, command):
     except Exception as e:
         print(f"Ошибка при выполнении кода из файла {filename}: {e}")
 
-@bot.message_handler(commands=['start'])
-def start(message): # обработка команды start
+def handler_start(message): # фунция добавления пользователя в базу приложения
     message_id = message.id
     conn = sqlite3.connect(db_path)
     c = conn.cursor()
@@ -384,11 +376,27 @@ def start(message): # обработка команды start
         pass
     conn.close()
 
-    open_menu('main', message)
+while:
+    if chek_data == True:
+        bot = telebot.TeleBot(bot_api)    
+        # пути
+        folder_path = f"{name_bot}"
+        db_name = "database.db"
+        db_path = os.path.join(folder_path, db_name)
+        texts_path = f"{folder_path}/texts"
+        menu_user_path = f'{folder_path}/user_menu'
+        menu_dev_path = f'{folder_path}/telegram_text_apps_menu'
+        error_path = f'{texts_path}/error_log.txt'
+        command_path = f'{folder_path}/command'
 
-
-@bot.callback_query_handler(func=lambda call: True)
-def callback_query(call):
+        @bot.message_handler(commands=['start'])
+        def start(message): # обработка команды start
+            handler_start(message)
+            open_menu('main', message)
+        
+        
+        @bot.callback_query_handler(func=lambda call: True)
+        def callback_query(call):
     print(f'{call.data} ({(call.data).count("_")})')
 
     if (call.data).split('_')[0] == 'admin' and (call.data).split('_')[1] == 'delete-menu':
@@ -402,13 +410,12 @@ def callback_query(call):
 
     else:
         open_menu((call.data).split('_')[1], call = call)
-
-
-print("Бот запущен...")
-
-try:
+        
+        print("Бот запущен...")
+        
+        try:
     bot.polling(non_stop = True)
-except Exception as e:
-    with open(error_path, 'w+', encoding='utf-8') as f:
-        f.write(str(e) + "\n")
-        goodbuy
+        except Exception as e:
+            with open(error_path, 'w+', encoding='utf-8') as f:
+                f.write(str(e) + "\n")
+                goodbuy
