@@ -2,30 +2,27 @@ import os
 import sqlite3
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 import telebot
-import re
 from datetime import datetime
 import pytz
-import sys
-import re
-import importlib
-import threading
 
-bot_api = ''
-folder = 'test'
-id_admin = 0
 
-sys.path.append(folder)
+def start(API, ID, NAME):
+    global bot_api, name_bot, id_admin
+    bot_api = API
+    name_bot = NAME
+    id_admin = ID
+
 bot = telebot.TeleBot(bot_api)
 
 # пути
-folder_path = f"{folder}"
+folder_path = f"{name_bot}"
 db_name = "database.db"
 db_path = os.path.join(folder_path, db_name)
-texts_path = f"{folder}/texts"
-menu_user_path = f'{folder}/user_menu'
-menu_dev_path = f'{folder}/telegram_text_apps_menu'
+texts_path = f"{folder_path}/texts"
+menu_user_path = f'{folder_path}/user_menu'
+menu_dev_path = f'{folder_path}/telegram_text_apps_menu'
 error_path = f'{texts_path}/error_log.txt'
-command_path = f'{folder}/command'
+command_path = f'{folder_path}/command'
 
 object_menu = {'Текст':'text', 'Кнопки':'buttons', 'Возврат':'back', 'Тип':'type', 'Команда':'command'}
 buttons_edit_menu = {key: f'admin_rename-object-{value}_[file-name]' for key, value in object_menu.items()}
@@ -49,8 +46,8 @@ dev_menu = [
 
 # основные функции
 def main_check(): # основные проверки
-    if not os.path.exists(f"{folder}"):
-        os.makedirs(f"{folder}")
+    if not os.path.exists(f"{folder_path}"):
+        os.makedirs(f"{folder_path}")
         print("Папка библиотеки создана")
     if not os.path.exists(texts_path):
         os.makedirs(texts_path)
@@ -72,7 +69,7 @@ def main_check(): # основные проверки
         create_menu('main', 'Главное меню') # создание главного меню
         print('Главное меню создано!')
     if not os.path.exists(db_path):
-        conn = sqlite3.connect(f"{folder}/database.db")
+        conn = sqlite3.connect(f"{folder_path}/database.db")
         cursor = conn.cursor()
         cursor.execute('''
             CREATE TABLE users (
@@ -419,8 +416,6 @@ def command_rename_command(message, call): # команда переименов
     old_name = (call.data).split('_')[2]
     new_name = message.text
     os.rename(f"{command_path}/{old_name}.py", f"{command_path}/{new_name}.py")
-
-
 
 def open_command(message, call, command):
     filename = f'{command_path}/{command}.py'
