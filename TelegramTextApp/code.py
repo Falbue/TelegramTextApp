@@ -9,7 +9,6 @@ import sys
 import re
 import importlib
 import threading
-import config
 
 
 def TelegramTextApp(API, ADMIN, FOLDER):
