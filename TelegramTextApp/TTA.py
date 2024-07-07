@@ -5,15 +5,22 @@ import telebot
 from datetime import datetime
 import pytz
 
-chek_data = False
+bot_api = API
+name_bot = NAME
+id_admin = ID
 
-def start(API, NAME, ID):
-    global bot_api, name_bot, id_admin, chek_data 
-    bot_api = API
-    name_bot = NAME
-    id_admin = ID
+bot = telebot.TeleBot(bot_api)
 
-    chek_data = True
+# пути
+folder_path = f"{name_bot}"
+db_name = "database.db"
+db_path = os.path.join(folder_path, db_name)
+texts_path = f"{folder_path}/texts"
+menu_user_path = f'{folder_path}/user_menu'
+menu_dev_path = f'{folder_path}/telegram_text_apps_menu'
+error_path = f'{texts_path}/error_log.txt'
+command_path = f'{folder_path}/command'
+
 
 # основные функции
 def now_time(): # получение текущего времени
@@ -376,46 +383,36 @@ def handler_start(message): # фунция добавления пользова
         pass
     conn.close()
 
-while True:
-    if chek_data == True:
-        bot = telebot.TeleBot(bot_api)    
-        # пути
-        folder_path = f"{name_bot}"
-        db_name = "database.db"
-        db_path = os.path.join(folder_path, db_name)
-        texts_path = f"{folder_path}/texts"
-        menu_user_path = f'{folder_path}/user_menu'
-        menu_dev_path = f'{folder_path}/telegram_text_apps_menu'
-        error_path = f'{texts_path}/error_log.txt'
-        command_path = f'{folder_path}/command'
+while if :
+    
 
-        @bot.message_handler(commands=['start'])
-        def start(message): # обработка команды start
-            handler_start(message)
-            open_menu('main', message)
-        
-        
-        @bot.callback_query_handler(func=lambda call: True)
-        def callback_query(call):
-            print(f'{call.data} ({(call.data).count("_")})')
-        
-            if (call.data).split('_')[0] == 'admin' and (call.data).split('_')[1] == 'delete-menu':
-                delete_menu((call.data).split('_')[2], call)
-            elif (call.data).split('_')[0] == 'admin' and (call.data).split('_')[1] == 'delete-command':
-                delete_command(call.data, call)
-        
-            elif (call.data).split('_')[0] == 'return':
-                bot.clear_step_handler_by_chat_id(chat_id=call.message.chat.id)
-                open_menu(name = (call.data).split('_')[1], call = call)
-        
-            else:
-                open_menu((call.data).split('_')[1], call = call)
-            
-        print("Бот запущен...")
-        
-        try:
-            bot.polling(non_stop = True)
-        except Exception as e:
-            with open(error_path, 'w+', encoding='utf-8') as f:
-                f.write(str(e) + "\n")
-                goodbuy
+@bot.message_handler(commands=['start'])
+def start(message): # обработка команды start
+    handler_start(message)
+    open_menu('main', message)
+
+
+@bot.callback_query_handler(func=lambda call: True)
+def callback_query(call):
+    print(f'{call.data} ({(call.data).count("_")})')
+
+    if (call.data).split('_')[0] == 'admin' and (call.data).split('_')[1] == 'delete-menu':
+        delete_menu((call.data).split('_')[2], call)
+    elif (call.data).split('_')[0] == 'admin' and (call.data).split('_')[1] == 'delete-command':
+        delete_command(call.data, call)
+
+    elif (call.data).split('_')[0] == 'return':
+        bot.clear_step_handler_by_chat_id(chat_id=call.message.chat.id)
+        open_menu(name = (call.data).split('_')[1], call = call)
+
+    else:
+        open_menu((call.data).split('_')[1], call = call)
+
+print("Бот запущен...")
+
+try:
+    bot.polling(non_stop = True)
+except Exception as e:
+    with open(error_path, 'w+', encoding='utf-8') as f:
+        f.write(str(e) + "\n")
+        goodbuy
