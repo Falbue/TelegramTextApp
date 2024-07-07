@@ -79,8 +79,8 @@ def main_check(folder_path): # основные проверки
         conn.close()
         print("База данных создана")
 
-    source = 'bot.py'
-    destination = folder_path
+    source = '  TelegramTextApp/bot.py'
+    destination = f'TelegramTextApp/{folder_path}'
     shutil.copy(source, destination)
 
     create_dev_menu()
