@@ -1,1 +1,1 @@
-from .TTA import start
+from .create_bot import *
