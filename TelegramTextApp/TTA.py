@@ -376,7 +376,7 @@ def handler_start(message): # фунция добавления пользова
         pass
     conn.close()
 
-while:
+while True:
     if chek_data == True:
         bot = telebot.TeleBot(bot_api)    
         # пути
@@ -397,24 +397,24 @@ while:
         
         @bot.callback_query_handler(func=lambda call: True)
         def callback_query(call):
-    print(f'{call.data} ({(call.data).count("_")})')
-
-    if (call.data).split('_')[0] == 'admin' and (call.data).split('_')[1] == 'delete-menu':
-        delete_menu((call.data).split('_')[2], call)
-    elif (call.data).split('_')[0] == 'admin' and (call.data).split('_')[1] == 'delete-command':
-        delete_command(call.data, call)
-
-    elif (call.data).split('_')[0] == 'return':
-        bot.clear_step_handler_by_chat_id(chat_id=call.message.chat.id)
-        open_menu(name = (call.data).split('_')[1], call = call)
-
-    else:
-        open_menu((call.data).split('_')[1], call = call)
+            print(f'{call.data} ({(call.data).count("_")})')
         
+            if (call.data).split('_')[0] == 'admin' and (call.data).split('_')[1] == 'delete-menu':
+                delete_menu((call.data).split('_')[2], call)
+            elif (call.data).split('_')[0] == 'admin' and (call.data).split('_')[1] == 'delete-command':
+                delete_command(call.data, call)
+        
+            elif (call.data).split('_')[0] == 'return':
+                bot.clear_step_handler_by_chat_id(chat_id=call.message.chat.id)
+                open_menu(name = (call.data).split('_')[1], call = call)
+        
+            else:
+                open_menu((call.data).split('_')[1], call = call)
+            
         print("Бот запущен...")
         
         try:
-    bot.polling(non_stop = True)
+            bot.polling(non_stop = True)
         except Exception as e:
             with open(error_path, 'w+', encoding='utf-8') as f:
                 f.write(str(e) + "\n")
