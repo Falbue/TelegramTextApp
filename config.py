@@ -1,2 +1,3 @@
-bot_api = ''
+api = ''
 id_admin = 1
+folder = 'data'
