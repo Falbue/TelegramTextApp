@@ -1,2 +1,2 @@
-import create_bot
-import TTA
+from .create_bot import *
+from .TTA import *
