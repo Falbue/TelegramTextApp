@@ -8,21 +8,18 @@ with open(os.path.join(this_directory, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='TelegramTextApp',
-    version='0.0.7',
+    version='0.0.7.1',
     packages=find_packages(),
     install_requires=[
         'pyTelegramBotAPI',
         'pytz',
     ],
-
     entry_points={
         'console_scripts': [
             'TTA=TelegramTextApp.code:main',
         ],
     },
-
-    # Добавляем long_description и long_description_content_type
-    ng_description=long_description,
+    long_description=long_description,
     long_description_content_type='text/markdown',
     author="Falbue",
     author_email="cyansair05@gmail.com",
