@@ -9,36 +9,25 @@ import sys
 import re
 import importlib
 import threading
+import GlobalVar
 
-def TTA(API, ADMIN, FOLDER):
-    global bot_api, id_admin, folder, bot, folder_path, db_name, db_path, texts_path, menu_user_path, menu_dev_path, error_path, command_path
-
-    bot_api = API
-    folder = FOLDER
-    id_admin = ADMIN
-
-    sys.path.append(folder)
-    bot = telebot.TeleBot(bot_api)
+bot_api = GlobalVar.api
+folder = GlobalVar.folder
+id_admin = GlobalVar.admin
+sys.path.append(folder)
+bot = telebot.TeleBot(bot_api)
     
-    # пути
-    folder_path = f"{folder}"
-    db_name = "database.db"
-    db_path = os.path.join(folder_path, db_name)
-    texts_path = f"{folder}/texts"
-    menu_user_path = f'{folder}/user_menu'
-    menu_dev_path = f'{folder}/telegram_text_apps_menu'
-    error_path = f'{texts_path}/error_log.txt'
-    command_path = f'{folder}/command'
-
-    main_check()
-    print("Бот запущен...")
     
-    try:
-        bot.polling(non_stop = True)
-    except Exception as e:
-        with open(error_path, 'w+', encoding='utf-8') as f:
-            f.write(str(e) + "\n")
-            goodbuy
+
+# пути
+folder_path = f"{folder}"
+db_name = "database.db"
+db_path = os.path.join(folder_path, db_name)
+texts_path = f"{folder}/texts"
+menu_user_path = f'{folder}/user_menu'
+menu_dev_path = f'{folder}/telegram_text_apps_menu'
+error_path = f'{texts_path}/error_log.txt'
+command_path = f'{folder}/command'
 
 object_menu = {'Текст':'text', 'Кнопки':'buttons', 'Возврат':'back', 'Тип':'type', 'Команда':'command'}
 buttons_edit_menu = {key: f'admin_rename-object-{value}_[file-name]' for key, value in object_menu.items()}
@@ -489,3 +478,14 @@ def callback_query(call):
 
     else:
         open_menu((call.data).split('_')[1], call = call)
+
+
+main_check()
+print("Бот запущен...")
+
+try:
+    bot.polling(non_stop = True)
+except Exception as e:
+    with open(error_path, 'w+', encoding='utf-8') as f:
+        f.write(str(e) + "\n")
+        goodbuy
