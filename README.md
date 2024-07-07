@@ -4,12 +4,18 @@
 **<h2>Текстовое приложение</h2>**
 Под текстовым приложением, подразумевается, приложение, которе состоит из одного сообщения и все действия с ботом происходят через __inline-button__
 
-**<h2>Используемые библиотеки</h2>**
-- os
-- sqlite3
-- telebot
-- re
-- datetime
-- pytz
-- sys
-- threading
+## Установка
+```shell
+pip install git+https://github.com/Falbue/TelegramTextApp.git
+```
+
+## Использование
+```python
+from TelegramTextApp import TTA
+
+BOT_API = ''
+ID_ADMIN = 0
+FOLDER = 'data' 
+
+TTA(BOT_API, ID_ADMIN, FOLDER)
+```
