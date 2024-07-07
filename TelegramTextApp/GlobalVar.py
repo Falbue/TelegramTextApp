@@ -7,3 +7,5 @@ def TTA(API, ADMIN, FOLDER):
     api = API
     folder = FOLDER
     admin = ADMIN
+
+    from .code import *
