@@ -10,6 +10,7 @@ import re
 import importlib
 import threading
 
+bot = ''
 
 def TelegramTextApp(API, ADMIN, FOLDER):
     global bot_api, id_admin, folder, bot, folder_path, db_name, db_path, texts_path, menu_user_path, menu_dev_path, error_path, command_path
