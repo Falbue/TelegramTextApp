@@ -11,13 +11,26 @@ import importlib
 import threading
 import config
 
-bot_api = config.api
-folder = config.folder
-id_admin = config.id_admin
 
-sys.path.append(folder)
-bot = telebot.TeleBot(bot_api)
+def TelegramTextApp(API, ADMIN, FOLDER):
+    global bot_api, id_admin, folder, bot
 
+    bot_api = API
+    folder = FOLDER
+    id_admin = ADMIN
+
+    sys.path.append(folder)
+    bot = telebot.TeleBot(bot_api)
+    
+    main_check()
+    print("Бот запущен...")
+    
+    try:
+        bot.polling(non_stop = True)
+    except Exception as e:
+        with open(error_path, 'w+', encoding='utf-8') as f:
+            f.write(str(e) + "\n")
+            goodbuy
 
 # пути
 folder_path = f"{folder}"
@@ -478,14 +491,3 @@ def callback_query(call):
 
     else:
         open_menu((call.data).split('_')[1], call = call)
-
-
-main_check()
-print("Бот запущен...")
-
-try:
-    bot.polling(non_stop = True)
-except Exception as e:
-    with open(error_path, 'w+', encoding='utf-8') as f:
-        f.write(str(e) + "\n")
-        goodbuy
