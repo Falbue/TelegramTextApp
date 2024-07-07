@@ -10,7 +10,7 @@ import re
 import importlib
 import threading
 
-def TelegramTextApp(API, ADMIN, FOLDER = 'data'):
+def TTA(API, ADMIN, FOLDER = 'data'):
     bot_api = API
     id_admin = ADMIN
     folder = FOLDER
