@@ -34,6 +34,14 @@ def create():
     print(f"{NAME} создан!")
 
 def main_check(folder_path): # основные проверки
+    db_name = "database.db"
+    db_path = os.path.join(folder_path, db_name)
+    texts_path = f"{folder_path}/texts"
+    menu_user_path = f'{folder_path}/user_menu'
+    menu_dev_path = f'{folder_path}/telegram_text_apps_menu'
+    error_path = f'{texts_path}/error_log.txt'
+    command_path = f'{folder_path}/command'
+    
     if not os.path.exists(f"{folder_path}"):
         os.makedirs(f"{folder_path}")
         print("Папка библиотеки создана")
