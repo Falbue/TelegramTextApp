@@ -4,10 +4,11 @@ from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 import telebot
 from datetime import datetime
 import pytz
+import config
 
-bot_api = API
-name_bot = NAME
-id_admin = ID
+bot_api = config.API
+id_admin = config.ID
+name_bot = config.NAME
 
 bot = telebot.TeleBot(bot_api)
 

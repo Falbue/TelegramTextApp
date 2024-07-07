@@ -1,6 +1,7 @@
 import sys
 import os
 import sqlite3
+import shutil
 
 object_menu = {'Текст':'text', 'Кнопки':'buttons', 'Возврат':'back', 'Тип':'type', 'Команда':'command'}
 buttons_edit_menu = {key: f'admin_rename-object-{value}_[file-name]' for key, value in object_menu.items()}
@@ -78,6 +79,10 @@ def main_check(folder_path): # основные проверки
         conn.close()
         print("База данных создана")
 
+    source = 'bot.py'
+    destination = folder_path
+    shutil.copy(source, destination)
+
     create_dev_menu()
 
 def create_dev_menu(): # создание меню программы
@@ -105,6 +110,6 @@ def create_menu(name=None, text='Измените текст!', buttons=None, ba
 
 def create_config(API, ID, NAME):
      with open(f'{NAME}/config.py', 'w+', encoding='utf-8') as file:
-        file.write(f'API = {API}\nID = {ID}')
+        file.write(f'API = {API}\nID = {ID}\nNAME = {NAME}')
 
 create()
