@@ -1,9 +1,3 @@
-bot_api = ''
-folder = 'data'
-id_admin = 1
-# -----------------------------------------------------------
-
-
 import os
 import sqlite3
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
@@ -16,6 +10,12 @@ import re
 import importlib
 sys.path.append(folder)
 import threading
+import config
+
+bot_api = config.api
+folder = config.folder
+id_admin = config.id_admin
+
 bot = telebot.TeleBot(bot_api)
 
 
