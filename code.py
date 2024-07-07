@@ -8,7 +8,6 @@ import pytz
 import sys
 import re
 import importlib
-sys.path.append(folder)
 import threading
 import config
 
@@ -16,6 +15,7 @@ bot_api = config.api
 folder = config.folder
 id_admin = config.id_admin
 
+sys.path.append(folder)
 bot = telebot.TeleBot(bot_api)
 
 
