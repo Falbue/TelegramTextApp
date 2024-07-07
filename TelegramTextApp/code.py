@@ -23,7 +23,6 @@ def TTA():
 
     bot = telebot.TeleBot(API)
     
-    main_check()
     print("TTA start")
     
     try:
@@ -32,7 +31,7 @@ def TTA():
         with open(error_path, 'w+', encoding='utf-8') as f:
             f.write(str(e) + "\n")
             goodbuy
-            
+
 TTA()
 
 sys.path.append(folder)
@@ -509,3 +508,5 @@ except Exception as e:
     with open(error_path, 'w+', encoding='utf-8') as f:
         f.write(str(e) + "\n")
         goodbuy
+
+main_check()
