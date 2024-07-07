@@ -10,9 +10,30 @@ import re
 import importlib
 import threading
 
-bot_api = '6373877428:AAHJ3oFfoeXY6pK82PLHwA_DtdwjBN44JQ8'
-folder = 'data'
-id_admin = 1210146115
+def TTA():
+    global API, ADMIN, FOLDER, bot
+    if len(sys.argv) != 4:
+        print("Usage: tgconsole <id_ADMIN> <API> <NAME_BOT>")
+        sys.exit(1)
+    
+    ADMIN = int(sys.argv[1])
+    API = sys.argv[2]
+    FOLDER = sys.argv[3] 
+    print(API)
+
+    bot = telebot.TeleBot(API)
+    
+    main_check()
+    print("TTA start")
+    
+    try:
+        bot.polling(non_stop = True)
+    except Exception as e:
+        with open(error_path, 'w+', encoding='utf-8') as f:
+            f.write(str(e) + "\n")
+            goodbuy
+            
+TTA()
 
 sys.path.append(folder)
 bot = telebot.TeleBot(bot_api)
