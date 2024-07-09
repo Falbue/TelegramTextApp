@@ -25,7 +25,7 @@ dev_menu = [
 
 def create():
     if len(sys.argv) != 4:
-        print("Usage: TTA <NAME> <API> <ID_ADMIN>")
+        print("Usage: TTA-create <NAME> <API> <ID_ADMIN>")
         sys.exit(1)
     
     NAME = sys.argv[1]
