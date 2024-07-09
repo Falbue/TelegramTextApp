@@ -15,12 +15,12 @@ bot = telebot.TeleBot(bot_api)
 # пути
 folder_path = f"{name_bot}"
 db_name = "database.db"
-db_path = os.path.join(folder_path, db_name)
-texts_path = f"{folder_path}/texts"
-menu_user_path = f'{folder_path}/user_menu'
-menu_dev_path = f'{folder_path}/telegram_text_apps_menu'
+db_path = db_name
+texts_path = 'texts'
+menu_user_path = 'user_menu'
+menu_dev_path = 'telegram_text_apps_menu'
+command_path = 'command'
 error_path = f'{texts_path}/error_log.txt'
-command_path = f'{folder_path}/command'
 
 
 # основные функции
@@ -392,8 +392,6 @@ def start(message): # обработка команды start
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_query(call):
-    print(f'{call.data} ({(call.data).count("_")})')
-
     if (call.data).split('_')[0] == 'admin' and (call.data).split('_')[1] == 'delete-menu':
         delete_menu((call.data).split('_')[2], call)
     elif (call.data).split('_')[0] == 'admin' and (call.data).split('_')[1] == 'delete-command':
