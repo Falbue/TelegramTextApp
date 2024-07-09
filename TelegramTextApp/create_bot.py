@@ -34,13 +34,11 @@ def create():
     ID = int(sys.argv[3])
 
     main_check(NAME_dir)
+    create_config(API, ID, NAME, NAME_dir)
     print(f"{NAME} создан!")
 
 def main_check(folder_path): # основные проверки
-    full_path = os.path.abspath(folder_path)
-    print(f"Полный путь к папке: {full_path}")
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    print(f"Полный путь к директории скрипта: {script_dir}")
     global menu_user_path, menu_dev_path
     db_name = "database.db"
     db_path = os.path.join(folder_path, db_name)
@@ -113,8 +111,9 @@ def create_menu(name=None, text='Измените текст!', buttons=None, ba
     with open(path, 'w+', encoding='utf-8') as file:
         file.write(f'text: {text}\nbuttons: {buttons}\nback: {back}\ntype: {type_menu}\ncommand: {command}')
 
-def create_config(API, ID, NAME):
+def create_config(API, ID, NAME, NAME_dir):
      with open(f'{NAME_dir}/config.py', 'w+', encoding='utf-8') as file:
         file.write(f'API = "{API}"\nID = {ID}\nNAME = "{NAME}"')
+    print("Конфиг создан!")
 
 create()
