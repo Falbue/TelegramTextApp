@@ -29,10 +29,11 @@ def create():
         sys.exit(1)
     
     NAME = sys.argv[1]
+    NAME_dir = f'Falbue/TelegramTextApp/{NAME}'
     API = sys.argv[2]
     ID = int(sys.argv[3])
 
-    main_check(NAME)
+    main_check(NAME_dir)
     print(f"{NAME} создан!")
 
 def main_check(folder_path): # основные проверки
@@ -83,7 +84,7 @@ def main_check(folder_path): # основные проверки
         conn.close()
         print("База данных создана")
 
-    source = '  bot.py'
+    source = f'{script_dir}/bot.py'
     destination = f'{folder_path}'
     shutil.copy(source, destination)
 
@@ -113,7 +114,7 @@ def create_menu(name=None, text='Измените текст!', buttons=None, ba
         file.write(f'text: {text}\nbuttons: {buttons}\nback: {back}\ntype: {type_menu}\ncommand: {command}')
 
 def create_config(API, ID, NAME):
-     with open(f'{NAME}/config.py', 'w+', encoding='utf-8') as file:
-        file.write(f'API = {API}\nID = {ID}\nNAME = {NAME}')
+     with open(f'{NAME_dir}/config.py', 'w+', encoding='utf-8') as file:
+        file.write(f'API = "{API}"\nID = {ID}\nNAME = "{NAME}"')
 
 create()
