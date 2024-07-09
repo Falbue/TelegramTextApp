@@ -36,6 +36,8 @@ def create():
     print(f"{NAME} создан!")
 
 def main_check(folder_path): # основные проверки
+    full_path = os.path.abspath(folder_path)
+    print(f"Полный путь к папке: {full_path}")
     global menu_user_path, menu_dev_path
     db_name = "database.db"
     db_path = os.path.join(folder_path, db_name)
@@ -79,8 +81,8 @@ def main_check(folder_path): # основные проверки
         conn.close()
         print("База данных создана")
 
-    source = '  TelegramTextApp/bot.py'
-    destination = f'TelegramTextApp/{folder_path}'
+    source = '  bot.py'
+    destination = f'{folder_path}'
     shutil.copy(source, destination)
 
     create_dev_menu()
