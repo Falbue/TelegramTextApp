@@ -112,7 +112,7 @@ def create_menu(name=None, text='Измените текст!', buttons=None, ba
         file.write(f'text: {text}\nbuttons: {buttons}\nback: {back}\ntype: {type_menu}\ncommand: {command}')
 
 def create_config(API, ID, NAME, NAME_dir):
-     with open(f'{NAME_dir}/config.py', 'w+', encoding='utf-8') as file:
+    with open(f'{NAME_dir}/config.py', 'w+', encoding='utf-8') as file:
         file.write(f'API = "{API}"\nID = {ID}\nNAME = "{NAME}"')
     print("Конфиг создан!")
 
