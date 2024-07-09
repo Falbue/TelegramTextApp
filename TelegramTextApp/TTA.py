@@ -4,7 +4,7 @@ import sqlite3
 import shutil
 
 def start():
-    if len(sys.argv) != 1:
+    if len(sys.argv) != 2:
         print("Usage: TTA <NAME-PROJECT> or TTA ALL")
         sys.exit(1)
 
