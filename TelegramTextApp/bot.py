@@ -22,6 +22,9 @@ menu_dev_path = 'telegram_text_apps_menu'
 command_path = 'command'
 error_path = f'{texts_path}/error_log.txt'
 
+files = os.listdir('telegram_text_apps_menu')
+dev_menu = [os.path.splitext(file)[0] for file in files]
+
 
 # основные функции
 def now_time(): # получение текущего времени
@@ -74,7 +77,7 @@ def square_rename(text, call): # замена квадратных скобок
     if '[file-data]' in text:
         filename = call.data.split('_')[2]
         path = f'{menu_user_path}/{filename}.txt'
-        if filename in [menu_item['name'] for menu_item in dev_menu]: path = f'{menu_dev_path}/{filename}.txt'
+        if filename in [menu_item for menu_item in dev_menu]: path = f'{menu_dev_path}/{filename}.txt'
         with open(path, encoding='utf-8') as file:
             data = file.read()
             data = escape_markdown(data)
@@ -99,7 +102,7 @@ def create_menu(name=None, text='Измените текст!', buttons=None, ba
     name = name.replace('_', '-')
     print(f'Создано меню: {name}')
     path = f'{menu_user_path}/{name}.txt'
-    if name in [menu_item['name'] for menu_item in dev_menu]: 
+    if name in [menu_item for menu_item in dev_menu]: 
         path = f'{menu_dev_path}/{name}.txt'
     if name == 'main':
         back = None
@@ -109,7 +112,7 @@ def create_menu(name=None, text='Измените текст!', buttons=None, ba
 
 def open_data_menu(name): # получение всех данных из файла
     path = f'{menu_user_path}/{name}.txt'
-    if name in [menu_item['name'] for menu_item in dev_menu]: 
+    if name in [menu_item for menu_item in dev_menu]: 
         path = f'{menu_dev_path}/{name}.txt'
     if os.path.exists(path):
         with open(path, encoding='utf-8') as file:
@@ -268,7 +271,7 @@ def command_rename_menu(user_call, call): # команда изменения м
     data = open_data_menu(name)
     data[rename] = text
     path = f'{menu_user_path}/{name}.txt'
-    if name in [menu_item['name'] for menu_item in dev_menu]: 
+    if name in [menu_item for menu_item in dev_menu]: 
         path = f'{menu_dev_path}/{name}.txt'
     with open(path, 'w', encoding='utf-8') as file:
         for key, value in data.items():
