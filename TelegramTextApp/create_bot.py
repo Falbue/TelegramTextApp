@@ -23,6 +23,9 @@ dev_menu = [
     {"name": "rename-command", "text": 'Введите новое название команды', 'type_menu': 'insertion', 'command': 'rename_command', 'back': 'list-commands'},
 ]
 
+with open(f'{script_dir}/TTA_dir.txt', 'w+', encoding='utf-8') as file:
+        file.write("Falbue/TelegramTextApp")
+
 def create():
     if len(sys.argv) != 4:
         print("Usage: TTA-create <NAME> <API> <ID_ADMIN>")
@@ -36,6 +39,8 @@ def create():
     main_check(NAME_dir)
     create_config(API, ID, NAME, NAME_dir)
     print(f"{NAME} создан!")
+    with open(f'{script_dir}/TTA_dir.txt', 'w+', encoding='utf-8') as file:
+        file.write("Falbue/TelegramTextApp")
 
 def main_check(folder_path): # основные проверки
     script_dir = os.path.dirname(os.path.abspath(__file__))
