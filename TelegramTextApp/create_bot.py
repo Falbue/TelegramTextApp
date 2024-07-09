@@ -33,11 +33,9 @@ def create():
     API = sys.argv[2]
     ID = int(sys.argv[3])
 
+    print(f"{NAME} создан")
     main_check(NAME_dir)
     create_config(API, ID, NAME, NAME_dir)
-    print(f"{NAME} создан!")
-    with open(f'{script_dir}/TTA_dir.txt', 'w+', encoding='utf-8') as file:
-        file.write("Falbue/TelegramTextApp")
 
 def main_check(folder_path): # основные проверки
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -88,6 +86,10 @@ def main_check(folder_path): # основные проверки
     destination = f'{folder_path}'
     shutil.copy(source, destination)
 
+    with open(f'{script_dir}/TTA_dir.txt', 'w+', encoding='utf-8') as file:
+        file.write("Falbue/TelegramTextApp")
+        print('Путь указан')
+
     create_dev_menu()
 
 def create_dev_menu(): # создание меню программы
@@ -116,4 +118,4 @@ def create_menu(name=None, text='Измените текст!', buttons=None, ba
 def create_config(API, ID, NAME, NAME_dir):
     with open(f'{NAME_dir}/config.py', 'w+', encoding='utf-8') as file:
         file.write(f'API = "{API}"\nID = {ID}\nNAME = "{NAME}"')
-    print("Конфиг создан!")
+    print("Конфиг создан")
