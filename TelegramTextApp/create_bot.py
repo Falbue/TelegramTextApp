@@ -38,6 +38,8 @@ def create():
 def main_check(folder_path): # основные проверки
     full_path = os.path.abspath(folder_path)
     print(f"Полный путь к папке: {full_path}")
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    print(f"Полный путь к директории скрипта: {script_dir}")
     global menu_user_path, menu_dev_path
     db_name = "database.db"
     db_path = os.path.join(folder_path, db_name)
