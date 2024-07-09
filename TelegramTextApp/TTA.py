@@ -18,5 +18,3 @@ def start():
                 os.system(f'python {script_path}/{entry}/bot.py')
     else:
         os.system(f'python {script_path}/{NAME}/bot.py')
-        
-start()
