@@ -365,7 +365,7 @@ def open_command(message, call, command):
     except Exception as e:
         print(f"Ошибка при выполнении кода из файла {filename}: {e}")
 
-def handler_start(message): # фунция добавления пользователя в базу приложения
+def db_add_user(message): # фунция добавления пользователя в базу приложения
     message_id = message.id
     conn = sqlite3.connect(db_path)
     c = conn.cursor()
@@ -384,12 +384,9 @@ def handler_start(message): # фунция добавления пользова
         pass
     conn.close()
 
-while if :
-    
-
 @bot.message_handler(commands=['start'])
 def start(message): # обработка команды start
-    handler_start(message)
+    db_add_user(message)
     open_menu('main', message)
 
 
