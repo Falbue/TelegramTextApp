@@ -6,6 +6,8 @@ from datetime import datetime
 import pytz
 import config
 
+sys.path.append(folder)
+
 bot_api = config.API
 id_admin = config.ID
 name_bot = config.NAME
