@@ -5,6 +5,7 @@ import telebot
 from datetime import datetime
 import pytz
 import config
+import sys
 
 sys.path.append(folder)
 
