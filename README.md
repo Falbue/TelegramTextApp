@@ -18,10 +18,16 @@ TTA-create name project api id_admin
 ### Запуск приложения
 Для запуска конкретного приложения:
 ```shell
-TTA name project
+TTA name_project
 ```
 
 Для запуска всех приложений (beta):
 ```shell
 TTA ALL
+```
+
+### Дополнительные команды
+Обновление скрипта, если была скачана новая версия библиотеки
+```shell
+TTA-updata project_name
 ```
