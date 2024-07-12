@@ -10,7 +10,7 @@ def autostart():
 
     startup_dir = os.path.join(os.getenv('APPDATA'), 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'Startup')
 
-    bat_file_path = os.path.join(startup_dir, f"TTA-{name}.bat")
+    bat_file_path = os.path.join(startup_dir, f"TTA-{name}.cmd")
     
     with open(bat_file_path, 'w') as bat_file:
         bat_file.write(f"TTA {name}\n")
