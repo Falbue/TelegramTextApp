@@ -1,3 +1,7 @@
+import sys
+import os
+import shutil
+
 def update():
     if len(sys.argv) != 2:
         print("Usage: TTA-update <NAME>")
