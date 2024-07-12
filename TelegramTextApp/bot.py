@@ -7,7 +7,7 @@ import pytz
 import config
 import sys
 
-sys.path.append(folder)
+bot_dir = os.path.dirname(os.path.abspath(__file__))
 
 bot_api = config.API
 id_admin = config.ID
@@ -16,14 +16,14 @@ name_bot = config.NAME
 bot = telebot.TeleBot(bot_api)
 
 # пути
-folder_path = f"{name_bot}"
+folder_path = f"{bot_dir}"
 db_name = "database.db"
-db_path = db_name
-texts_path = 'texts'
-menu_user_path = 'user_menu'
-menu_dev_path = 'telegram_text_apps_menu'
-command_path = 'command'
-error_path = f'{texts_path}/error_log.txt'
+db_path = os.path.join(folder_path, db_name)
+texts_path = os.path.join(folder_path, 'texts')
+menu_user_path = os.path.join(folder_path, 'user_menu')
+menu_dev_path = os.path.join(folder_path, 'telegram_text_apps_menu')
+command_path = os.path.join(folder_path, 'command')
+error_path = os.path.join(texts_path, 'error_log.txt')
 
 files = os.listdir('telegram_text_apps_menu')
 dev_menu = [os.path.splitext(file)[0] for file in files]
