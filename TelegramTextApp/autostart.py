@@ -1,4 +1,5 @@
 import os
+import sys
 
 def autostart():
     if len(sys.argv) != 2:
