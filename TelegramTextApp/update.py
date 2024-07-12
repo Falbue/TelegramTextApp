@@ -12,6 +12,7 @@ def update():
 
     print(f"{NAME} обновлён")
 
+    script_dir = os.path.dirname(os.path.abspath(__file__))
     source = f'{script_dir}/bot.py'
     destination = f'{NAME_dir}'
     shutil.copy(source, destination)
