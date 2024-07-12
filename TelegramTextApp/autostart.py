@@ -13,6 +13,8 @@ def autostart():
     bat_file_path = os.path.join(startup_dir, f"TTA-{name}.cmd")
     
     with open(bat_file_path, 'w') as bat_file:
-        bat_file.write(f"TTA {name}\n")
+        command = f"powershell -windowstyle hidden -command \"Start-Process 'cmd.exe' -ArgumentList '/c @echo off & cd /d %HOMEDRIVE%%HOMEPATH% & TTA {name} & pause' -NoNewWindow\""
+        bat_file.write(command)
+
     
     print(f"Приложение {name} добавлено в автозапуск")
