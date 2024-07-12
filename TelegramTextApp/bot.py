@@ -208,6 +208,13 @@ def open_menu(name = None, call = None): # открытие меню в чате
             if name == 'main' and id_admin == (call.message.chat.id):
                 keyboard.add(InlineKeyboardButton(text = 'Администратор', callback_data = 'admin_admin'))
 
+        # изменение сообщения
+        try:
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text = text, reply_markup = keyboard, parse_mode = 'MarkdownV2')
+        except AttributeError as e: # этот код должен срабатывать, если в чате вообще нет сообщений
+            bot.send_message(call.chat.id, text, reply_markup = keyboard, parse_mode = 'MarkdownV2')
+            bot.delete_message(chat_id=call.chat.id, message_id=call.message_id) 
+
         # работа с типом меню
         if type_menu == 'insertion':
             print(f'Ожидание ввода')
@@ -217,14 +224,6 @@ def open_menu(name = None, call = None): # открытие меню в чате
                 bot.register_next_step_handler(call.message, open_command, call, command)
         if type_menu == 'click':
             open_command('none', call, command)
-
-
-        # изменение сообщения
-        try:
-            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text = text, reply_markup = keyboard, parse_mode = 'MarkdownV2')
-        except AttributeError as e: # этот код должен срабатывать, если в чате вообще нет сообщений
-            bot.send_message(call.chat.id, text, reply_markup = keyboard, parse_mode = 'MarkdownV2')
-            bot.delete_message(chat_id=call.chat.id, message_id=call.message_id) 
         
     else:
         print(f"Меню {name} не найдено!")
