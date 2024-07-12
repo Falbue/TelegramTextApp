@@ -10,12 +10,18 @@ pip install git+https://github.com/Falbue/TelegramTextApp.git
 ```
 
 ## Использование
-```python
-from TelegramTextApp import TTA
+### Создание приложения
+```shell
+TTA-create <name project> <api> <id_admin>
+```
 
-BOT_API = ''
-ID_ADMIN = 0
-FOLDER = 'data' 
+### Запуск приложения
+Для запуска конкретного приложения:
+```shell
+TTA <name project>
+```
 
-TTA(BOT_API, ID_ADMIN, FOLDER)
+Для запуска всех приложений (beta):
+```shell
+TTA ALL
 ```
