@@ -8,7 +8,7 @@ with open(os.path.join(this_directory, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='TelegramTextApp',
-    version='0.1.0.8',
+    version='0.1.0.9',
     packages=find_packages(),
     install_requires=[
         'pyTelegramBotAPI',

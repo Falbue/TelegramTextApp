@@ -25,6 +25,8 @@ menu_dev_path = os.path.join(folder_path, 'telegram_text_apps_menu')
 command_path = os.path.join(folder_path, 'command')
 error_path = os.path.join(texts_path, 'error_log.txt')
 
+object_menu = {'Текст':'text', 'Кнопки':'buttons', 'Возврат':'back', 'Тип':'type', 'Команда':'command'}
+
 files = os.listdir(menu_dev_path)
 dev_menu = [os.path.splitext(file)[0] for file in files]
 
@@ -402,6 +404,9 @@ def callback_query(call):
         delete_menu((call.data).split('_')[2], call)
     elif (call.data).split('_')[0] == 'admin' and (call.data).split('_')[1] == 'delete-command':
         delete_command(call.data, call)
+
+    elif (call.data).split('_')[0] == 'admin' and ((call.data).split('_')[1].split('-')[0]) == 'rename' and ((call.data).split('_')[1].split('-')[1]) == 'object':
+        open_menu('rename-object', call = call)
 
     elif (call.data).split('_')[0] == 'return':
         bot.clear_step_handler_by_chat_id(chat_id=call.message.chat.id)
