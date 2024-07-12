@@ -12,13 +12,13 @@ pip install git+https://github.com/Falbue/TelegramTextApp.git
 ## Использование
 ### Создание приложения
 ```shell
-TTA-create <name project> <api> <id_admin>
+TTA-create name project api id_admin
 ```
 
 ### Запуск приложения
 Для запуска конкретного приложения:
 ```shell
-TTA <name project>
+TTA name project
 ```
 
 Для запуска всех приложений (beta):
