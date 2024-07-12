@@ -25,7 +25,7 @@ menu_dev_path = os.path.join(folder_path, 'telegram_text_apps_menu')
 command_path = os.path.join(folder_path, 'command')
 error_path = os.path.join(texts_path, 'error_log.txt')
 
-files = os.listdir('telegram_text_apps_menu')
+files = os.listdir(menu_dev_path)
 dev_menu = [os.path.splitext(file)[0] for file in files]
 
 
