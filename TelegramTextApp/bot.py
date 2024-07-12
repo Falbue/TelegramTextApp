@@ -207,13 +207,17 @@ def open_menu(name = None, call = None): # открытие меню в чате
         except:
             if name == 'main' and id_admin == (call.message.chat.id):
                 keyboard.add(InlineKeyboardButton(text = 'Администратор', callback_data = 'admin_admin'))
+
         # работа с типом меню
         if type_menu == 'insertion':
             print(f'Ожидание ввода')
-            if command in ['create_menu','rename_menu','create_command', 'rename_command']:
+            if command in ['create_menu','rename_menu','create_command', 'rename_command', 'update_command']:
                 bot.register_next_step_handler(call.message, globals()[f'command_{command}'], call)
             else:
                 bot.register_next_step_handler(call.message, open_command, call, command)
+        if type_menu == 'click':
+            open_command('none', call, command)
+
 
         # изменение сообщения
         try:
@@ -322,7 +326,7 @@ def command_create_command(message, call): # команда создания к�
 
     bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
 
-def command_updade_command(message, call): # команда изменения команды
+def command_update_command(message, call): # команда изменения команды
     if message.document: # Обработка документа
         file_id = message.document.file_id
         file_info = bot.get_file(file_id)
