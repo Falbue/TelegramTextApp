@@ -4,6 +4,17 @@
 **<h2>Текстовое приложение</h2>**
 Под текстовым приложением, подразумевается, приложение, которе состоит из одного сообщения и все действия с ботом происходят через __inline-button__
 
+## Подготовка
+Для работы *TTA* требуется установка *python*, последней версии
+```shell
+winget install python
+```
+
+Для установки библиотеки через pip, нужно установить git
+```shell
+winget install --id Git.Git -e --source winget
+```
+
 ## Установка
 ```shell
 pip install git+https://github.com/Falbue/TelegramTextApp.git
