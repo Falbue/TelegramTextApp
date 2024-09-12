@@ -25,6 +25,8 @@ pip install git+https://github.com/Falbue/TelegramTextApp.git
 ```shell
 TTA-create name project api id_admin
 ```
+* [Получение API бота](https://t.me/BotFather)
+* [Получение вашего id](https://t.me/getmyid_bot)
 
 ### Запуск приложения
 Для запуска конкретного приложения:
